@@ -87,20 +87,6 @@
   </url>
   
   <url>
-    <loc>https://osinstom.github.io/pl/talk/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/talk/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/talk/"
-                />
-  </url>
-  
-  <url>
     <loc>https://osinstom.github.io/pl/tags/</loc>
     <xhtml:link
                 rel="alternate"
@@ -125,6 +111,20 @@
                 rel="alternate"
                 hreflang="pl"
                 href="https://osinstom.github.io/pl/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/talk/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/talk/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/talk/"
                 />
   </url>
   

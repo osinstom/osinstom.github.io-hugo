@@ -45,6 +45,20 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/pl/post/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/post/"
+                />
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/pl/publication_types/</loc>
     <xhtml:link
                 rel="alternate"
@@ -55,6 +69,34 @@
                 rel="alternate"
                 hreflang="pl"
                 href="https://osinstom.github.io/pl/publication_types/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/publication/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/publication/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/publication/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/talk/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/talk/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/talk/"
                 />
   </url>
   

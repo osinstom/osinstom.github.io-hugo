@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors | Tomasz Osiński - blog</title>
+    <link>https://osinstom.github.io/pl/authors/</link>
+      <atom:link href="https://osinstom.github.io/pl/authors/index.xml" rel="self" type="application/rss+xml" />
+    <description>Authors</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Authors</title>
+      <link>https://osinstom.github.io/pl/authors/</link>
+    </image>
+    
+    <item>
+      <title></title>
+      <link>https://osinstom.github.io/pl/authors/admin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/admin/</guid>
+      <description>&lt;p&gt;My name is &lt;strong&gt;Tomek Osiński&lt;/strong&gt; and I&amp;rsquo;m the author of this blog. The blog is full of networking topics, which I find interesting and worth to share with community. Mainly, I am going to publish tech tutorials &amp;amp; reports. However, some of my personal opinions or visions may also appear on this blog. Note that the posts are on my own and don&amp;rsquo;t represent the opinions of my employer.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m a R&amp;amp;D Software Engineer in the area of Software-Defined Networking &amp;amp; Network Functions Virtualization and also an Open-Source enthusiast. My R&amp;amp;D activities are related to network softwarization including network automation &amp;amp; orchestration, Software-Defined Infrastructure (i.a. SDN), Network Function Virtualization (NFV), Network Slicing, mobile networks and Telco Cloud technologies. Currently, my research is focused on improving the performance of the NFV workload, therefore I deal with data plane programmability and packet processing techniques for SDN and NFV systems. I&amp;rsquo;m involved in the project related to the &lt;a href=&#34;http://www.p4.org&#34; target=&#34;_blank&#34;&gt;P4&lt;/a&gt; technology and &lt;a href=&#34;http://www.openstack.org&#34; target=&#34;_blank&#34;&gt;OpenStack&lt;/a&gt;. So far, I have been contributing to various open-source projects including &lt;a href=&#34;http://www.projectfloodlight.org/floodlight/&#34; target=&#34;_blank&#34;&gt;Floodlight&lt;/a&gt;, &lt;a href=&#34;https://onosproject.org/&#34; target=&#34;_blank&#34;&gt;ONOS&lt;/a&gt; and &lt;a href=&#34;http://www.onap.org&#34; target=&#34;_blank&#34;&gt;ONAP&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Professionally, I work as a R&amp;amp;D Expert at &lt;a href=&#34;https://orangefab.pl/en/orange-rd-center/&#34; target=&#34;_blank&#34;&gt;Orange Labs Poland&lt;/a&gt;. Moreover, I am a PhD student at Warsaw University of Technology and the member of &lt;a href=&#34;http://snvlab.tele.pw.edu.pl&#34; target=&#34;_blank&#34;&gt;SDN and Network Virtualization Lab&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

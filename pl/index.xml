@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomasz Osiński - blog</title>
+    <link>https://osinstom.github.io/pl/</link>
+      <atom:link href="https://osinstom.github.io/pl/index.xml" rel="self" type="application/rss+xml" />
+    <description>Tomasz Osiński - blog</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Tomasz Osiński - blog</title>
+      <link>https://osinstom.github.io/pl/</link>
+    </image>
+    
+  </channel>
+</rss>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Wystąpienia i prezentacje | Tomasz Osiński - blog</title>
+    <title>Wystąpienia i prezentacje | Tomasz Osiński - blog techniczny</title>
     <link>https://osinstom.github.io/pl/talk/</link>
       <atom:link href="https://osinstom.github.io/pl/talk/index.xml" rel="self" type="application/rss+xml" />
     <description>Wystąpienia i prezentacje</description>

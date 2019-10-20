@@ -17,6 +17,11 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/post/ipsec-explanation/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/authors/</loc>
     <xhtml:link
                 rel="alternate"

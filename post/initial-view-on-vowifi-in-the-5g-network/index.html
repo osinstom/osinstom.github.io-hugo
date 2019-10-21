@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tomasz Osiński">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. I’m not 3GPP expert and don’t have any insider information from standardization groups, so this text will be based only on official 3GPP specifications and drafts. I hope this blog will be valuable for those engineers, who are currently working on EPC-based VoWiFi deployments and wants to prepare for upcoming evolutions in the area of VoWiFi.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.1884ccbe79662c38d99b291260b58a24.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@tomek_osinski">
+  <meta property="twitter:creator" content="@tomek_osinski">
+  
+  <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:url" content="https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/">
+  <meta property="og:title" content="Initial view on VoWiFi in the 5G network | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:description" content="In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. I’m not 3GPP expert and don’t have any insider information from standardization groups, so this text will be based only on official 3GPP specifications and drafts. I hope this blog will be valuable for those engineers, who are currently working on EPC-based VoWiFi deployments and wants to prepare for upcoming evolutions in the area of VoWiFi."><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2018-12-18T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2018-12-18T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/"
+  },
+  "headline": "Initial view on VoWiFi in the 5G network",
+  
+  "datePublished": "2018-12-18T00:00:00Z",
+  "dateModified": "2018-12-18T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tomasz Osiński"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tomasz Osiński - blog \u0026 personal site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://osinstom.github.io/img/icon-512.png"
+    }
+  },
+  "description": "In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. I’m not 3GPP expert and don’t have any insider information from standardization groups, so this text will be based only on official 3GPP specifications and drafts. I hope this blog will be valuable for those engineers, who are currently working on EPC-based VoWiFi deployments and wants to prepare for upcoming evolutions in the area of VoWiFi."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Initial view on VoWiFi in the 5G network | Tomasz Osiński - blog &amp; personal site</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Tomasz Osiński - blog &amp; personal site</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About me</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Initial view on VoWiFi in the 5G network</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Dec 18, 2018
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    7 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/initial-view-on-vowifi-in-the-5g-network/#disqus_thread"></a>
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/&amp;text=Initial%20view%20on%20VoWiFi%20in%20the%205G%20network" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/&amp;t=Initial%20view%20on%20VoWiFi%20in%20the%205G%20network" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Initial%20view%20on%20VoWiFi%20in%20the%205G%20network&amp;body=https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/&amp;title=Initial%20view%20on%20VoWiFi%20in%20the%205G%20network" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Initial%20view%20on%20VoWiFi%20in%20the%205G%20network%20https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/&amp;title=Initial%20view%20on%20VoWiFi%20in%20the%205G%20network" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<p>In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. I’m not 3GPP expert and don’t have any insider information from standardization groups, so this text will be based only on official 3GPP specifications and drafts. I hope this blog will be valuable for those engineers, who are currently working on EPC-based VoWiFi deployments and wants to prepare for upcoming evolutions in the area of VoWiFi.</p>
+
+<p>VoWiFi (or simply WiFi Calling) has gained a momentum as the novel Telco service for end users.
+They can now make a phone calls via their own home WiFi Access Point.
+This service is especially important for users being abroad as they can use WiFi Calling instead of making an expensive roaming calls.
+Along with VoLTE, the IMS-based voice services may replace the old 2G/3G technology.</p>
+
+<p>An implementation of VoWiFi has become possible with the emergence of IP Multimedia Subsystem (IMS) and extensions to 3GPP LTE EPC architecture – evolved Packet Gateway (ePDG) and the AAA server.
+ePDG provides a secure gateway to operator’s network for users connected to untrusted WiFi access points.
+It leverages IPSec with the EAP-AKA authentication method on SWu interface as the security protocol.
+The AAA server provides security services for non-3GPP access. The ePDG is integrated with the rest of LTE.
+It is connected to P-GW over S2b interface using GTP tunneling, while the AAA server is integrated with HSS over SWx and to PGW over S6b interface.
+P-GW provides access for VoWiFi users to the IMS subsystem.</p>
+
+<figure>
+    <img src="/static/img/evolved_packet_core-svg.png">
+    <figcaption>Source: Wikipedia</figcaption>
+</figure>
+
+<p>Although the 3GPP 5GSystem (5GS) specification is still in progress (<a href="https://www.sdxcentral.com/articles/news/3gpp-delays-second-wave-of-5g-specs/2018/12/" target="_blank">the “Second Wave” of 5G specs has been delayed</a>), a functional architecture of 5G RAN and Core has been already defined and should not be changed significantly (<a href="https://www.riverpublishers.com/journal/journal_articles/RP_Journal_2245-800X_615.pdf" target="_blank">here</a> you can find an introduction to the 5G system architecture). It’s already agreed that the VoWiFi architecture will need some changes to fulfill the requirements of 5G network. One of design pricinples that has been defined for 5G networks (TS 23.501), directly impacts the VoWiFi architecture:</p>
+
+<blockquote>
+<p>“Minimize dependencies between the Access Network (AN) and the Core Network (CN). The architecture is defined with a converged core network
+with a common AN – CN interface which integrates different Access Types e.g. 3GPP access and non-3GPP access“</p>
+</blockquote>
+
+<p>As 5G System is expected to be access-agnostic the interface between RAN and Core should be common for access technologies. Moreover, UEs should be allowed to communicate with core network over the NAS (Non-Access Stratum) interface, regardless current point of attachment. The NAS interface is a well-known in 3GPP systems, but in the current EPC-based VoWiFi architecture UE does not perform any signalling over the NAS interface. The principle of converged core network with a common AN-CN interface causes the change in architectural design.</p>
+
+<figure>
+    <img src="/static/img/5g.png">
+    <figcaption>5G Core Network with non-3GPP access. Source: TS 23.501</figcaption>
+</figure>
+
+<p>The 5G Core Network functions involved in the VoWiFi service are AMF, SMF, AUSF (control plane) and UPF (user plane). The Mobility Management Functions (MME) from 4G, which implements mobility, access and session management has been decomposed into AMF and SMF. AMF, which stands for Access and Mobility Function realizes access and mobility management functions, while SMF (Session Management Function) manages session connectivity. The decomposition is needed due to the emergence of new services (such as Internet of Things) requiring a differentiated session management. For instance, static IoT likely will not require session management and packets can be forwarded in the Best-Effort manner. Moreover, a control and user plane has been decoupled. Control plane functions has been moved from S-/P-GW to AMF and SMF. User plane functions (such as packet routing, forwarding, and encapsulation) are realized by UPF (User Plane Function).</p>
+
+<p>In the 5G System specification the successor of eDPG is called <strong>N3IWF (non-3GPP InterWorking Function)</strong>. The functionality of N3IWF at high-level is almost the same as ePDG – it provides a secure gateway to operator’s network for non-3GPP access technology. The interface between UE and N3IWF remains similar and is based on IPSec/IKE to establish a secure tunnel. As UE is expected to communicate with AMF over the NAS interface, there is a new N2 interface connecting N3IWF with AMF. Note that the N2 interface is considered to realized by a NG Application Protocol (NGAP) defined in TS 38.413.  N3IWF is responsible for setting up the IPSec connection to be used by control plane traffic directed to AMF. As a consequence <strong>UE and N3IWF need to establish two IPSec Security Associations (SAs)</strong>:</p>
+
+<ol>
+<li><strong>Signalling (control plane) IPSec SA</strong> – it transports NAS messages destined to AMF,</li>
+<li><strong>User plane IPSec SA</strong> – it transports  packets destined to IMS</li>
+</ol>
+
+<h2 id="signalling-control-plane-ipsec-sa">Signalling (control plane) IPSec SA</h2>
+
+<p>In the first step, UE and N3IWF must establish a signalling IPSec SA, which is used to securely exchange NAS messages between UE and AMF. The NAS interface is further leveraged to register UE in the 5G system. The below figure presents a control plane protocol’s stack used to establish signalling IPSec SA. Similarly to ePDG, IKEv2 protocol is used to setup security associations. However, the new authentication method – EAP-5G (or 5G AKA) – is introduced. The EAP method is used to encapsulate NAS messages between UE and N3IWF. Note that specification says that EAP-5G is “vendor-specific“.</p>
+
+<figure>
+    <img src="/static/img/VoWiFI5G_controlplane_before.jpg">
+    <figcaption>Signalling protocol’s stack before signalling IPSec SA is established</figcaption>
+</figure>
+
+<p>When the signalling IPSec SA is established, the IPSec tunnel is configured to encapsulate NAS messages between UE and N3IWF. At this stage, UE can communicate with AMF to perform NAS signalling. It is presented in the figure below.</p>
+
+<figure>
+    <img src="/static/img/VoWiFI5G_controlplane_after.jpg">
+    <figcaption>Signalling protocol’s stack when signalling IPSec SA is established</figcaption>
+</figure>
+
+<h2 id="user-plane-ipsec-sa">User plane IPSec SA</h2>
+
+<p>When UE is registered in the 5G system (via NAS interface) it can establish a new child IPSec SA (called user plane IPSec SA) to communicate with the IMS system. The procedure for establishing user plane IPSec SA is also supported by AMF.</p>
+
+<figure>
+    <img src="/static/img/VoWiFI5G_controlplane_userplane_establishment.jpg">
+    <figcaption>User plane protocol’s stack to establish user plane IPSec SA</figcaption>
+</figure>
+
+<p>If IKEv2 procedure is finished, UE can communicate with P-CSCF (IMS gateway). A user plane protocol’s stack is depicted in the figure below. There are two main differences in comparison to the ePDG-based architecture:</p>
+
+<ul>
+<li><p>The GRE (Generic Routing Encapsulation) protocol has been introduced to carry user data packets between UE and N3IWF. GRE allows to implement a flow-based QoS model as specified in TS 23.501. The GRE header carries QFI (QoS Flow Identifier) associated with user data packets. Optionally, N3IWF can indicate Reflective QoS Identifier (RQI). More on QoS in 5G networks <a href="https://www.linkedin.com/pulse/learn-qos-5g-networks-paul-shepherd/" target="_blank">here</a>.</p></li>
+
+<li><p>The new N3 interface between N3IWF and UPF. This interface is considered to be implemented based on GTPv2.</p></li>
+</ul>
+
+<figure>
+    <img src="/static/img/VoWiFI5G_userplane.jpg">
+    <figcaption>User plane protocol’s stack to transport user data packets</figcaption>
+</figure>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this post I have made a quick review of the current status of work on non-3GPP access part of the 5G network. I have presented a general architecture and protocols used to implement VoWiFi in the 5G system.</p>
+
+<p>Although the 5G specification is not completed yet, some design choices have been already made. The major changes to the VoWiFi architecture are applied on the 3GPP network side. The Non-3GPP InterWorking Function (N3IWF) has been introduced as a successor of ePDG. Generally,  enhancements to the VoWiFi architecture can be summarized as follows:</p>
+
+<ul>
+<li><strong>Common NAS</strong> – the VoWiFi architecture has been extended with a support for NAS signalling between UE and AMF (the successor of MME). It means that UE and N3IWF establishes two IPSec SAs. Signalling IPSec SA transports NAS messages, while user plane IPSec SA carries packets (e.g. SIP signalling) destined to IMS.</li>
+<li><strong>Modified authentication method</strong> – the procedure establishing the IPSec tunnel is based on new authentication method – 5G AKA.</li>
+<li><strong>Protocol enhancements</strong> – the EAP-5G protocol is used to encapsulate NAS messages between UE and N3IWF. Additionally, the GRE protocol is used to encapsulate user-plane traffic.</li>
+</ul>
+
+<h3 id="references">References</h3>
+
+<p>[1] 3GPP TS 23.501</p>
+
+<p>[2] 3GPP TS 24.502</p>
+
+<p>[3] <a href="https://docbox.etsi.org/workshop/2018/201806_ETSISECURITYWEEK/5G/S01_INPUT_TO_5G/5G_ENHANCEMENTS_NON3GPP_ACCSEC_LENOVO_KUNZ.pdf" target="_blank">5G Enhancements to Non – 3GPP Access Security</a></p>
+
+    </div>
+
+    
+
+
+
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/3gpp/">3GPP</a>
+  
+  <a class="badge badge-light" href="/tags/epdg/">ePDG</a>
+  
+  <a class="badge badge-light" href="/tags/n3iwf/">N3IWF</a>
+  
+  <a class="badge badge-light" href="/tags/ipsec/">IPSec</a>
+  
+  <a class="badge badge-light" href="/tags/ike/">IKE</a>
+  
+  <a class="badge badge-light" href="/tags/sip/">SIP</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu52a603635ecebd45650b162dadabb4e5_12861_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://osinstom.github.io/">Tomasz Osiński</a></h5>
+      <h6 class="card-subtitle">R&amp;D Software Engineer</h6>
+      <p class="card-text">R&amp;D Software Engineer, Open-Source enthusiast | Telecommunications, Computer networks, Network programming | I write about network softwarization in general i.a. SDN, NFV, Telco Cloud, 5G.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/tomek_osinski" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/osinstom" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/tomek-osinski/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+      
+      
+    
+
+    
+
+    
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "osinstom-github-io" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://osinstom-github-io.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.d6bd04fdad2ad213aa8111c5a3b72fc5.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    2019 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

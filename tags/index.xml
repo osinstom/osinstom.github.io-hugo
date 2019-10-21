@@ -5,12 +5,60 @@
     <link>https://osinstom.github.io/tags/</link>
       <atom:link href="https://osinstom.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Tags</title>
       <link>https://osinstom.github.io/tags/</link>
     </image>
+    
+    <item>
+      <title>3GPP</title>
+      <link>https://osinstom.github.io/tags/3gpp/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/3gpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ePDG</title>
+      <link>https://osinstom.github.io/tags/epdg/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/epdg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IKE</title>
+      <link>https://osinstom.github.io/tags/ike/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/ike/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IPSec</title>
+      <link>https://osinstom.github.io/tags/ipsec/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/ipsec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>N3IWF</title>
+      <link>https://osinstom.github.io/tags/n3iwf/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/n3iwf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SIP</title>
+      <link>https://osinstom.github.io/tags/sip/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/sip/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

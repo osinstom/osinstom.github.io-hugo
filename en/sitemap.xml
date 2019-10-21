@@ -38,6 +38,56 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/tags/3gpp/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/epdg/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/ike/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/ipsec/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/n3iwf/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/sip/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/tags/"
+                />
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/authors/admin/</loc>
     <xhtml:link
                 rel="alternate"
@@ -118,20 +168,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://osinstom.github.io/talk/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/tags/"
                 />
   </url>
   

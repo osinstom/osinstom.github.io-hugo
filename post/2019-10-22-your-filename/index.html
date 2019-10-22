@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tomasz Osiński">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="The MPLS network based on P4 In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable on my GitHub. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/2019-10-22-your-filename/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.1884ccbe79662c38d99b291260b58a24.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://osinstom.github.io/post/2019-10-22-your-filename/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@tomek_osinski">
+  <meta property="twitter:creator" content="@tomek_osinski">
+  
+  <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:url" content="https://osinstom.github.io/post/2019-10-22-your-filename/">
+  <meta property="og:title" content=" | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:description" content="The MPLS network based on P4 In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable on my GitHub. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network."><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-03-03T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-03-03T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://osinstom.github.io/post/2019-10-22-your-filename/"
+  },
+  "headline": "",
+  
+  "datePublished": "2019-03-03T00:00:00Z",
+  "dateModified": "2019-03-03T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tomasz Osiński"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tomasz Osiński - blog \u0026 personal site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://osinstom.github.io/img/icon-512.png"
+    }
+  },
+  "description": "The MPLS network based on P4 In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable on my GitHub. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title> | Tomasz Osiński - blog &amp; personal site</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Tomasz Osiński - blog &amp; personal site</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About me</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1></h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Mar 3, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/2019-10-22-your-filename/#disqus_thread"></a>
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://osinstom.github.io/post/2019-10-22-your-filename/&amp;text=" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://osinstom.github.io/post/2019-10-22-your-filename/&amp;t=" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=&amp;body=https://osinstom.github.io/post/2019-10-22-your-filename/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://osinstom.github.io/post/2019-10-22-your-filename/&amp;title=" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=%20https://osinstom.github.io/post/2019-10-22-your-filename/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://osinstom.github.io/post/2019-10-22-your-filename/&amp;title=" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<h2 id="the-mpls-network-based-on-p4">The MPLS network based on P4</h2>
+
+<p>In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable <a href="https://github.com/P4-Research/p4-demos/tree/master/mpls" target="_blank">on my GitHub</a>. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network.</p>
+
+<h3 id="introduction-to-mpls">Introduction to MPLS</h3>
+
+<p>MPLS is widely used in the Wide Area Networks (WANs) to provide reliable connections. An explanation of the MPLS protocol is out of the scope of this post. However, I was basing on <a href="http://www.csc.kth.se/utbildning/kth/kurser/DD2490/ipro1-11/lectures/MPLS.pdf" target="_blank">this presentation</a>.</p>
+
+<h3 id="the-demo-scenario">The demo scenario</h3>
+
+<p>You can find the user guide and the source code of this demo <a href="https://github.com/P4-Research/p4-demos/tree/master/mpls" target="_blank">on my GitHub</a></p>
+
+<p>The test network (presented below) is composed of three routers and two end hosts - each associated to the different network. Hosts are attached to the devices (R1 and R3), which play the role of the edge MPLS router. The R2 router is the core MPLS router - it forwards packets based on the MPLS label. Packets from hosts are encapsulated to MPLS (and decapsulated from MPLS) by the edge routers.</p>
+
+<p><img src="{{site.baseurl}}/static/img/mpls-network.png" alt="The MPLS network setup" /></p>
+
+<h3 id="the-design-of-the-mpls-router-in-p4">The design of the MPLS router in P4</h3>
+
+<p>MPLS is a standard to simplify IP forwarding. Devices implementing MPLS are  called Label Switching Router (LSR). LSRs use label to set up MPLS tunnel. The basic set of LSR&rsquo;s functionalities consists of:</p>
+
+<ul>
+<li><strong>FEC (Forwarding Equivalence Class) classifier</strong>, which classifies packets into different classes and binds a label to particular class of packets.</li>
+<li><strong>Label operations</strong>:
+
+<ul>
+<li>Push a label - add the MPLS header to a packet</li>
+<li>Swap a label - change a value of MPLS label</li>
+<li>Pop a label - remove the MPLS header from a packet</li>
+</ul></li>
+<li><strong>Label-based forwarding</strong> - LSR determines the output port for a packet based on the input port and MPLS label.</li>
+</ul>
+
+<p>Besides, LSR must implement also IP lookup to forward non-MPLS packets (or when the MPLS header is stripped out) and MAC-level switching.</p>
+
+<p>The P4 program implementing MPLS is composed of 5 Match-Action tables:</p>
+
+<ul>
+<li><strong>fec_table</strong> - it implements a functionality of FEC classifier. We assume classification based on destination IP address (LPM), but the classification could be more granular. If a packet is classified, the push_mpls() method is invoked to add the MPLS header.</li>
+<li><strong>mpls_table</strong> - this table is used by transit or egress LSR. It determines to swap or pop the MPLS label based on the input port and MPLS label.</li>
+<li><strong>mplslookup_table</strong> - it forwards a packet to an output port based on the MPLS label (if exists).</li>
+<li><strong>iplookup_table</strong> - if the MPLS label doesn&rsquo;t exists (it&rsquo;s pure IP packet or MPLS label has been stripped out in the mpls_table) it performs IP lookup to determine the output port.</li>
+<li><strong>switching_table</strong> - it rewrites source and destination MAC addresses (per-hop behaviour).</li>
+</ul>
+
+<p>Such design of the MPLS program aggregates all MPLS functionalities in the single P4 program. It means that the one subset of functionalities will be used by the core MPLS router and the different subset will be used by the edge MPLS router. The set of functionalities used by the MPLS router is configured by installing table entries.</p>
+
+<h3 id="the-p4-code">The P4 code</h3>
+
+<p>In this section I will go through the P4 code implementing MPLS.</p>
+
+<p>Let&rsquo;s start from a definition of the MPLS header:</p>
+
+<pre><code>header_type mpls_t {
+    fields {
+        label : 20;
+        tc : 3; // traffic class field
+        bos : 1; // indicates if it's bottom of MPLS label's stack
+        ttl: 8;
+    }
+}
+</code></pre>
+
+<p>It is composed of four fields. The most important is the label field, which is dedicated to store the tunnel identifier.</p>
+
+<p>The MPLS header is extracted based on etherType by the P4 parser:</p>
+
+<pre><code>#define ETHERTYPE_MPLS 0x8847
+(...)
+parser parse_ethernet {
+    extract(ethernet);
+    return select(latest.etherType) {
+        ETHERTYPE_IPV4 : parse_ipv4;
+        ETHERTYPE_MPLS : parse_mpls;
+        default: ingress;
+    }
+}
+</code></pre>
+
+<p>When extracted, packets are passed to the <em>ingress</em> pipeline. The pipeline defines the order of Match-Action tables that will handle packets.</p>
+
+<pre><code>control ingress {
+    apply(fec_table);
+    apply(mpls_table);
+    apply(mplslookup_table);
+    if (standard_metadata.egress_spec == 0) {
+        apply(iplookup_table);
+    }
+    apply(switching_table);
+}
+</code></pre>
+
+<p>Match-Action tables make use of the pre-defined MPLS actions: _push<em>mpls()</em>, _pop<em>mpls()</em> and _swap<em>mpls()</em>:</p>
+
+<pre><code>action push_mpls(label) {
+    add_header(mpls);
+    modify_field(mpls.label, label);
+    modify_field(mpls.tc, 7);
+    modify_field(mpls.bos, 0x1);
+    modify_field(mpls.ttl, 32);
+    modify_field(ethernet.etherType, ETHERTYPE_MPLS);
+}
+
+action pop_mpls() {
+    remove_header(mpls);
+    modify_field(ethernet.etherType, ETHERTYPE_IPV4);
+}
+
+action swap_mpls(label) {
+   modify_field(mpls.label, label);
+   subtract_from_field(mpls.ttl, 1);
+}
+</code></pre>
+
+<p>The _push<em>mpls()</em> action adds the MPLS header to a packet and sets  a value of MPLS fields. Moreover, it modifies etherType to indicate the MPLS protocol. The _pop<em>mpls()</em> action removes the MPLS header and reverts a value of etherType to indicate the IPv4 protocol. The _swap<em>mpls()</em> action just changes a value of the MPLS label and decrements a value of TTL.</p>
+
+<p>The first table that handles incoming packets is the _fec<em>table</em>. It classifies packets (based on the destination IP address) to the MPLS class (tunnel). If classified, a packet may be encapsulated by using the _push<em>mpls()</em> action.</p>
+
+<pre><code>table fec_table {
+
+    reads {
+        ipv4.dstAddr : lpm;
+    }
+
+    actions {
+        push_mpls;
+        _drop;
+    }
+}
+</code></pre>
+
+<p>The _mpls<em>table</em> is used to handle MPLS packets. It reads an input port and the MPLS label and decides to pop or swap the MPLS label.</p>
+
+<pre><code>table mpls_table {
+
+    reads {
+        standard_metadata.ingress_port: exact;
+        mpls.label : exact;
+    }
+
+    actions {
+        pop_mpls;
+        swap_mpls;
+        _drop;
+    }
+}
+</code></pre>
+
+<p>When a label is set packets enter _mplslookup<em>table</em>, which determines an output port based on the MPLS label.</p>
+
+<pre><code>table mplslookup_table {
+
+    reads {
+        mpls.label : exact;
+    }
+
+    actions {
+        forward;
+        _drop;
+    }
+}
+</code></pre>
+
+<p>The last two tables - _iplookup<em>table</em> and _switching<em>table</em> - implement IP routing and MAC rewriting, respectively. The former is used to determine an output port for IP packets (e.g. when packets are decapsulated from MPLS). The latter rewrites MAC addresses hop-by-hop.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>In this post I described how to implement MPLS in the P4 language. The MPLS implementation is fairly straightforward and is much easier than writing the code in C, what&rsquo;s a big advantage of the P4 language! In order to reproduce an experiment follow the steps listed in <a href="https://github.com/P4-Research/p4-demos/tree/master/mpls" target="_blank">the user guide</a>.## A New Post</p>
+
+<p>Enter text in <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
+
+    </div>
+
+    
+
+
+
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/sdn/">SDN</a>
+  
+  <a class="badge badge-light" href="/tags/bmv2/">BMv2</a>
+  
+  <a class="badge badge-light" href="/tags/python/">Python</a>
+  
+  <a class="badge badge-light" href="/tags/mpls/">MPLS</a>
+  
+  <a class="badge badge-light" href="/tags/mininet/">Mininet</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://osinstom.github.io/">Tomasz Osiński</a></h5>
+      <h6 class="card-subtitle">R&amp;D Software Engineer</h6>
+      <p class="card-text">R&amp;D Software Engineer, Open-Source enthusiast | Telecommunications, Computer networks, Network programming | I write about network softwarization in general i.a. SDN, NFV, Telco Cloud, 5G.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/tomek_osinski" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/osinstom" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/tomek-osinski/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+      
+      
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/">Network prototyping made easy with P4 and Python!</a></li>
+          
+          <li><a href="/post/2019-10-22-ip-router-in-p4/">IP Router in P4</a></li>
+          
+        </ul>
+      </div>
+      
+    
+
+    
+
+    
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "osinstom-github-io" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://osinstom-github-io.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.d6bd04fdad2ad213aa8111c5a3b72fc5.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    2019 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

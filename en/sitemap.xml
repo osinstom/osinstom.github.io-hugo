@@ -83,8 +83,33 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/post/2019-10-22-your-filename/</loc>
+    <lastmod>2019-03-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/tags/bmv2/</loc>
-    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-03-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/mininet/</loc>
+    <lastmod>2019-03-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/mpls/</loc>
+    <lastmod>2019-03-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/python/</loc>
+    <lastmod>2019-03-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/sdn/</loc>
+    <lastmod>2019-03-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -100,21 +125,6 @@
   <url>
     <loc>https://osinstom.github.io/tags/p4/</loc>
     <lastmod>2019-02-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/tags/sdn/</loc>
-    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/tags/python/</loc>
-    <lastmod>2018-12-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/tags/mininet/</loc>
-    <lastmod>2018-12-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>

@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tomasz Osiński">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Introduction Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice!">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.1884ccbe79662c38d99b291260b58a24.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@tomek_osinski">
+  <meta property="twitter:creator" content="@tomek_osinski">
+  
+  <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:url" content="https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/">
+  <meta property="og:title" content="Network prototyping made easy with P4 and Python! | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:description" content="Introduction Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice!"><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2018-12-24T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2018-12-24T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/"
+  },
+  "headline": "Network prototyping made easy with P4 and Python!",
+  
+  "datePublished": "2018-12-24T00:00:00Z",
+  "dateModified": "2018-12-24T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tomasz Osiński"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tomasz Osiński - blog \u0026 personal site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://osinstom.github.io/img/icon-512.png"
+    }
+  },
+  "description": "Introduction Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice!"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Network prototyping made easy with P4 and Python! | Tomasz Osiński - blog &amp; personal site</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Tomasz Osiński - blog &amp; personal site</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About me</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Network prototyping made easy with P4 and Python!</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Dec 24, 2018
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/#disqus_thread"></a>
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/&amp;text=Network%20prototyping%20made%20easy%20with%20P4%20and%20Python!" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/&amp;t=Network%20prototyping%20made%20easy%20with%20P4%20and%20Python!" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Network%20prototyping%20made%20easy%20with%20P4%20and%20Python!&amp;body=https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/&amp;title=Network%20prototyping%20made%20easy%20with%20P4%20and%20Python!" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Network%20prototyping%20made%20easy%20with%20P4%20and%20Python!%20https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/&amp;title=Network%20prototyping%20made%20easy%20with%20P4%20and%20Python!" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice! On the other hand, I think the best way to understand network paradigms quickly and deeply is to implement network mechanisms on your own. If as a student you get the deep knowledge about networking basics, it will be easier to understand novel technologies in the future. So far, it was required to use some low-level programming languages (C/C++) with thousands lines of code to build network’s prototype. And here comes the P4 technology and Python as a solution to prototype networks in the easy and fast way! Combining P4 with tools provided by Python such as the scapy library or Mininet gives unlimitied possibilities to implement, build and test complex network systems. Moreover, you can prototype network protocols, which don’t even exist yet!</p>
+
+<h2 id="p4-python-scapy-and-mininet-the-toolset-of-network-researcher">P4, Python (Scapy) and Mininet – the toolset of network researcher</h2>
+
+<p>I assume you know already what the Python language is, but what is P4? P4 stands for Programming Protocol-Independent Packet Processors. It has been developed as a next step in the evolution of Software-Defined Networking (SDN). As you may know, the classical telecommunications architecture can be divided into data plane, control plane and management plane. Data plane is the layer, where data packets are being processed and forwarded, while the control plane decides how these packets should be handled. <strong>P4 has been designed to enable data plane programming.</strong> Thus, using the P4 language you can specify what packet’s headers can be processed and what actions can be performed on packets. The data plane programming was the missing link in the software-based network systems, where control plane and management plane are programmable already. Currently, the structure of network system can be defined completely using software and its behaviour can be changed dynamically by updating the software version. It brings a lot of flexibility to the networking world!</p>
+
+<p>The main component of the P4 ecosystem is the P4 language. It is a high-level Domain-Specific Language (DSL) dedicated for programming of network devices. It allows to specify the format of packets (protocol’s headers) to be recognized by network devices and actions to be performed on incoming packets (forwarding, headers modification, adding protocol header, etc). Nevertheless, the P4 language is not consumed directly by the network device, but it must be compiled to the source code for particular platform. These platforms are hardware-based (e.g. Barefoot Tofino, <a href="https://p4.org/p4/p4-netfpga-a-low-cost-solution-for-testing-p4-programs-in-hardware.html" target="_blank">FPGA</a>) or software-based (e.g. <a href="https://github.com/p4lang/behavioral-model" target="_blank">BMv2</a>, <a href="https://github.com/vmware/p4c-xdp" target="_blank">eBPF/XDP</a> or <a href="http://pisces.cs.princeton.edu/" target="_blank">PISCES</a>). The goal of P4 is to become the same what CUDA language became for graphics cards programming. The concept of the P4 language has been presented below.</p>
+
+<p><img src="{{site.baseurl}}/static/img/p4-program-structure.jpg" alt="P4 program structure" /></p>
+
+<p>The P4 program is composed of three main sections: Protocols defintion (data declaration), Parser Logic (Parser &amp; Deparser) and a number of control blocks containing Match-Action tables. The first section defines the protocols headers that the network device will be able to recognize. For instance, defining IPv4 header is as simple as:</p>
+
+<pre><code>header ipv4_t {
+    bit&lt;4&gt;    version;
+    bit&lt;4&gt;    ihl;
+    bit&lt;8&gt;    diffserv;
+    bit&lt;16&gt;   totalLen;
+    bit&lt;16&gt;   identification;
+    bit&lt;3&gt;    flags;
+    bit&lt;13&gt;   fragOffset;
+    bit&lt;8&gt;    ttl;
+    bit&lt;8&gt;    protocol;
+    bit&lt;16&gt;   hdrChecksum;
+    bit&lt;32&gt; srcAddr;
+    bit&lt;32&gt; dstAddr;
+}
+</code></pre>
+
+<p>The programmer just needs to declare header fields and their length. That’s all. Now, these headers are used to parse incoming data and recognize type of packets. The Parser Logic is a state machine defining the steps to process to read and parse incoming packets. Graphically, the Parser Logic for simple IPv4 router looks like:</p>
+
+<p>While the P4 code implementing this logic is:</p>
+
+<pre><code>parser RouterParser(packet_in packet,
+                    out headers hdr,
+                    inout metadata meta,
+                    inout standard_metadata_t standard_metadata) {
+     state start {
+         transition parse_ethernet;
+     }
+     state parse_ethernet {
+         packet.extract(hdr.ethernet);
+         transition select(hdr.ethernet.etherType) {
+             TYPE_IPV4: parse_ipv4;
+             default: accept;
+          }
+     }
+     state parse_ipv4 {
+         packet.extract(hdr.ipv4);
+         transition accept;
+     }
+}
+</code></pre>
+
+<p>Finally, in the P4 program programmer must define a number of control blocks, which contians Match-Action tables. The definition of simple IPv4 forwarding table can be implemented as follows:</p>
+
+<pre><code>table routing_table {
+    key = {
+        hdr.ipv4.dstAddr: lpm;
+    }
+    actions = {
+       ipv4_forward;
+       drop;
+       NoAction;
+    }
+    default_action = NoAction();
+}
+</code></pre>
+
+<p>The above routing_table reads the IPv4 destination IP address and matches it based on the Longest Prefix Match algorithm. Then, on packets matching the rule there can be three actions performed: ipv4_forward, drop or NoAction. If you would like to view the complete example of IP router written in P4 visit <a href="https://github.com/osinstom/p4-demos/blob/master/ip-routing/p4include/router.p4" target="_blank">my GitHub repository</a>.</p>
+
+<p>So, as I pointed out, the P4 language can be used to implement any type of data plane protocols. Although, <a href="https://blogs.vmware.com/research/2017/04/07/programming-networks-p4/" target="_blank">it has some limitations</a> it is a powerful technology that can be used by network researchers to prototype and test novel network protocols. Creativity is the limit! To learn more on P4, let’s visit:</p>
+
+<p><a href="https://www.networkworld.com/article/3163496/cloud-computing/what-p4-programming-is-and-why-it-s-such-a-big-deal-for-software-defined-networking.html" target="_blank">What P4 programming is and why it’s such a big deal for Software-Defined Networking?</a></p>
+
+<p><a href="https://p4.org/assets/P4_tutorial_01_basics.gslide.pdf" target="_blank">P4 tutorial – presentation</a></p>
+
+<p><a href="https://cs344-stanford.github.io/deliverables/p4-mininet/" target="_blank">P4 tutorial from Stanford</a></p>
+
+<p><a href="https://github.com/p4lang/tutorials" target="_blank">P4 tutorials – GitHub repo</a></p>
+
+<p><a href="https://www.sigcomm.org/sites/default/files/ccr/papers/2014/July/0000000-0000004.pdf" target="_blank">P4: Programming Protocol-independent Packet Processors</a></p>
+
+<p>Ok, P4 gives the tool to program the data plane, but what about a control plane? In fact, you can use any language to listen to the packets being sent from data plane. However, I believe the most simple to use is Python. It comes with the library named scapy. Scapy allows you to parse network packets received on sockets as well as construct  new packets as simply as in the below example:</p>
+
+<pre><code>&gt;&gt;&gt; p = IP()/TCP()/&quot;AAAA&quot;
+&gt;&gt;&gt; p
+&gt;&gt;
+&gt;&gt;&gt; p.summary()
+'IP / TCP 127.0.0.1:ftp-data &gt; 127.0.0.1:www S / Raw'
+</code></pre>
+
+<p>From my expierence Scapy is a user-friendly library that can be used to implement a control plane applications or generate custom packets from host devices. More on Scapy library you can read <a href="https://scapy.readthedocs.io/en/latest/introduction.html" target="_blank">here</a>.</p>
+
+<p>The P4 language allows us to program data plane and Python is the recommended language to implement control plane of the prototyped network. Voila! Now, the question is how to emulate the real network at scale? The BMv2 switch, which is the reference P4 software switch, is well-integrated with <a href="http://mininet.org/" target="_blank">Mininet</a>. Thus, you can create a virtual network of any size on your local computer! I have used Mininet for almost four years to experiment with SDN and OpenFlow – it is a very powerful tool that make life of network researcher easier!</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this blog post I introduced useful tools for network researchers – P4, Python (Scapy) and Mininet. These technologies make network prototyping easier than ever before! P4 allows to program data plane in tens or hundreds (instead of thousands) of lines of code. Python comes with Scapy library that simplifies programming operations on network packets. Finally, Mininet provides the tool to emulate a real network on your local computer by writing a simple Python script.</p>
+
+<p>In the subsequent blog posts I will describe how I have used these tools to learn network protocols/architectures and to prototype solutions. Stay tuned!</p>
+
+<h3 id="references">References</h3>
+
+<p>[1] W. L. Costa Cordeıro, J. A. Marques, and L. P. Gaspary, “Data Plane Programmability Beyond OpenFlow: Opportunities and Challenges for Network and Service Operations and Management,” J. Netw. Syst. Manage., vol. 25, no. 4, pp. 784–818, Oct. 2017.</p>
+
+<p>[2] <a href="http://www.p4.org" target="_blank">http://www.p4.org</a></p>
+
+    </div>
+
+    
+
+
+
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/sdn/">SDN</a>
+  
+  <a class="badge badge-light" href="/tags/bmv2/">BMv2</a>
+  
+  <a class="badge badge-light" href="/tags/nfv/">NFV</a>
+  
+  <a class="badge badge-light" href="/tags/python/"> Python</a>
+  
+  <a class="badge badge-light" href="/tags/mininet/">Mininet</a>
+  
+  <a class="badge badge-light" href="/tags/scapy/">scapy</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://osinstom.github.io/">Tomasz Osiński</a></h5>
+      <h6 class="card-subtitle">R&amp;D Software Engineer</h6>
+      <p class="card-text">R&amp;D Software Engineer, Open-Source enthusiast | Telecommunications, Computer networks, Network programming | I write about network softwarization in general i.a. SDN, NFV, Telco Cloud, 5G.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/tomek_osinski" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/osinstom" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/tomek-osinski/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+      
+      
+    
+
+    
+
+    
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "osinstom-github-io" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://osinstom-github-io.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.d6bd04fdad2ad213aa8111c5a3b72fc5.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    2019 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

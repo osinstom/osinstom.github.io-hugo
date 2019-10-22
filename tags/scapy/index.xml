@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scapy | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/tags/scapy/</link>
+      <atom:link href="https://osinstom.github.io/tags/scapy/index.xml" rel="self" type="application/rss+xml" />
+    <description>scapy</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 24 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>scapy</title>
+      <link>https://osinstom.github.io/tags/scapy/</link>
+    </image>
+    
+    <item>
+      <title>Network prototyping made easy with P4 and Python!</title>
+      <link>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</link>
+      <pubDate>Mon, 24 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</guid>
+      <description>
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice! On the other hand, I think the best way to understand network paradigms quickly and deeply is to implement network mechanisms on your own. If as a student you get the deep knowledge about networking basics, it will be easier to understand novel technologies in the future. So far, it was required to use some low-level programming languages (C/C++) with thousands lines of code to build network’s prototype. And here comes the P4 technology and Python as a solution to prototype networks in the easy and fast way! Combining P4 with tools provided by Python such as the scapy library or Mininet gives unlimitied possibilities to implement, build and test complex network systems. Moreover, you can prototype network protocols, which don’t even exist yet!&lt;/p&gt;
+
+&lt;h2 id=&#34;p4-python-scapy-and-mininet-the-toolset-of-network-researcher&#34;&gt;P4, Python (Scapy) and Mininet – the toolset of network researcher&lt;/h2&gt;
+
+&lt;p&gt;I assume you know already what the Python language is, but what is P4? P4 stands for Programming Protocol-Independent Packet Processors. It has been developed as a next step in the evolution of Software-Defined Networking (SDN). As you may know, the classical telecommunications architecture can be divided into data plane, control plane and management plane. Data plane is the layer, where data packets are being processed and forwarded, while the control plane decides how these packets should be handled. &lt;strong&gt;P4 has been designed to enable data plane programming.&lt;/strong&gt; Thus, using the P4 language you can specify what packet’s headers can be processed and what actions can be performed on packets. The data plane programming was the missing link in the software-based network systems, where control plane and management plane are programmable already. Currently, the structure of network system can be defined completely using software and its behaviour can be changed dynamically by updating the software version. It brings a lot of flexibility to the networking world!&lt;/p&gt;
+
+&lt;p&gt;The main component of the P4 ecosystem is the P4 language. It is a high-level Domain-Specific Language (DSL) dedicated for programming of network devices. It allows to specify the format of packets (protocol’s headers) to be recognized by network devices and actions to be performed on incoming packets (forwarding, headers modification, adding protocol header, etc). Nevertheless, the P4 language is not consumed directly by the network device, but it must be compiled to the source code for particular platform. These platforms are hardware-based (e.g. Barefoot Tofino, &lt;a href=&#34;https://p4.org/p4/p4-netfpga-a-low-cost-solution-for-testing-p4-programs-in-hardware.html&#34; target=&#34;_blank&#34;&gt;FPGA&lt;/a&gt;) or software-based (e.g. &lt;a href=&#34;https://github.com/p4lang/behavioral-model&#34; target=&#34;_blank&#34;&gt;BMv2&lt;/a&gt;, &lt;a href=&#34;https://github.com/vmware/p4c-xdp&#34; target=&#34;_blank&#34;&gt;eBPF/XDP&lt;/a&gt; or &lt;a href=&#34;http://pisces.cs.princeton.edu/&#34; target=&#34;_blank&#34;&gt;PISCES&lt;/a&gt;). The goal of P4 is to become the same what CUDA language became for graphics cards programming. The concept of the P4 language has been presented below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/static/img/p4-program-structure.jpg&#34; alt=&#34;P4 program structure&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The P4 program is composed of three main sections: Protocols defintion (data declaration), Parser Logic (Parser &amp;amp; Deparser) and a number of control blocks containing Match-Action tables. The first section defines the protocols headers that the network device will be able to recognize. For instance, defining IPv4 header is as simple as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;header ipv4_t {
+    bit&amp;lt;4&amp;gt;    version;
+    bit&amp;lt;4&amp;gt;    ihl;
+    bit&amp;lt;8&amp;gt;    diffserv;
+    bit&amp;lt;16&amp;gt;   totalLen;
+    bit&amp;lt;16&amp;gt;   identification;
+    bit&amp;lt;3&amp;gt;    flags;
+    bit&amp;lt;13&amp;gt;   fragOffset;
+    bit&amp;lt;8&amp;gt;    ttl;
+    bit&amp;lt;8&amp;gt;    protocol;
+    bit&amp;lt;16&amp;gt;   hdrChecksum;
+    bit&amp;lt;32&amp;gt; srcAddr;
+    bit&amp;lt;32&amp;gt; dstAddr;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The programmer just needs to declare header fields and their length. That’s all. Now, these headers are used to parse incoming data and recognize type of packets. The Parser Logic is a state machine defining the steps to process to read and parse incoming packets. Graphically, the Parser Logic for simple IPv4 router looks like:&lt;/p&gt;
+
+&lt;p&gt;While the P4 code implementing this logic is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;parser RouterParser(packet_in packet,
+                    out headers hdr,
+                    inout metadata meta,
+                    inout standard_metadata_t standard_metadata) {
+     state start {
+         transition parse_ethernet;
+     }
+     state parse_ethernet {
+         packet.extract(hdr.ethernet);
+         transition select(hdr.ethernet.etherType) {
+             TYPE_IPV4: parse_ipv4;
+             default: accept;
+          }
+     }
+     state parse_ipv4 {
+         packet.extract(hdr.ipv4);
+         transition accept;
+     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, in the P4 program programmer must define a number of control blocks, which contians Match-Action tables. The definition of simple IPv4 forwarding table can be implemented as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;table routing_table {
+    key = {
+        hdr.ipv4.dstAddr: lpm;
+    }
+    actions = {
+       ipv4_forward;
+       drop;
+       NoAction;
+    }
+    default_action = NoAction();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above routing_table reads the IPv4 destination IP address and matches it based on the Longest Prefix Match algorithm. Then, on packets matching the rule there can be three actions performed: ipv4_forward, drop or NoAction. If you would like to view the complete example of IP router written in P4 visit &lt;a href=&#34;https://github.com/osinstom/p4-demos/blob/master/ip-routing/p4include/router.p4&#34; target=&#34;_blank&#34;&gt;my GitHub repository&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, as I pointed out, the P4 language can be used to implement any type of data plane protocols. Although, &lt;a href=&#34;https://blogs.vmware.com/research/2017/04/07/programming-networks-p4/&#34; target=&#34;_blank&#34;&gt;it has some limitations&lt;/a&gt; it is a powerful technology that can be used by network researchers to prototype and test novel network protocols. Creativity is the limit! To learn more on P4, let’s visit:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.networkworld.com/article/3163496/cloud-computing/what-p4-programming-is-and-why-it-s-such-a-big-deal-for-software-defined-networking.html&#34; target=&#34;_blank&#34;&gt;What P4 programming is and why it’s such a big deal for Software-Defined Networking?&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://p4.org/assets/P4_tutorial_01_basics.gslide.pdf&#34; target=&#34;_blank&#34;&gt;P4 tutorial – presentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://cs344-stanford.github.io/deliverables/p4-mininet/&#34; target=&#34;_blank&#34;&gt;P4 tutorial from Stanford&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/p4lang/tutorials&#34; target=&#34;_blank&#34;&gt;P4 tutorials – GitHub repo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.sigcomm.org/sites/default/files/ccr/papers/2014/July/0000000-0000004.pdf&#34; target=&#34;_blank&#34;&gt;P4: Programming Protocol-independent Packet Processors&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok, P4 gives the tool to program the data plane, but what about a control plane? In fact, you can use any language to listen to the packets being sent from data plane. However, I believe the most simple to use is Python. It comes with the library named scapy. Scapy allows you to parse network packets received on sockets as well as construct  new packets as simply as in the below example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; p = IP()/TCP()/&amp;quot;AAAA&amp;quot;
+&amp;gt;&amp;gt;&amp;gt; p
+&amp;gt;&amp;gt;
+&amp;gt;&amp;gt;&amp;gt; p.summary()
+&#39;IP / TCP 127.0.0.1:ftp-data &amp;gt; 127.0.0.1:www S / Raw&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;From my expierence Scapy is a user-friendly library that can be used to implement a control plane applications or generate custom packets from host devices. More on Scapy library you can read &lt;a href=&#34;https://scapy.readthedocs.io/en/latest/introduction.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The P4 language allows us to program data plane and Python is the recommended language to implement control plane of the prototyped network. Voila! Now, the question is how to emulate the real network at scale? The BMv2 switch, which is the reference P4 software switch, is well-integrated with &lt;a href=&#34;http://mininet.org/&#34; target=&#34;_blank&#34;&gt;Mininet&lt;/a&gt;. Thus, you can create a virtual network of any size on your local computer! I have used Mininet for almost four years to experiment with SDN and OpenFlow – it is a very powerful tool that make life of network researcher easier!&lt;/p&gt;
+
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this blog post I introduced useful tools for network researchers – P4, Python (Scapy) and Mininet. These technologies make network prototyping easier than ever before! P4 allows to program data plane in tens or hundreds (instead of thousands) of lines of code. Python comes with Scapy library that simplifies programming operations on network packets. Finally, Mininet provides the tool to emulate a real network on your local computer by writing a simple Python script.&lt;/p&gt;
+
+&lt;p&gt;In the subsequent blog posts I will describe how I have used these tools to learn network protocols/architectures and to prototype solutions. Stay tuned!&lt;/p&gt;
+
+&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
+
+&lt;p&gt;[1] W. L. Costa Cordeıro, J. A. Marques, and L. P. Gaspary, “Data Plane Programmability Beyond OpenFlow: Opportunities and Challenges for Network and Service Operations and Management,” J. Netw. Syst. Manage., vol. 25, no. 4, pp. 784–818, Oct. 2017.&lt;/p&gt;
+
+&lt;p&gt;[2] &lt;a href=&#34;http://www.p4.org&#34; target=&#34;_blank&#34;&gt;http://www.p4.org&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

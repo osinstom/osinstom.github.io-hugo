@@ -33,7 +33,7 @@
 
 &lt;p&gt;The test network (presented below) is composed of three routers and two end hosts - each associated to the different network. Hosts are attached to the devices (R1 and R3), which play the role of the edge MPLS router. The R2 router is the core MPLS router - it forwards packets based on the MPLS label. Packets from hosts are encapsulated to MPLS (and decapsulated from MPLS) by the edge routers.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/static/img/mpls-network.png&#34; alt=&#34;The MPLS network setup&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/img/mpls-network.png&#34; alt=&#34;The MPLS network setup&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;the-design-of-the-mpls-router-in-p4&#34;&gt;The design of the MPLS router in P4&lt;/h3&gt;
 

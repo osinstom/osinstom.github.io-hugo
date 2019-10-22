@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python | Tomasz Osiński - blog &amp; personal site</title>
+    <title> Python | Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/tags/python/</link>
       <atom:link href="https://osinstom.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
-    <description>Python</description>
+    <description> Python</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sun, 03 Mar 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
-      <title>Python</title>
+      <title> Python</title>
       <link>https://osinstom.github.io/tags/python/</link>
     </image>
     
     <item>
-      <title></title>
+      <title>The MPLS network based on P4</title>
       <link>https://osinstom.github.io/post/2019-10-22-your-filename/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/post/2019-10-22-your-filename/</guid>

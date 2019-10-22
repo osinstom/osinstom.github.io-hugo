@@ -28,12 +28,12 @@
   
     
   
-  <meta name="description" content="R&amp;D Software Engineer">
+  <meta name="description" content="In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.
+I prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at https://github.com/osinstom/p4-demos/tree/master/ip-routing.
+The README file contains a description of a P4 program&rsquo;s design as well as a topology of a test network.">
 
   
-  <link rel="alternate" hreflang="pl" href="https://osinstom.github.io/pl/post/">
-  
-  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/">
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/">
 
   
 
@@ -98,14 +98,12 @@
 
 
   
-  <link rel="alternate" href="/post/index.xml" type="application/rss+xml" title="Tomasz Osiński - blog &amp; personal site">
-  
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="https://osinstom.github.io/post/">
+  <link rel="canonical" href="https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/">
 
   
   
@@ -121,18 +119,67 @@
   <meta property="twitter:creator" content="@tomek_osinski">
   
   <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
-  <meta property="og:url" content="https://osinstom.github.io/post/">
-  <meta property="og:title" content="Posts | Tomasz Osiński - blog &amp; personal site">
-  <meta property="og:description" content="R&amp;D Software Engineer"><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
+  <meta property="og:url" content="https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/">
+  <meta property="og:title" content="IP Router in P4 | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:description" content="In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.
+I prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at https://github.com/osinstom/p4-demos/tree/master/ip-routing.
+The README file contains a description of a P4 program&rsquo;s design as well as a topology of a test network."><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
   <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2019-03-23T00:00:00&#43;00:00">
+    
+      <meta property="article:published_time" content="2019-02-11T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-02-11T00:00:00&#43;00:00">
   
 
   
 
 
+    
 
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/"
+  },
+  "headline": "IP Router in P4",
+  
+  "datePublished": "2019-02-11T00:00:00Z",
+  "dateModified": "2019-02-11T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tomasz Osiński"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tomasz Osiński - blog \u0026 personal site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://osinstom.github.io/img/icon-512.png"
+    }
+  },
+  "description": "In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.\nI prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at https://github.com/osinstom/p4-demos/tree/master/ip-routing.\nThe README file contains a description of a P4 program\u0026rsquo;s design as well as a topology of a test network."
+}
+</script>
+
+  
 
   
 
@@ -140,10 +187,13 @@
   
 
 
+  
 
 
 
-  <title>Posts | Tomasz Osiński - blog &amp; personal site</title>
+
+
+  <title>IP Router in P4 | Tomasz Osiński - blog &amp; personal site</title>
 
 </head>
 
@@ -361,21 +411,6 @@
         
 
         
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
-            <i class="fas fa-globe mr-1" aria-hidden="true"></i><span>English</span>
-          </a>
-          <ul class="dropdown-menu">
-            
-            <li class="dropdown-item my-0 py-0 mx-0 px-0">
-              <a href="https://osinstom.github.io/pl/post/">
-                <span>Polski</span>
-              </a>
-            </li>
-            
-          </ul>
-        </li>
-        
 
         
         <li class="nav-item">
@@ -390,169 +425,33 @@
 </nav>
 
 
-  
-
-
-
-
-
-
-
-
-
-
-
+  <article class="article">
 
   
 
+
+
+
+
+
+
+
+
+
+
+
+  
+
   
   
+  
+<div class="article-container pt-3">
+  <h1>IP Router in P4</h1>
+
+  
+
   
     
-  
-<div class="universal-wrapper pt-3">
-  <h1>Posts</h1>
-
-  
-
-  
-</div>
-
-
-
-<div class="universal-wrapper">
-
-  
-
-  
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-10-22-configuring-ovs-dpdk-with-vm/" >Configuring OVS-DPDK with VM</a>
-    </h3>
-
-    
-    <div class="article-style">
-      Recently, I work on a performance comparison between virtualization technologies. In order to made an experiment I had had to setup a …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Mar 23, 2019
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    9 min read
-  </span>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/2019-10-22-configuring-ovs-dpdk-with-vm/#disqus_thread"></a>
-  
-
-  
-  
-
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-10-22-ip-router-in-p4/" >IP Router in P4</a>
-    </h3>
-
-    
-    <div class="article-style">
-      In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
 
 
 
@@ -591,114 +490,171 @@
   
 
   
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/&amp;text=IP%20Router%20in%20P4" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/&amp;t=IP%20Router%20in%20P4" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=IP%20Router%20in%20P4&amp;body=https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/&amp;title=IP%20Router%20in%20P4" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=IP%20Router%20in%20P4%20https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/&amp;title=IP%20Router%20in%20P4" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
 
 </div>
 
-      
-    </div>
-
     
 
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </div>
 
-    
-  
-    
-      
 
 
+  <div class="article-container">
 
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/" >Network prototyping made easy with P4 and Python!</a>
-    </h3>
-
-    
     <div class="article-style">
-      Introduction Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer …
-    </div>
-    
+      <p>In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.</p>
 
-    <div class="stream-meta article-metadata">
+<p>I prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at <a href="https://github.com/osinstom/p4-demos/tree/master/ip-routing" target="_blank">https://github.com/osinstom/p4-demos/tree/master/ip-routing</a>.</p>
 
-      
+<p>The README file contains a description of a P4 program&rsquo;s design as well as a topology of a test network. Below I summarize a design choices that I made:</p>
 
-      
-        
+<ul>
+<li>I have used <strong>P4_16</strong> as it is the newest version of P4.</li>
+<li>As the P4 target I use <strong>BMv2</strong> (<a href="https://github.com/p4lang/behavioral-model" target="_blank">https://github.com/p4lang/behavioral-model</a>)</li>
+<li>The <strong>P4_16</strong> introduces the concept of architecture model for target device. I have used <strong>V1Model</strong> (<a href="https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4" target="_blank">https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4</a>), which is a defualt one for BMv2</li>
+<li>The V1Model forces us to implement the <strong>Ingress</strong> and <strong>Egress</strong> control blocks, <strong>Parser</strong>, <strong>Deparser</strong> and methods to handle checksum (verifyChecksum and computeChecksum). For the sake of demo I don&rsquo;t focus on checksum operations.</li>
+<li>Design choices for the <strong>router.p4</strong> program:
 
+<ul>
+<li>I defined Ethernet and IPv4 headers (only)</li>
+<li>I defined additional metadata struct called <strong>routing_metadata</strong>. It is used to pass a routing decision made in the Ingress block to the Egress block. In the Egress block it will be used to determine the MAC address of the next-hop.</li>
+<li>The Parser Logic handles only Ethernet and IPv4 headers (e.g. ARP, IPv6 or VLAN is not parsed)</li>
+<li>For the <strong>Ingress</strong> control we defined the <strong>routing_table</strong>. This table has three actions: drop(), NoAction() and ipv4_forward(). The last action performs three operations:</li>
+<li>it selects output port based on the IPv4 destination LPM</li>
+<li>it sets a next-hop IP address in routing_metadata.</li>
+<li>it decrements TTL</li>
+<li>For the <strong>Egress</strong> control block we defined <strong>switching_table</strong> and <strong>mac_rewriting_table</strong>. The switching_table sets a destination MAC for packet based on next-hop IP from routing_metadata. The mac_rewriting_table changes the source MAC address for packet according to port, that has been selected as the output port.</li>
+</ul></li>
+</ul>
 
+<p>If you want to know basics of how P4 works I encourage you to follow a user guide and test how IP routing written in P4 works. In the subsequent posts I will show another example - MPLS network written in P4.</p>
 
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Dec 24, 2018
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    6 min read
-  </span>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/#disqus_thread"></a>
-  
-
-  
-  
-
-  
-
-</div>
-
-      
     </div>
 
     
 
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
+
+
 
     
+
+<div class="article-tags">
   
+  <a class="badge badge-light" href="/tags/sdn/">SDN</a>
+  
+  <a class="badge badge-light" href="/tags/p4/">P4</a>
+  
+  <a class="badge badge-light" href="/tags/bmv2/">BMv2</a>
+  
+  <a class="badge badge-light" href="/tags/ipv4/">IPv4</a>
+  
+  <a class="badge badge-light" href="/tags/data-plane/">Data Plane</a>
+  
+</div>
+
+
+
     
       
 
@@ -709,177 +665,152 @@
 
 
 
+  
+
+
 
 
 
 
   
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/initial-view-on-vowifi-in-the-5g-network/" >Initial view on VoWiFi in the 5G network</a>
-    </h3>
-
+  
+  
     
-    <div class="article-style">
-      In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. …
+  
+  
+  <div class="media author-card">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://osinstom.github.io/">Tomasz Osiński</a></h5>
+      <h6 class="card-subtitle">R&amp;D Software Engineer</h6>
+      <p class="card-text">R&amp;D Software Engineer, Open-Source enthusiast | Telecommunications, Computer networks, Network programming | I write about network softwarization in general i.a. SDN, NFV, Telco Cloud, 5G.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/tomek_osinski" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/osinstom" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/tomek-osinski/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
     </div>
-    
+  </div>
 
-    <div class="stream-meta article-metadata">
+
 
       
-
       
-        
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/">Network prototyping made easy with P4 and Python!</a></li>
+          
+        </ul>
+      </div>
       
     
-    Dec 18, 2018
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    7 min read
-  </span>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/initial-view-on-vowifi-in-the-5g-network/#disqus_thread"></a>
-  
-
-  
-  
-
-  
-
-</div>
-
-      
-    </div>
 
     
+
+    
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "osinstom-github-io" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
 
   </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/ipsec-explanation/" >Explanation of IPSec basics</a>
-    </h3>
-
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Nov 21, 2017
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/ipsec-explanation/#disqus_thread"></a>
-  
-
-  
-  
-
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-
-  
-
-
-</div>
+</article>
 
       
 

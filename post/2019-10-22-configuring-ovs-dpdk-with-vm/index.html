@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tomasz Osiński">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Recently, I work on a performance comparison between virtualization technologies. In order to made an experiment I had had to setup a test environment based on OVS-DPDK and KVM-based Virtual Machine. This user guide shows how to install and configure the test scenario with OVS-DPDK and libvirt. The test scenario is presented below. According to OVS flow rules configuration we can test PHY-OVS-PHY scenario (green line) or PHY-VM-PHY scenario (red line).">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.1884ccbe79662c38d99b291260b58a24.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@tomek_osinski">
+  <meta property="twitter:creator" content="@tomek_osinski">
+  
+  <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:url" content="https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/">
+  <meta property="og:title" content="Configuring OVS-DPDK with VM | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:description" content="Recently, I work on a performance comparison between virtualization technologies. In order to made an experiment I had had to setup a test environment based on OVS-DPDK and KVM-based Virtual Machine. This user guide shows how to install and configure the test scenario with OVS-DPDK and libvirt. The test scenario is presented below. According to OVS flow rules configuration we can test PHY-OVS-PHY scenario (green line) or PHY-VM-PHY scenario (red line)."><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-03-23T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-03-23T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/"
+  },
+  "headline": "Configuring OVS-DPDK with VM",
+  
+  "datePublished": "2019-03-23T00:00:00Z",
+  "dateModified": "2019-03-23T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tomasz Osiński"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tomasz Osiński - blog \u0026 personal site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://osinstom.github.io/img/icon-512.png"
+    }
+  },
+  "description": "Recently, I work on a performance comparison between virtualization technologies. In order to made an experiment I had had to setup a test environment based on OVS-DPDK and KVM-based Virtual Machine. This user guide shows how to install and configure the test scenario with OVS-DPDK and libvirt. The test scenario is presented below. According to OVS flow rules configuration we can test PHY-OVS-PHY scenario (green line) or PHY-VM-PHY scenario (red line)."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Configuring OVS-DPDK with VM | Tomasz Osiński - blog &amp; personal site</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Tomasz Osiński - blog &amp; personal site</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About me</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Configuring OVS-DPDK with VM</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Mar 23, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/2019-10-22-configuring-ovs-dpdk-with-vm/#disqus_thread"></a>
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/&amp;text=Configuring%20OVS-DPDK%20with%20VM" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/&amp;t=Configuring%20OVS-DPDK%20with%20VM" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Configuring%20OVS-DPDK%20with%20VM&amp;body=https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/&amp;title=Configuring%20OVS-DPDK%20with%20VM" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Configuring%20OVS-DPDK%20with%20VM%20https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/&amp;title=Configuring%20OVS-DPDK%20with%20VM" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<p>Recently, I work on a performance comparison between virtualization technologies. In order to made an experiment I had had to setup a test environment based on <a href="https://software.intel.com/en-us/articles/open-vswitch-with-dpdk-overview" target="_blank">OVS-DPDK</a> and <a href="https://www.redhat.com/en/topics/virtualization/what-is-KVM" target="_blank">KVM-based Virtual Machine</a>. This user guide shows how to install and configure the test scenario with OVS-DPDK and libvirt. The test scenario is presented below. According to OVS flow rules configuration we can test PHY-OVS-PHY scenario (green line) or PHY-VM-PHY scenario (red line).</p>
+
+<p><img src="{{site.baseurl}}/static/img/test-scenario-ovs-dpdk.png" alt="The OVS-DPDK + VM scenario" /></p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>Before starting installation of OVS-DPDK and VMs, let&rsquo;s prepare OS.</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get -y install git qemu-system-x86 python-pip fuse libfuse-dev dh-autoreconf openssl libssl-dev cmake libpcap-dev python-yaml libnuma-dev
+</code></pre>
+
+<h3 id="installing-ovs-dpdk">Installing OVS-DPDK</h3>
+
+<p>Firstly, we need to install DPDK and Open vSwitch from a source code. To install DPDK run below commands:</p>
+
+<pre><code>cd $HOME &amp; mkdir dpdk
+cd dpdk/
+wget http://fast.dpdk.org/rel/dpdk-18.11.tar.xz
+tar xf dpdk-18.11.tar.xz
+cd dpdk-18.11/
+</code></pre>
+
+<p>Then, we need to export environment variables, which point out to DPDK..</p>
+
+<pre><code>export DPDK_DIR=$HOME/dpdk/dpdk-18.11
+export DPDK_TARGET=x86_64-native-linuxapp-gcc
+export DPDK_BUILD=$DPDK_DIR/$DPDK_TARGET
+</code></pre>
+
+<p>.. and install DPDK. Note that we are using special flags (<em>-g -Ofast -march=native -Q</em>) to achieve a better performance of OVS-DPDK.</p>
+
+<p><code>EXTRA_CFLAGS=&quot;-g -Ofast&quot; make install -j T=$target CONFIG_RTE_BUILD_COMBINE_LIBS=y CONFIG_RTE_LIBRTE_VHOST=y DESTDIR=install</code></p>
+
+<p>If the installation of DPDK has been successful, you can install OVS-DPDK.</p>
+
+<pre><code>cd $HOME/dpdk/
+git clone https://github.com/openvswitch/ovs
+cd ovs
+./boot.sh
+./configure CFLAGS=&quot;-g -Ofast&quot; --with-dpdk=$DPDK_BUILD
+make -j CFLAGS=&quot;-g -Ofast -march=native -Q&quot;
+sudo make install
+</code></pre>
+
+<p>Now, you should be able to verify OVS-DPDK installation by using below commands:</p>
+
+<pre><code>tomek@s14-2:~$ sudo ovs-vsctl show
+3bb620bf-4d6f-4ddc-94ff-03f1ff9ccc93
+</code></pre>
+
+<pre><code>tomek@s14-2:~$ sudo ovs-vswitchd --version
+ovs-vswitchd (Open vSwitch) 2.11.90
+DPDK 18.11.0
+</code></pre>
+
+<h3 id="configuring-ovs-dpdk">Configuring OVS-DPDK</h3>
+
+<p>Firstly, let&rsquo;s configure DPDK ports. Following commands inject required kernel driver (i.e. uio, igb_uio, vfio). It is up to you, which one you would like to use. In order to choose one refer to <a href="https://doc.dpdk.org/guides/linux_gsg/linux_drivers.html" target="_blank">https://doc.dpdk.org/guides/linux_gsg/linux_drivers.html</a>. For our purposes we have used <em>uiopcigeneric</em>.</p>
+
+<pre><code>cd dpdk/dpdk-18.11/usertools/
+sudo modprobe uio_pci_generic
+</code></pre>
+
+<p>Once kernel module has been injected NICs can be attached to DPDK. Note that you need to use the <em>bus-info</em> format (e.g.0000:88:00.0). To retrieve NIC ID in the bus-info format use:</p>
+
+<p><code>lspci | grep Ethernet</code></p>
+
+<p>This command will list all interfaces along with the bus-info identifier. Then, use dpdk-devbind.py script to bind chosen interfaces with DPDK drivers.</p>
+
+<pre><code class="language-bash">sudo ./dpdk-devbind.py -b uio_pci_generic 0000:88:00.0
+sudo ./dpdk-devbind.py -b uio_pci_generic 0000:88:00.1
+</code></pre>
+
+<p>You can check if interfaces have been bound successfully using:</p>
+
+<pre><code>tomek@s14-2:~/dpdk/dpdk-18.11$ usertools/dpdk-devbind.py --status
+
+Network devices using DPDK-compatible driver
+============================================
+0000:88:00.0 '82599ES 10-Gigabit SFI/SFP+ Network Connection 10fb' drv=uio_pci_generic unused=ixgbe
+0000:88:00.1 '82599ES 10-Gigabit SFI/SFP+ Network Connection 10fb' drv=uio_pci_generic unused=ixgbe
+</code></pre>
+
+<p>Under &ldquo;Network devices using DPDK-compatible driver&rdquo; you should see the list of ports, which are already bound to the DPDK-compatible driver.</p>
+
+<p>Once Ethernet interfaces have been bound to DPDK, it&rsquo;s time to mount hugepages. Hugepages are contiguous regions - segments of physical memory. In order to allocate hugepages persistently I have added following parameters to GRUB_CMDLINE_LINUX_DEFAULT in <em>/etc/default/grub</em>:</p>
+
+<p><code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;default_hugepagesz=1G hugepagesz=1G hugepages=16 hugepagesz=2M hugepages=2048&quot;</code></p>
+
+<p>Then, upgrade grub and reboot a machine:</p>
+
+<pre><code>sudo update-grub
+sudo reboot
+</code></pre>
+
+<p>This configuration will take effect after every system reboot and will result in allocating 16 hugepages of the 1G size.</p>
+
+<p>After reboot, you need only to mount hugepages using:</p>
+
+<pre><code>sudo mkdir -p /mnt/huge
+sudo mount -t hugetlbfs nodev /mnt/huge
+</code></pre>
+
+<p>To validate if hugepages has been allocated properly by:</p>
+
+<p><code>grep -i huge /proc/meminfo</code></p>
+
+<p>The number of free hugepages should be less than total number of available hugepages.</p>
+
+<p>Great, the DPDK environment should be configured properly now. We can move to the configuration of OVS. Firstly initialize OVS brigde with DPDK capabilities:</p>
+
+<pre><code>sudo ovs-vsctl --no-wait init
+sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true
+</code></pre>
+
+<p>The dpdk-init=true should be applied. To validate use below command, which should return the <em>true</em> value.</p>
+
+<p><code>sudo ovs-vsctl get Open_vSwitch . dpdk_initialized</code></p>
+
+<p>Now, we need to define other OVS parameters to be used by the DPDK ports. These are:</p>
+
+<ul>
+<li><strong>other_config:dpdk-hugepage-dir</strong> - points to a directory, where hugepages are mounted.</li>
+<li><strong>other_config:dpdk-socket-mem</strong> - a comma seperated list of hugepage memory, specified in MBs per NUMA node, allocated to the ovs-vswitchd to use for the DPDK dataplane</li>
+<li><strong>other_config:dpdk-lcore-mask</strong> - a bitmask of what CPU core to pin to non-dataplane threads of the ovs-vswitchd to.</li>
+<li><strong>other_config:pmd-cpu-mask</strong> - a bitmask of what CPU core to pin to the dataplane-related (Poll Mode Driver, PMD) threads of the ovs-vswitchd to. Each bit set in the bitmask result in the creating of the PMD thread.</li>
+<li><strong>other_config:pmd-rxq-affinity</strong> - it is set per Interface. It pins a queue of port to the given CPU core. This parameter is optional, but in some circumstances it can be used to pin a queue of port to the specific CPU core.</li>
+</ul>
+
+<p>The first two options are quite straightforward and can be configured with:</p>
+
+<pre><code>sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem=&quot;4096M&quot;
+sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-hugepage-dir=&quot;/mnt/huge&quot;
+</code></pre>
+
+<p>Now, to configure <em>dpdk-lcore-mask</em> and <em>pmd-cpu-mask</em> we need to find out how our server is configured. In particular, we need to know how many NUMA nodes our server has and how CPU cores are allocated across NUMA nodes.</p>
+
+<p>Just to clarify, NUMA stands for Non-Uniform Memory Access. In NUMA system memory is divided into zones called nodes, which are allocated to particular CPUs or sockets. Access to memory that is local to a CPU is faster than memory connected to remote CPUs on that system. Normally, each socket on a NUMA system has a local memory node whose contents can be accessed faster than the memory in the node local to another CPU or the memory on a bus shared by all CPUs.</p>
+
+<p>Thus, in order to achieve better performance CPU cores used by OVS-DPDK should be located on the same NUMA node as DPDK ports. So, we configure OVS-DPDK with NUMA-awareness. In order to check NUMA topology on the server use:</p>
+
+<pre><code>lscpu
+--- 
+
+NUMA node0 CPU(s):     0-9,20-29
+NUMA node1 CPU(s):     10-19,30-39
+</code></pre>
+
+<p>In our case we have two NUMA nodes (0 and 1). The CPU cores 0-9 and 20-29 are associated with NUMA node0, while the others are associated with NUMA node1.</p>
+
+<p>Now, for the physical ports (88:00.0 and 88:00.1 in our case), which will be connected to OVS-DPDK we should check the associated NUMA node:</p>
+
+<pre><code>cat /sys/bus/pci/devices/0000:88:00.0/numa_node
+1
+cat /sys/bus/pci/devices/0000:88:00.1/numa_node
+1
+</code></pre>
+
+<p><strong>As our NICs are associated with the NUMA node 1 we should dedicate CPU cores in the same NUMA node to run PMD threads.</strong> From the <em>lscpu</em> command&rsquo;s output we know we should use CPU cores from range 10-19 or 30-39. So, let&rsquo;s configure remaining parameters (we don&rsquo;t configure <em>pmd-rxq-affinity</em>):</p>
+
+<pre><code>sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=&quot;&quot;
+sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:pmd-cpu-mask=&quot;&quot;
+</code></pre>
+
+<p>Once DPDK parameters for OVS are configured, let&rsquo;s run OVS-DPDK bridge. To create OVS-DPDK bridge use type=netdev:</p>
+
+<pre><code>sudo ovs-vsctl add-br br0
+sudo ovs-vsctl set Bridge br0 datapath_type=netdev
+</code></pre>
+
+<p>And add physical ports to OVS-DPDK:</p>
+
+<pre><code>sudo ovs-vsctl add-port br0 ens4f0 -- set Interface ens4f0 type=dpdk \
+            options:dpdk-devargs=0000:88:00.0 \
+            options:n_rxq=2 \
+            ofport_request=1
+
+sudo ovs-vsctl add-port br0 ens4f1 -- set Interface ens4f1 type=dpdk \
+            options:dpdk-devargs=0000:88:00.1 \
+            options:n_rxq=2 \
+            ofport_request=2
+</code></pre>
+
+<p>In our case we want also to attach VM to OVS-DPDK, so we create also two virtual ports (type=dpdkvhostuser). These ports will be later used by VM.</p>
+
+<pre><code>sudo ovs-vsctl add-port br0 dpdkvhostuser0 -- set Interface dpdkvhostuser0 type=dpdkvhostuser ofport_request=3
+
+sudo ovs-vsctl add-port br0 dpdkvhostuser1 -- set Interface dpdkvhostuser1 type=dpdkvhostuser ofport_request=4
+</code></pre>
+
+<p>Then, let&rsquo;s configure the OVS flow fules to push traffic to and from VM&rsquo;s ports.</p>
+
+<pre><code>sudo ovs-ofctl del-flows br0
+sudo ovs-ofctl add-flow br0 in_port=1,actions=output:3
+sudo ovs-ofctl add-flow br0 in_port=2,actions=output:4
+sudo ovs-ofctl add-flow br0 in_port=3,actions=output:1
+sudo ovs-ofctl add-flow br0 in_port=4,actions=output:2
+</code></pre>
+
+<p>To check current configuration of OVS use:</p>
+
+<pre><code>sudo ovs-ofctl dump-flows br0
+sudo ovs-ofctl dump-ports br0
+sudo ovs-vsctl show
+</code></pre>
+
+<p>Great! We have OVS-DPDK up and running. Now, let&rsquo;s create and run Virtual Machine..</p>
+
+<h3 id="running-kvm-machine">Running KVM machine</h3>
+
+<p>In order to configure and run VMs we will use <em>virsh</em>. Before booting the VM up we need to prepare Host OS by configuring permissions for QEMU and hugepages to be used by VM&rsquo;s ports.</p>
+
+<p>Edit <strong><em>/etc/libvirt/qemu.conf</em></strong> and modify the following lines to set &ldquo;root&rdquo; as the value of user and group:</p>
+
+<pre><code>user = &quot;root&quot;
+group = &quot;root&quot;
+</code></pre>
+
+<p>Then, restart libvirt:</p>
+
+<p><code>sudo systemctl restart libvirtd.service</code></p>
+
+<p>Now, mount hugepages to be used by QEMU:</p>
+
+<pre><code>sudo mkdir -p /dev/hugepages/libvirt
+sudo mkdir -p /dev/hugepages/libvirt/qemu
+sudo mount -t hugetlbfs hugetlbfs /dev/hugepages/libvirt/qemu
+</code></pre>
+
+<p>Once done, we can run VM by using <em>virsh</em> and XML configuration file. I have prepared the pre-defined VM (testpmd.qcow2) with DPDK installed on. Moreover, I have prepared the user-data.img image with cloud init configuration, which configures password to login into VM. In order to generate user-data.img you can create a text file with the below content:</p>
+
+<pre><code>#cloud-config
+password: Password1
+chpasswd: { expire: False }
+ssh_pwauth: True
+</code></pre>
+
+<p>And generate .img file:</p>
+
+<p><code>cloud-localds user-data.img user-data</code></p>
+
+<p>Now, let&rsquo;s create the XML file (let&rsquo;s name it <em>demovm.xml</em>) for virsh. Refer to the XML file provided below. It will run the KVM machine with 8GB or RAM and 8 vCPUs. The VM will be attached to the OVS-DPDK ports. Note that you need to set the path to the OS image and user-data.img under the <disk> section.</p>
+
+<pre><code class="language-xml">&lt;domain type='kvm'&gt;
+  &lt;name&gt;demovm&lt;/name&gt;
+  &lt;uuid&gt;4a9b3f53-fa2a-47f3-a757-dd87720d9d1d&lt;/uuid&gt;
+  &lt;memory unit='KiB'&gt;8388608&lt;/memory&gt;
+  &lt;currentMemory unit='KiB'&gt;8399608&lt;/currentMemory&gt;
+  &lt;memoryBacking&gt;
+    &lt;hugepages&gt;
+      &lt;page size='1' unit='G' nodeset='0'/&gt;
+    &lt;/hugepages&gt;
+  &lt;/memoryBacking&gt;
+  &lt;vcpu placement='static'&gt;8&lt;/vcpu&gt;
+  &lt;cputune&gt;
+    &lt;shares&gt;4096&lt;/shares&gt;
+    &lt;vcpupin vcpu='0' cpuset='14'/&gt;
+    &lt;vcpupin vcpu='1' cpuset='15'/&gt;
+    &lt;emulatorpin cpuset='11,13'/&gt;
+  &lt;/cputune&gt;
+  &lt;os&gt;
+    &lt;type arch='x86_64' machine='pc'&gt;hvm&lt;/type&gt;
+    &lt;boot dev='hd'/&gt;
+  &lt;/os&gt;
+  &lt;features&gt;
+    &lt;acpi/&gt;
+    &lt;apic/&gt;
+  &lt;/features&gt;
+  &lt;cpu mode='host-model'&gt;
+    &lt;model fallback='allow'/&gt;
+    &lt;topology sockets='2' cores='4' threads='1'/&gt;
+    &lt;numa&gt;
+      &lt;cell id='0' cpus='0-1' memory='4194304' unit='KiB' memAccess='shared'/&gt;
+    &lt;/numa&gt;
+  &lt;/cpu&gt;
+  &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt;
+  &lt;on_reboot&gt;restart&lt;/on_reboot&gt;
+  &lt;on_crash&gt;destroy&lt;/on_crash&gt;
+  &lt;devices&gt;
+    &lt;emulator&gt;/usr/bin/qemu-system-x86_64&lt;/emulator&gt;
+    &lt;disk type='file' device='disk'&gt;
+      &lt;driver name='qemu' type='qcow2' cache='none'/&gt;
+      &lt;source file='/home/tomek/testpmd.qcow2'/&gt;
+      &lt;target dev='vda' bus='virtio'/&gt;
+    &lt;/disk&gt;
+    &lt;disk type='file' device='disk'&gt;
+      &lt;source file='/home/tomek/user-data.img'/&gt;
+      &lt;target dev='vdb' bus='virtio'/&gt;
+    &lt;/disk&gt;
+    &lt;interface type='vhostuser'&gt;
+      &lt;mac address='00:00:00:00:00:01'/&gt;
+      &lt;source type='unix' path='/usr/local/var/run/openvswitch/dpdkvhostuser0' mode='client'/&gt;
+       &lt;model type='virtio'/&gt;
+      &lt;driver queues='2'&gt;
+        &lt;host mrg_rxbuf='off'/&gt;
+      &lt;/driver&gt;
+    &lt;/interface&gt;
+    &lt;interface type='vhostuser'&gt;
+      &lt;mac address='00:00:00:00:00:02'/&gt;
+      &lt;source type='unix' path='/usr/local/var/run/openvswitch/dpdkvhostuser1' mode='client'/&gt;
+      &lt;model type='virtio'/&gt;
+      &lt;driver queues='2'&gt;
+        &lt;host mrg_rxbuf='off'/&gt;
+      &lt;/driver&gt;
+    &lt;/interface&gt;
+    &lt;serial type='pty'&gt;
+      &lt;target port='0'/&gt;
+    &lt;/serial&gt;
+    &lt;console type='pty'&gt;
+      &lt;target type='serial' port='0'/&gt;
+    &lt;/console&gt;
+  &lt;/devices&gt;
+&lt;/domain&gt;
+</code></pre>
+
+<p>Once created, let&rsquo;s run the KVM machine using virsh:</p>
+
+<p><code>virsh create demovm.xml</code></p>
+
+<p>Now, you can enter the console using:</p>
+
+<p><code>virsh console demovm</code></p>
+
+<p>When the VM will boot up you can login by using username: <em>ubuntu</em> and password: <em>Password1</em>.</p>
+
+<p>If you would like to test network performance of OVS-DPDK + VM deployment I recommend you to run testpmd app inside VM.</p>
+
+<p><a href="https://doc.dpdk.org/guides/testpmd_app_ug/build_app.html" target="_blank">Once the testpmd app is compiled</a>, let&rsquo;s setup the DPDK ports inside VM and run testpmd:</p>
+
+<pre><code>sudo sysctl vm.nr_hugepages=1024
+sudo mkdir -p /dev/hugepages
+sudo mount -t hugetlbfs hugetlbfs /dev/hugepages
+sudo modprobe uio
+sudo insmod $DPDK_BUILD/kmod/igb_uio.ko
+$DPDK_DIR/usertools/dpdk-devbind.py --status
+sudo $DPDK_DIR/usertools/dpdk-devbind.py -b igb_uio 00:02.0 00:03.0
+</code></pre>
+
+<p>Finally, let&rsquo;s run the testpmd app, which will forward the traffic between two DPDK ports:</p>
+
+<p><code>sudo ./testpmd -n 4 --socket-mem 512 -- --burst=64 -i</code></p>
+
+<h3 id="summary">Summary</h3>
+
+<p>This post describes how to setup OVS-DPDK with VM. I hope it will be found useful for anyone, who will need to run OVS-DPDK with KVM. With this setup I was able to achieve about 8.5 Mpps (~7.5 Gbps) for small (74 Bytes) packets on HP ProLiant DL380 Gen9 server with 2x Intel&reg; Xeon&reg; CPU E5-2650 v3 @ 2.30GHz and 128 GB RAM.</p>
+
+<p>If you have any question regarding the configuration process or you faced a problem to reproduce the steps don&rsquo;t hesitate to contact me.</p>
+
+    </div>
+
+    
+
+
+
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/nfv/">NFV</a>
+  
+  <a class="badge badge-light" href="/tags/ovs-dpdk/">OVS-DPDK</a>
+  
+  <a class="badge badge-light" href="/tags/performance/">Performance</a>
+  
+  <a class="badge badge-light" href="/tags/data-plane/">Data plane</a>
+  
+  <a class="badge badge-light" href="/tags/dpdk/">DPDK</a>
+  
+  <a class="badge badge-light" href="/tags/linux/">Linux</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://osinstom.github.io/">Tomasz Osiński</a></h5>
+      <h6 class="card-subtitle">R&amp;D Software Engineer</h6>
+      <p class="card-text">R&amp;D Software Engineer, Open-Source enthusiast | Telecommunications, Computer networks, Network programming | I write about network softwarization in general i.a. SDN, NFV, Telco Cloud, 5G.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/tomek_osinski" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/osinstom" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/tomek-osinski/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+      
+      
+    
+
+    
+
+    
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "osinstom-github-io" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://osinstom-github-io.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.d6bd04fdad2ad213aa8111c5a3b72fc5.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    2019 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

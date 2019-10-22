@@ -5,12 +5,60 @@
     <link>https://osinstom.github.io/tags/</link>
       <atom:link href="https://osinstom.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sat, 23 Mar 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Tags</title>
       <link>https://osinstom.github.io/tags/</link>
     </image>
+    
+    <item>
+      <title>Data plane</title>
+      <link>https://osinstom.github.io/tags/data-plane/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/data-plane/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DPDK</title>
+      <link>https://osinstom.github.io/tags/dpdk/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/dpdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://osinstom.github.io/tags/linux/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NFV</title>
+      <link>https://osinstom.github.io/tags/nfv/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/nfv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OVS-DPDK</title>
+      <link>https://osinstom.github.io/tags/ovs-dpdk/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/ovs-dpdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Performance</title>
+      <link>https://osinstom.github.io/tags/performance/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/performance/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>3GPP</title>

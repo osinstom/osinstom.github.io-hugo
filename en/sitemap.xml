@@ -38,6 +38,56 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/data-plane/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/dpdk/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/linux/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/nfv/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/ovs-dpdk/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/performance/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/tags/</loc>
+    <lastmod>2019-03-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/tags/"
+                />
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/tags/3gpp/</loc>
     <lastmod>2018-12-18T00:00:00+00:00</lastmod>
   </url>
@@ -70,21 +120,6 @@
   <url>
     <loc>https://osinstom.github.io/tags/sip/</loc>
     <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/tags/</loc>
-    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/tags/"
-                />
   </url>
   
   <url>

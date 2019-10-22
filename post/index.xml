@@ -26,6 +26,366 @@
     </item>
     
     <item>
+      <title>Configuring OVS-DPDK with VM</title>
+      <link>https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/</link>
+      <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/post/2019-10-22-configuring-ovs-dpdk-with-vm/</guid>
+      <description>
+
+&lt;p&gt;Recently, I work on a performance comparison between virtualization technologies. In order to made an experiment I had had to setup a test environment based on &lt;a href=&#34;https://software.intel.com/en-us/articles/open-vswitch-with-dpdk-overview&#34; target=&#34;_blank&#34;&gt;OVS-DPDK&lt;/a&gt; and &lt;a href=&#34;https://www.redhat.com/en/topics/virtualization/what-is-KVM&#34; target=&#34;_blank&#34;&gt;KVM-based Virtual Machine&lt;/a&gt;. This user guide shows how to install and configure the test scenario with OVS-DPDK and libvirt. The test scenario is presented below. According to OVS flow rules configuration we can test PHY-OVS-PHY scenario (green line) or PHY-VM-PHY scenario (red line).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/static/img/test-scenario-ovs-dpdk.png&#34; alt=&#34;The OVS-DPDK + VM scenario&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
+
+&lt;p&gt;Before starting installation of OVS-DPDK and VMs, let&amp;rsquo;s prepare OS.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get -y install git qemu-system-x86 python-pip fuse libfuse-dev dh-autoreconf openssl libssl-dev cmake libpcap-dev python-yaml libnuma-dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;installing-ovs-dpdk&#34;&gt;Installing OVS-DPDK&lt;/h3&gt;
+
+&lt;p&gt;Firstly, we need to install DPDK and Open vSwitch from a source code. To install DPDK run below commands:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd $HOME &amp;amp; mkdir dpdk
+cd dpdk/
+wget http://fast.dpdk.org/rel/dpdk-18.11.tar.xz
+tar xf dpdk-18.11.tar.xz
+cd dpdk-18.11/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then, we need to export environment variables, which point out to DPDK..&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export DPDK_DIR=$HOME/dpdk/dpdk-18.11
+export DPDK_TARGET=x86_64-native-linuxapp-gcc
+export DPDK_BUILD=$DPDK_DIR/$DPDK_TARGET
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;.. and install DPDK. Note that we are using special flags (&lt;em&gt;-g -Ofast -march=native -Q&lt;/em&gt;) to achieve a better performance of OVS-DPDK.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;EXTRA_CFLAGS=&amp;quot;-g -Ofast&amp;quot; make install -j T=$target CONFIG_RTE_BUILD_COMBINE_LIBS=y CONFIG_RTE_LIBRTE_VHOST=y DESTDIR=install&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;If the installation of DPDK has been successful, you can install OVS-DPDK.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd $HOME/dpdk/
+git clone https://github.com/openvswitch/ovs
+cd ovs
+./boot.sh
+./configure CFLAGS=&amp;quot;-g -Ofast&amp;quot; --with-dpdk=$DPDK_BUILD
+make -j CFLAGS=&amp;quot;-g -Ofast -march=native -Q&amp;quot;
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, you should be able to verify OVS-DPDK installation by using below commands:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tomek@s14-2:~$ sudo ovs-vsctl show
+3bb620bf-4d6f-4ddc-94ff-03f1ff9ccc93
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;tomek@s14-2:~$ sudo ovs-vswitchd --version
+ovs-vswitchd (Open vSwitch) 2.11.90
+DPDK 18.11.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;configuring-ovs-dpdk&#34;&gt;Configuring OVS-DPDK&lt;/h3&gt;
+
+&lt;p&gt;Firstly, let&amp;rsquo;s configure DPDK ports. Following commands inject required kernel driver (i.e. uio, igb_uio, vfio). It is up to you, which one you would like to use. In order to choose one refer to &lt;a href=&#34;https://doc.dpdk.org/guides/linux_gsg/linux_drivers.html&#34; target=&#34;_blank&#34;&gt;https://doc.dpdk.org/guides/linux_gsg/linux_drivers.html&lt;/a&gt;. For our purposes we have used &lt;em&gt;uiopcigeneric&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd dpdk/dpdk-18.11/usertools/
+sudo modprobe uio_pci_generic
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once kernel module has been injected NICs can be attached to DPDK. Note that you need to use the &lt;em&gt;bus-info&lt;/em&gt; format (e.g.0000:88:00.0). To retrieve NIC ID in the bus-info format use:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lspci | grep Ethernet&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This command will list all interfaces along with the bus-info identifier. Then, use dpdk-devbind.py script to bind chosen interfaces with DPDK drivers.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo ./dpdk-devbind.py -b uio_pci_generic 0000:88:00.0
+sudo ./dpdk-devbind.py -b uio_pci_generic 0000:88:00.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can check if interfaces have been bound successfully using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tomek@s14-2:~/dpdk/dpdk-18.11$ usertools/dpdk-devbind.py --status
+
+Network devices using DPDK-compatible driver
+============================================
+0000:88:00.0 &#39;82599ES 10-Gigabit SFI/SFP+ Network Connection 10fb&#39; drv=uio_pci_generic unused=ixgbe
+0000:88:00.1 &#39;82599ES 10-Gigabit SFI/SFP+ Network Connection 10fb&#39; drv=uio_pci_generic unused=ixgbe
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Under &amp;ldquo;Network devices using DPDK-compatible driver&amp;rdquo; you should see the list of ports, which are already bound to the DPDK-compatible driver.&lt;/p&gt;
+
+&lt;p&gt;Once Ethernet interfaces have been bound to DPDK, it&amp;rsquo;s time to mount hugepages. Hugepages are contiguous regions - segments of physical memory. In order to allocate hugepages persistently I have added following parameters to GRUB_CMDLINE_LINUX_DEFAULT in &lt;em&gt;/etc/default/grub&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;quot;default_hugepagesz=1G hugepagesz=1G hugepages=16 hugepagesz=2M hugepages=2048&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, upgrade grub and reboot a machine:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo update-grub
+sudo reboot
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This configuration will take effect after every system reboot and will result in allocating 16 hugepages of the 1G size.&lt;/p&gt;
+
+&lt;p&gt;After reboot, you need only to mount hugepages using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo mkdir -p /mnt/huge
+sudo mount -t hugetlbfs nodev /mnt/huge
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To validate if hugepages has been allocated properly by:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;grep -i huge /proc/meminfo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The number of free hugepages should be less than total number of available hugepages.&lt;/p&gt;
+
+&lt;p&gt;Great, the DPDK environment should be configured properly now. We can move to the configuration of OVS. Firstly initialize OVS brigde with DPDK capabilities:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-vsctl --no-wait init
+sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-init=true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The dpdk-init=true should be applied. To validate use below command, which should return the &lt;em&gt;true&lt;/em&gt; value.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo ovs-vsctl get Open_vSwitch . dpdk_initialized&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, we need to define other OVS parameters to be used by the DPDK ports. These are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;other_config:dpdk-hugepage-dir&lt;/strong&gt; - points to a directory, where hugepages are mounted.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;other_config:dpdk-socket-mem&lt;/strong&gt; - a comma seperated list of hugepage memory, specified in MBs per NUMA node, allocated to the ovs-vswitchd to use for the DPDK dataplane&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;other_config:dpdk-lcore-mask&lt;/strong&gt; - a bitmask of what CPU core to pin to non-dataplane threads of the ovs-vswitchd to.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;other_config:pmd-cpu-mask&lt;/strong&gt; - a bitmask of what CPU core to pin to the dataplane-related (Poll Mode Driver, PMD) threads of the ovs-vswitchd to. Each bit set in the bitmask result in the creating of the PMD thread.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;other_config:pmd-rxq-affinity&lt;/strong&gt; - it is set per Interface. It pins a queue of port to the given CPU core. This parameter is optional, but in some circumstances it can be used to pin a queue of port to the specific CPU core.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The first two options are quite straightforward and can be configured with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-socket-mem=&amp;quot;4096M&amp;quot;
+sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-hugepage-dir=&amp;quot;/mnt/huge&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, to configure &lt;em&gt;dpdk-lcore-mask&lt;/em&gt; and &lt;em&gt;pmd-cpu-mask&lt;/em&gt; we need to find out how our server is configured. In particular, we need to know how many NUMA nodes our server has and how CPU cores are allocated across NUMA nodes.&lt;/p&gt;
+
+&lt;p&gt;Just to clarify, NUMA stands for Non-Uniform Memory Access. In NUMA system memory is divided into zones called nodes, which are allocated to particular CPUs or sockets. Access to memory that is local to a CPU is faster than memory connected to remote CPUs on that system. Normally, each socket on a NUMA system has a local memory node whose contents can be accessed faster than the memory in the node local to another CPU or the memory on a bus shared by all CPUs.&lt;/p&gt;
+
+&lt;p&gt;Thus, in order to achieve better performance CPU cores used by OVS-DPDK should be located on the same NUMA node as DPDK ports. So, we configure OVS-DPDK with NUMA-awareness. In order to check NUMA topology on the server use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;lscpu
+--- 
+
+NUMA node0 CPU(s):     0-9,20-29
+NUMA node1 CPU(s):     10-19,30-39
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In our case we have two NUMA nodes (0 and 1). The CPU cores 0-9 and 20-29 are associated with NUMA node0, while the others are associated with NUMA node1.&lt;/p&gt;
+
+&lt;p&gt;Now, for the physical ports (88:00.0 and 88:00.1 in our case), which will be connected to OVS-DPDK we should check the associated NUMA node:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cat /sys/bus/pci/devices/0000:88:00.0/numa_node
+1
+cat /sys/bus/pci/devices/0000:88:00.1/numa_node
+1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;As our NICs are associated with the NUMA node 1 we should dedicate CPU cores in the same NUMA node to run PMD threads.&lt;/strong&gt; From the &lt;em&gt;lscpu&lt;/em&gt; command&amp;rsquo;s output we know we should use CPU cores from range 10-19 or 30-39. So, let&amp;rsquo;s configure remaining parameters (we don&amp;rsquo;t configure &lt;em&gt;pmd-rxq-affinity&lt;/em&gt;):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:dpdk-lcore-mask=&amp;quot;&amp;quot;
+sudo ovs-vsctl --no-wait set Open_vSwitch . other_config:pmd-cpu-mask=&amp;quot;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once DPDK parameters for OVS are configured, let&amp;rsquo;s run OVS-DPDK bridge. To create OVS-DPDK bridge use type=netdev:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-vsctl add-br br0
+sudo ovs-vsctl set Bridge br0 datapath_type=netdev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And add physical ports to OVS-DPDK:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-vsctl add-port br0 ens4f0 -- set Interface ens4f0 type=dpdk \
+            options:dpdk-devargs=0000:88:00.0 \
+            options:n_rxq=2 \
+            ofport_request=1
+
+sudo ovs-vsctl add-port br0 ens4f1 -- set Interface ens4f1 type=dpdk \
+            options:dpdk-devargs=0000:88:00.1 \
+            options:n_rxq=2 \
+            ofport_request=2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In our case we want also to attach VM to OVS-DPDK, so we create also two virtual ports (type=dpdkvhostuser). These ports will be later used by VM.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-vsctl add-port br0 dpdkvhostuser0 -- set Interface dpdkvhostuser0 type=dpdkvhostuser ofport_request=3
+
+sudo ovs-vsctl add-port br0 dpdkvhostuser1 -- set Interface dpdkvhostuser1 type=dpdkvhostuser ofport_request=4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then, let&amp;rsquo;s configure the OVS flow fules to push traffic to and from VM&amp;rsquo;s ports.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-ofctl del-flows br0
+sudo ovs-ofctl add-flow br0 in_port=1,actions=output:3
+sudo ovs-ofctl add-flow br0 in_port=2,actions=output:4
+sudo ovs-ofctl add-flow br0 in_port=3,actions=output:1
+sudo ovs-ofctl add-flow br0 in_port=4,actions=output:2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To check current configuration of OVS use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo ovs-ofctl dump-flows br0
+sudo ovs-ofctl dump-ports br0
+sudo ovs-vsctl show
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great! We have OVS-DPDK up and running. Now, let&amp;rsquo;s create and run Virtual Machine..&lt;/p&gt;
+
+&lt;h3 id=&#34;running-kvm-machine&#34;&gt;Running KVM machine&lt;/h3&gt;
+
+&lt;p&gt;In order to configure and run VMs we will use &lt;em&gt;virsh&lt;/em&gt;. Before booting the VM up we need to prepare Host OS by configuring permissions for QEMU and hugepages to be used by VM&amp;rsquo;s ports.&lt;/p&gt;
+
+&lt;p&gt;Edit &lt;strong&gt;&lt;em&gt;/etc/libvirt/qemu.conf&lt;/em&gt;&lt;/strong&gt; and modify the following lines to set &amp;ldquo;root&amp;rdquo; as the value of user and group:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;user = &amp;quot;root&amp;quot;
+group = &amp;quot;root&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then, restart libvirt:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo systemctl restart libvirtd.service&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, mount hugepages to be used by QEMU:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo mkdir -p /dev/hugepages/libvirt
+sudo mkdir -p /dev/hugepages/libvirt/qemu
+sudo mount -t hugetlbfs hugetlbfs /dev/hugepages/libvirt/qemu
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once done, we can run VM by using &lt;em&gt;virsh&lt;/em&gt; and XML configuration file. I have prepared the pre-defined VM (testpmd.qcow2) with DPDK installed on. Moreover, I have prepared the user-data.img image with cloud init configuration, which configures password to login into VM. In order to generate user-data.img you can create a text file with the below content:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#cloud-config
+password: Password1
+chpasswd: { expire: False }
+ssh_pwauth: True
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And generate .img file:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;cloud-localds user-data.img user-data&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, let&amp;rsquo;s create the XML file (let&amp;rsquo;s name it &lt;em&gt;demovm.xml&lt;/em&gt;) for virsh. Refer to the XML file provided below. It will run the KVM machine with 8GB or RAM and 8 vCPUs. The VM will be attached to the OVS-DPDK ports. Note that you need to set the path to the OS image and user-data.img under the &lt;disk&gt; section.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;domain type=&#39;kvm&#39;&amp;gt;
+  &amp;lt;name&amp;gt;demovm&amp;lt;/name&amp;gt;
+  &amp;lt;uuid&amp;gt;4a9b3f53-fa2a-47f3-a757-dd87720d9d1d&amp;lt;/uuid&amp;gt;
+  &amp;lt;memory unit=&#39;KiB&#39;&amp;gt;8388608&amp;lt;/memory&amp;gt;
+  &amp;lt;currentMemory unit=&#39;KiB&#39;&amp;gt;8399608&amp;lt;/currentMemory&amp;gt;
+  &amp;lt;memoryBacking&amp;gt;
+    &amp;lt;hugepages&amp;gt;
+      &amp;lt;page size=&#39;1&#39; unit=&#39;G&#39; nodeset=&#39;0&#39;/&amp;gt;
+    &amp;lt;/hugepages&amp;gt;
+  &amp;lt;/memoryBacking&amp;gt;
+  &amp;lt;vcpu placement=&#39;static&#39;&amp;gt;8&amp;lt;/vcpu&amp;gt;
+  &amp;lt;cputune&amp;gt;
+    &amp;lt;shares&amp;gt;4096&amp;lt;/shares&amp;gt;
+    &amp;lt;vcpupin vcpu=&#39;0&#39; cpuset=&#39;14&#39;/&amp;gt;
+    &amp;lt;vcpupin vcpu=&#39;1&#39; cpuset=&#39;15&#39;/&amp;gt;
+    &amp;lt;emulatorpin cpuset=&#39;11,13&#39;/&amp;gt;
+  &amp;lt;/cputune&amp;gt;
+  &amp;lt;os&amp;gt;
+    &amp;lt;type arch=&#39;x86_64&#39; machine=&#39;pc&#39;&amp;gt;hvm&amp;lt;/type&amp;gt;
+    &amp;lt;boot dev=&#39;hd&#39;/&amp;gt;
+  &amp;lt;/os&amp;gt;
+  &amp;lt;features&amp;gt;
+    &amp;lt;acpi/&amp;gt;
+    &amp;lt;apic/&amp;gt;
+  &amp;lt;/features&amp;gt;
+  &amp;lt;cpu mode=&#39;host-model&#39;&amp;gt;
+    &amp;lt;model fallback=&#39;allow&#39;/&amp;gt;
+    &amp;lt;topology sockets=&#39;2&#39; cores=&#39;4&#39; threads=&#39;1&#39;/&amp;gt;
+    &amp;lt;numa&amp;gt;
+      &amp;lt;cell id=&#39;0&#39; cpus=&#39;0-1&#39; memory=&#39;4194304&#39; unit=&#39;KiB&#39; memAccess=&#39;shared&#39;/&amp;gt;
+    &amp;lt;/numa&amp;gt;
+  &amp;lt;/cpu&amp;gt;
+  &amp;lt;on_poweroff&amp;gt;destroy&amp;lt;/on_poweroff&amp;gt;
+  &amp;lt;on_reboot&amp;gt;restart&amp;lt;/on_reboot&amp;gt;
+  &amp;lt;on_crash&amp;gt;destroy&amp;lt;/on_crash&amp;gt;
+  &amp;lt;devices&amp;gt;
+    &amp;lt;emulator&amp;gt;/usr/bin/qemu-system-x86_64&amp;lt;/emulator&amp;gt;
+    &amp;lt;disk type=&#39;file&#39; device=&#39;disk&#39;&amp;gt;
+      &amp;lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39; cache=&#39;none&#39;/&amp;gt;
+      &amp;lt;source file=&#39;/home/tomek/testpmd.qcow2&#39;/&amp;gt;
+      &amp;lt;target dev=&#39;vda&#39; bus=&#39;virtio&#39;/&amp;gt;
+    &amp;lt;/disk&amp;gt;
+    &amp;lt;disk type=&#39;file&#39; device=&#39;disk&#39;&amp;gt;
+      &amp;lt;source file=&#39;/home/tomek/user-data.img&#39;/&amp;gt;
+      &amp;lt;target dev=&#39;vdb&#39; bus=&#39;virtio&#39;/&amp;gt;
+    &amp;lt;/disk&amp;gt;
+    &amp;lt;interface type=&#39;vhostuser&#39;&amp;gt;
+      &amp;lt;mac address=&#39;00:00:00:00:00:01&#39;/&amp;gt;
+      &amp;lt;source type=&#39;unix&#39; path=&#39;/usr/local/var/run/openvswitch/dpdkvhostuser0&#39; mode=&#39;client&#39;/&amp;gt;
+       &amp;lt;model type=&#39;virtio&#39;/&amp;gt;
+      &amp;lt;driver queues=&#39;2&#39;&amp;gt;
+        &amp;lt;host mrg_rxbuf=&#39;off&#39;/&amp;gt;
+      &amp;lt;/driver&amp;gt;
+    &amp;lt;/interface&amp;gt;
+    &amp;lt;interface type=&#39;vhostuser&#39;&amp;gt;
+      &amp;lt;mac address=&#39;00:00:00:00:00:02&#39;/&amp;gt;
+      &amp;lt;source type=&#39;unix&#39; path=&#39;/usr/local/var/run/openvswitch/dpdkvhostuser1&#39; mode=&#39;client&#39;/&amp;gt;
+      &amp;lt;model type=&#39;virtio&#39;/&amp;gt;
+      &amp;lt;driver queues=&#39;2&#39;&amp;gt;
+        &amp;lt;host mrg_rxbuf=&#39;off&#39;/&amp;gt;
+      &amp;lt;/driver&amp;gt;
+    &amp;lt;/interface&amp;gt;
+    &amp;lt;serial type=&#39;pty&#39;&amp;gt;
+      &amp;lt;target port=&#39;0&#39;/&amp;gt;
+    &amp;lt;/serial&amp;gt;
+    &amp;lt;console type=&#39;pty&#39;&amp;gt;
+      &amp;lt;target type=&#39;serial&#39; port=&#39;0&#39;/&amp;gt;
+    &amp;lt;/console&amp;gt;
+  &amp;lt;/devices&amp;gt;
+&amp;lt;/domain&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once created, let&amp;rsquo;s run the KVM machine using virsh:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;virsh create demovm.xml&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, you can enter the console using:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;virsh console demovm&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;When the VM will boot up you can login by using username: &lt;em&gt;ubuntu&lt;/em&gt; and password: &lt;em&gt;Password1&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you would like to test network performance of OVS-DPDK + VM deployment I recommend you to run testpmd app inside VM.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://doc.dpdk.org/guides/testpmd_app_ug/build_app.html&#34; target=&#34;_blank&#34;&gt;Once the testpmd app is compiled&lt;/a&gt;, let&amp;rsquo;s setup the DPDK ports inside VM and run testpmd:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo sysctl vm.nr_hugepages=1024
+sudo mkdir -p /dev/hugepages
+sudo mount -t hugetlbfs hugetlbfs /dev/hugepages
+sudo modprobe uio
+sudo insmod $DPDK_BUILD/kmod/igb_uio.ko
+$DPDK_DIR/usertools/dpdk-devbind.py --status
+sudo $DPDK_DIR/usertools/dpdk-devbind.py -b igb_uio 00:02.0 00:03.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, let&amp;rsquo;s run the testpmd app, which will forward the traffic between two DPDK ports:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo ./testpmd -n 4 --socket-mem 512 -- --burst=64 -i&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;This post describes how to setup OVS-DPDK with VM. I hope it will be found useful for anyone, who will need to run OVS-DPDK with KVM. With this setup I was able to achieve about 8.5 Mpps (~7.5 Gbps) for small (74 Bytes) packets on HP ProLiant DL380 Gen9 server with 2x Intel&amp;reg; Xeon&amp;reg; CPU E5-2650 v3 @ 2.30GHz and 128 GB RAM.&lt;/p&gt;
+
+&lt;p&gt;If you have any question regarding the configuration process or you faced a problem to reproduce the steps don&amp;rsquo;t hesitate to contact me.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Initial view on VoWiFi in the 5G network</title>
       <link>https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>

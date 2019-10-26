@@ -413,9 +413,9 @@ control computeChecksum(inout headers hdr, inout metadata meta) {
     
     <item>
       <title>The MPLS network based on P4</title>
-      <link>https://osinstom.github.io/post/2019-10-22-your-filename/</link>
+      <link>https://osinstom.github.io/post/2019-10-22-mpls-network-p4/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
-      <guid>https://osinstom.github.io/post/2019-10-22-your-filename/</guid>
+      <guid>https://osinstom.github.io/post/2019-10-22-mpls-network-p4/</guid>
       <description>
 
 &lt;h2 id=&#34;the-mpls-network-based-on-p4&#34;&gt;The MPLS network based on P4&lt;/h2&gt;

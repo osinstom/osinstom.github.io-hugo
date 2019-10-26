@@ -5,12 +5,191 @@
     <link>https://osinstom.github.io/tags/sdn/</link>
       <atom:link href="https://osinstom.github.io/tags/sdn/index.xml" rel="self" type="application/rss+xml" />
     <description>SDN</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 11 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sun, 03 Mar 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>SDN</title>
       <link>https://osinstom.github.io/tags/sdn/</link>
     </image>
+    
+    <item>
+      <title>The MPLS network based on P4</title>
+      <link>https://osinstom.github.io/post/2019-10-22-your-filename/</link>
+      <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/post/2019-10-22-your-filename/</guid>
+      <description>
+
+&lt;h2 id=&#34;the-mpls-network-based-on-p4&#34;&gt;The MPLS network based on P4&lt;/h2&gt;
+
+&lt;p&gt;In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/mpls&#34; target=&#34;_blank&#34;&gt;on my GitHub&lt;/a&gt;. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network.&lt;/p&gt;
+
+&lt;h3 id=&#34;introduction-to-mpls&#34;&gt;Introduction to MPLS&lt;/h3&gt;
+
+&lt;p&gt;MPLS is widely used in the Wide Area Networks (WANs) to provide reliable connections. An explanation of the MPLS protocol is out of the scope of this post. However, I was basing on &lt;a href=&#34;http://www.csc.kth.se/utbildning/kth/kurser/DD2490/ipro1-11/lectures/MPLS.pdf&#34; target=&#34;_blank&#34;&gt;this presentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-demo-scenario&#34;&gt;The demo scenario&lt;/h3&gt;
+
+&lt;p&gt;You can find the user guide and the source code of this demo &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/mpls&#34; target=&#34;_blank&#34;&gt;on my GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The test network (presented below) is composed of three routers and two end hosts - each associated to the different network. Hosts are attached to the devices (R1 and R3), which play the role of the edge MPLS router. The R2 router is the core MPLS router - it forwards packets based on the MPLS label. Packets from hosts are encapsulated to MPLS (and decapsulated from MPLS) by the edge routers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/img/mpls-network.png&#34; alt=&#34;The MPLS network setup&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;the-design-of-the-mpls-router-in-p4&#34;&gt;The design of the MPLS router in P4&lt;/h3&gt;
+
+&lt;p&gt;MPLS is a standard to simplify IP forwarding. Devices implementing MPLS are  called Label Switching Router (LSR). LSRs use label to set up MPLS tunnel. The basic set of LSR&amp;rsquo;s functionalities consists of:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;FEC (Forwarding Equivalence Class) classifier&lt;/strong&gt;, which classifies packets into different classes and binds a label to particular class of packets.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Label operations&lt;/strong&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;Push a label - add the MPLS header to a packet&lt;/li&gt;
+&lt;li&gt;Swap a label - change a value of MPLS label&lt;/li&gt;
+&lt;li&gt;Pop a label - remove the MPLS header from a packet&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Label-based forwarding&lt;/strong&gt; - LSR determines the output port for a packet based on the input port and MPLS label.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Besides, LSR must implement also IP lookup to forward non-MPLS packets (or when the MPLS header is stripped out) and MAC-level switching.&lt;/p&gt;
+
+&lt;p&gt;The P4 program implementing MPLS is composed of 5 Match-Action tables:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;fec_table&lt;/strong&gt; - it implements a functionality of FEC classifier. We assume classification based on destination IP address (LPM), but the classification could be more granular. If a packet is classified, the push_mpls() method is invoked to add the MPLS header.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;mpls_table&lt;/strong&gt; - this table is used by transit or egress LSR. It determines to swap or pop the MPLS label based on the input port and MPLS label.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;mplslookup_table&lt;/strong&gt; - it forwards a packet to an output port based on the MPLS label (if exists).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;iplookup_table&lt;/strong&gt; - if the MPLS label doesn&amp;rsquo;t exists (it&amp;rsquo;s pure IP packet or MPLS label has been stripped out in the mpls_table) it performs IP lookup to determine the output port.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;switching_table&lt;/strong&gt; - it rewrites source and destination MAC addresses (per-hop behaviour).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Such design of the MPLS program aggregates all MPLS functionalities in the single P4 program. It means that the one subset of functionalities will be used by the core MPLS router and the different subset will be used by the edge MPLS router. The set of functionalities used by the MPLS router is configured by installing table entries.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-p4-code&#34;&gt;The P4 code&lt;/h3&gt;
+
+&lt;p&gt;In this section I will go through the P4 code implementing MPLS.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s start from a definition of the MPLS header:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;header_type mpls_t {
+    fields {
+        label : 20;
+        tc : 3; // traffic class field
+        bos : 1; // indicates if it&#39;s bottom of MPLS label&#39;s stack
+        ttl: 8;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It is composed of four fields. The most important is the label field, which is dedicated to store the tunnel identifier.&lt;/p&gt;
+
+&lt;p&gt;The MPLS header is extracted based on etherType by the P4 parser:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define ETHERTYPE_MPLS 0x8847
+(...)
+parser parse_ethernet {
+    extract(ethernet);
+    return select(latest.etherType) {
+        ETHERTYPE_IPV4 : parse_ipv4;
+        ETHERTYPE_MPLS : parse_mpls;
+        default: ingress;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When extracted, packets are passed to the &lt;em&gt;ingress&lt;/em&gt; pipeline. The pipeline defines the order of Match-Action tables that will handle packets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;control ingress {
+    apply(fec_table);
+    apply(mpls_table);
+    apply(mplslookup_table);
+    if (standard_metadata.egress_spec == 0) {
+        apply(iplookup_table);
+    }
+    apply(switching_table);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Match-Action tables make use of the pre-defined MPLS actions: _push&lt;em&gt;mpls()&lt;/em&gt;, _pop&lt;em&gt;mpls()&lt;/em&gt; and _swap&lt;em&gt;mpls()&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;action push_mpls(label) {
+    add_header(mpls);
+    modify_field(mpls.label, label);
+    modify_field(mpls.tc, 7);
+    modify_field(mpls.bos, 0x1);
+    modify_field(mpls.ttl, 32);
+    modify_field(ethernet.etherType, ETHERTYPE_MPLS);
+}
+
+action pop_mpls() {
+    remove_header(mpls);
+    modify_field(ethernet.etherType, ETHERTYPE_IPV4);
+}
+
+action swap_mpls(label) {
+   modify_field(mpls.label, label);
+   subtract_from_field(mpls.ttl, 1);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The _push&lt;em&gt;mpls()&lt;/em&gt; action adds the MPLS header to a packet and sets  a value of MPLS fields. Moreover, it modifies etherType to indicate the MPLS protocol. The _pop&lt;em&gt;mpls()&lt;/em&gt; action removes the MPLS header and reverts a value of etherType to indicate the IPv4 protocol. The _swap&lt;em&gt;mpls()&lt;/em&gt; action just changes a value of the MPLS label and decrements a value of TTL.&lt;/p&gt;
+
+&lt;p&gt;The first table that handles incoming packets is the _fec&lt;em&gt;table&lt;/em&gt;. It classifies packets (based on the destination IP address) to the MPLS class (tunnel). If classified, a packet may be encapsulated by using the _push&lt;em&gt;mpls()&lt;/em&gt; action.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;table fec_table {
+
+    reads {
+        ipv4.dstAddr : lpm;
+    }
+
+    actions {
+        push_mpls;
+        _drop;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The _mpls&lt;em&gt;table&lt;/em&gt; is used to handle MPLS packets. It reads an input port and the MPLS label and decides to pop or swap the MPLS label.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;table mpls_table {
+
+    reads {
+        standard_metadata.ingress_port: exact;
+        mpls.label : exact;
+    }
+
+    actions {
+        pop_mpls;
+        swap_mpls;
+        _drop;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When a label is set packets enter _mplslookup&lt;em&gt;table&lt;/em&gt;, which determines an output port based on the MPLS label.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;table mplslookup_table {
+
+    reads {
+        mpls.label : exact;
+    }
+
+    actions {
+        forward;
+        _drop;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The last two tables - _iplookup&lt;em&gt;table&lt;/em&gt; and _switching&lt;em&gt;table&lt;/em&gt; - implement IP routing and MAC rewriting, respectively. The former is used to determine an output port for IP packets (e.g. when packets are decapsulated from MPLS). The latter rewrites MAC addresses hop-by-hop.&lt;/p&gt;
+
+&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;In this post I described how to implement MPLS in the P4 language. The MPLS implementation is fairly straightforward and is much easier than writing the code in C, what&amp;rsquo;s a big advantage of the P4 language! In order to reproduce an experiment follow the steps listed in &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/mpls&#34; target=&#34;_blank&#34;&gt;the user guide&lt;/a&gt;.## A New Post&lt;/p&gt;
+
+&lt;p&gt;Enter text in &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; target=&#34;_blank&#34;&gt;Markdown&lt;/a&gt;. Use the toolbar above, or click the &lt;strong&gt;?&lt;/strong&gt; button for formatting help.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>IP Router in P4</title>

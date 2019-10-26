@@ -5,12 +5,52 @@
     <link>https://osinstom.github.io/tags/</link>
       <atom:link href="https://osinstom.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sat, 23 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 07 Aug 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Tags</title>
       <link>https://osinstom.github.io/tags/</link>
     </image>
+    
+    <item>
+      <title>Data plane programmability</title>
+      <link>https://osinstom.github.io/tags/data-plane-programmability/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/data-plane-programmability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>P4</title>
+      <link>https://osinstom.github.io/tags/p4/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/p4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SDN</title>
+      <link>https://osinstom.github.io/tags/sdn/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/sdn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tunneling</title>
+      <link>https://osinstom.github.io/tags/tunneling/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/tunneling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VXLAN</title>
+      <link>https://osinstom.github.io/tags/vxlan/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/tags/vxlan/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Data plane</title>
@@ -93,26 +133,10 @@
     </item>
     
     <item>
-      <title>SDN</title>
-      <link>https://osinstom.github.io/tags/sdn/</link>
-      <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
-      <guid>https://osinstom.github.io/tags/sdn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>IPv4</title>
       <link>https://osinstom.github.io/tags/ipv4/</link>
       <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/tags/ipv4/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>P4</title>
-      <link>https://osinstom.github.io/tags/p4/</link>
-      <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
-      <guid>https://osinstom.github.io/tags/p4/</guid>
       <description></description>
     </item>
     

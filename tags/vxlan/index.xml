@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>P4 | Tomasz Osiński - blog &amp; personal site</title>
-    <link>https://osinstom.github.io/tags/p4/</link>
-      <atom:link href="https://osinstom.github.io/tags/p4/index.xml" rel="self" type="application/rss+xml" />
-    <description>P4</description>
+    <title>VXLAN | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/tags/vxlan/</link>
+      <atom:link href="https://osinstom.github.io/tags/vxlan/index.xml" rel="self" type="application/rss+xml" />
+    <description>VXLAN</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 07 Aug 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
-      <title>P4</title>
-      <link>https://osinstom.github.io/tags/p4/</link>
+      <title>VXLAN</title>
+      <link>https://osinstom.github.io/tags/vxlan/</link>
     </image>
     
     <item>
@@ -408,40 +408,6 @@ control computeChecksum(inout headers hdr, inout metadata meta) {
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;The P4 implementation of the more advanced tunneling techniques (like VXLAN) requires a bit more effort than more standard networking. The purpose of this tutorial was to show how to implement them properly in the P4 language. I really recommend to split control block into four parts implementing upstream ingress and egress and downstream ingress and egress, seperately. It is &lt;em&gt;the good practice&lt;/em&gt; that should ease the programming of the complex P4 programs. Following the VXLAN example one can implement similar tunneling techniques such as GPRS Tunneling Protocol (GTP) or Network Virtualization using Generic Routing Encapsulation (NVGRE).&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>IP Router in P4</title>
-      <link>https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/</link>
-      <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
-      <guid>https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/</guid>
-      <description>&lt;p&gt;In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.&lt;/p&gt;
-
-&lt;p&gt;I prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at &lt;a href=&#34;https://github.com/osinstom/p4-demos/tree/master/ip-routing&#34; target=&#34;_blank&#34;&gt;https://github.com/osinstom/p4-demos/tree/master/ip-routing&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The README file contains a description of a P4 program&amp;rsquo;s design as well as a topology of a test network. Below I summarize a design choices that I made:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;I have used &lt;strong&gt;P4_16&lt;/strong&gt; as it is the newest version of P4.&lt;/li&gt;
-&lt;li&gt;As the P4 target I use &lt;strong&gt;BMv2&lt;/strong&gt; (&lt;a href=&#34;https://github.com/p4lang/behavioral-model&#34; target=&#34;_blank&#34;&gt;https://github.com/p4lang/behavioral-model&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;The &lt;strong&gt;P4_16&lt;/strong&gt; introduces the concept of architecture model for target device. I have used &lt;strong&gt;V1Model&lt;/strong&gt; (&lt;a href=&#34;https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4&#34; target=&#34;_blank&#34;&gt;https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4&lt;/a&gt;), which is a defualt one for BMv2&lt;/li&gt;
-&lt;li&gt;The V1Model forces us to implement the &lt;strong&gt;Ingress&lt;/strong&gt; and &lt;strong&gt;Egress&lt;/strong&gt; control blocks, &lt;strong&gt;Parser&lt;/strong&gt;, &lt;strong&gt;Deparser&lt;/strong&gt; and methods to handle checksum (verifyChecksum and computeChecksum). For the sake of demo I don&amp;rsquo;t focus on checksum operations.&lt;/li&gt;
-&lt;li&gt;Design choices for the &lt;strong&gt;router.p4&lt;/strong&gt; program:
-
-&lt;ul&gt;
-&lt;li&gt;I defined Ethernet and IPv4 headers (only)&lt;/li&gt;
-&lt;li&gt;I defined additional metadata struct called &lt;strong&gt;routing_metadata&lt;/strong&gt;. It is used to pass a routing decision made in the Ingress block to the Egress block. In the Egress block it will be used to determine the MAC address of the next-hop.&lt;/li&gt;
-&lt;li&gt;The Parser Logic handles only Ethernet and IPv4 headers (e.g. ARP, IPv6 or VLAN is not parsed)&lt;/li&gt;
-&lt;li&gt;For the &lt;strong&gt;Ingress&lt;/strong&gt; control we defined the &lt;strong&gt;routing_table&lt;/strong&gt;. This table has three actions: drop(), NoAction() and ipv4_forward(). The last action performs three operations:&lt;/li&gt;
-&lt;li&gt;it selects output port based on the IPv4 destination LPM&lt;/li&gt;
-&lt;li&gt;it sets a next-hop IP address in routing_metadata.&lt;/li&gt;
-&lt;li&gt;it decrements TTL&lt;/li&gt;
-&lt;li&gt;For the &lt;strong&gt;Egress&lt;/strong&gt; control block we defined &lt;strong&gt;switching_table&lt;/strong&gt; and &lt;strong&gt;mac_rewriting_table&lt;/strong&gt;. The switching_table sets a destination MAC for packet based on next-hop IP from routing_metadata. The mac_rewriting_table changes the source MAC address for packet according to port, that has been selected as the output port.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If you want to know basics of how P4 works I encourage you to follow a user guide and test how IP routing written in P4 works. In the subsequent posts I will show another example - MPLS network written in P4.&lt;/p&gt;
 </description>
     </item>
     

@@ -31,9 +31,7 @@
   <meta name="description" content="R&amp;D Software Engineer">
 
   
-  <link rel="alternate" hreflang="pl" href="https://osinstom.github.io/pl/tags/">
-  
-  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/tags/">
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/tags/tunneling/">
 
   
 
@@ -98,14 +96,14 @@
 
 
   
-  <link rel="alternate" href="/tags/index.xml" type="application/rss+xml" title="Tomasz Osiński - blog &amp; personal site">
+  <link rel="alternate" href="/tags/tunneling/index.xml" type="application/rss+xml" title="Tomasz Osiński - blog &amp; personal site">
   
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="https://osinstom.github.io/tags/">
+  <link rel="canonical" href="https://osinstom.github.io/tags/tunneling/">
 
   
   
@@ -121,8 +119,8 @@
   <meta property="twitter:creator" content="@tomek_osinski">
   
   <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
-  <meta property="og:url" content="https://osinstom.github.io/tags/">
-  <meta property="og:title" content="Tags | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:url" content="https://osinstom.github.io/tags/tunneling/">
+  <meta property="og:title" content="tunneling | Tomasz Osiński - blog &amp; personal site">
   <meta property="og:description" content="R&amp;D Software Engineer"><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
   <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
   
@@ -143,7 +141,7 @@
 
 
 
-  <title>Tags | Tomasz Osiński - blog &amp; personal site</title>
+  <title>tunneling | Tomasz Osiński - blog &amp; personal site</title>
 
 </head>
 
@@ -361,21 +359,6 @@
         
 
         
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
-            <i class="fas fa-globe mr-1" aria-hidden="true"></i><span>English</span>
-          </a>
-          <ul class="dropdown-menu">
-            
-            <li class="dropdown-item my-0 py-0 mx-0 px-0">
-              <a href="https://osinstom.github.io/pl/tags/">
-                <span>Polski</span>
-              </a>
-            </li>
-            
-          </ul>
-        </li>
-        
 
         
         <li class="nav-item">
@@ -411,7 +394,7 @@
     
   
 <div class="universal-wrapper pt-3">
-  <h1>Tags</h1>
+  <h1>tunneling</h1>
 
   
 
@@ -426,86 +409,18 @@
   
   
   <div>
-    <h2><a href="/tags/data-plane-programmability/">Data plane programmability</a></h2>
+    <h2><a href="/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/">Implementing tunneling techniques in P4 based on the example of VXLAN</a></h2>
     <div class="article-style">
       
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/p4/">P4</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/sdn/">SDN</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/tunneling/">tunneling</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/vxlan/">VXLAN</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/data-plane/">Data plane</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/dpdk/">DPDK</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/linux/">Linux</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/nfv/">NFV</a></h2>
-    <div class="article-style">
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/tags/ovs-dpdk/">OVS-DPDK</a></h2>
-    <div class="article-style">
+      Introduction Recently, I started to implement the support for packet tunneling in our P4C-to-uBPF compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.
+This blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on Github.
+Short introduction to VXLAN The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in RFC 7348 and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center.
       
     </div>
   </div>
   
 
   
-<nav>
-  <ul class="pagination justify-content-center">
-    
-    
-    <li class="page-item"><a class="page-link" href="/tags/page/2/">&raquo;</a></li>
-    
-  </ul>
-</nav>
-
 
 </div>
 

@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tomasz Osiński">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Introduction Recently, I started to implement the support for packet tunneling in our P4C-to-uBPF compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.
+This blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on Github.
+Short introduction to VXLAN The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in RFC 7348 and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.1884ccbe79662c38d99b291260b58a24.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@tomek_osinski">
+  <meta property="twitter:creator" content="@tomek_osinski">
+  
+  <meta property="og:site_name" content="Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:url" content="https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/">
+  <meta property="og:title" content="Implementing tunneling techniques in P4 based on the example of VXLAN | Tomasz Osiński - blog &amp; personal site">
+  <meta property="og:description" content="Introduction Recently, I started to implement the support for packet tunneling in our P4C-to-uBPF compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.
+This blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on Github.
+Short introduction to VXLAN The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in RFC 7348 and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center."><meta property="og:image" content="https://osinstom.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://osinstom.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-08-07T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-08-07T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/"
+  },
+  "headline": "Implementing tunneling techniques in P4 based on the example of VXLAN",
+  
+  "datePublished": "2019-08-07T00:00:00Z",
+  "dateModified": "2019-08-07T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Tomasz Osiński"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tomasz Osiński - blog \u0026 personal site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://osinstom.github.io/img/icon-512.png"
+    }
+  },
+  "description": "Introduction Recently, I started to implement the support for packet tunneling in our P4C-to-uBPF compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.\nThis blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on Github.\nShort introduction to VXLAN The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in RFC 7348 and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Implementing tunneling techniques in P4 based on the example of VXLAN | Tomasz Osiński - blog &amp; personal site</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Tomasz Osiński - blog &amp; personal site</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About me</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Implementing tunneling techniques in P4 based on the example of VXLAN</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Aug 7, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/#disqus_thread"></a>
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/&amp;text=Implementing%20tunneling%20techniques%20in%20P4%20based%20on%20the%20example%20of%20VXLAN" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/&amp;t=Implementing%20tunneling%20techniques%20in%20P4%20based%20on%20the%20example%20of%20VXLAN" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Implementing%20tunneling%20techniques%20in%20P4%20based%20on%20the%20example%20of%20VXLAN&amp;body=https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/&amp;title=Implementing%20tunneling%20techniques%20in%20P4%20based%20on%20the%20example%20of%20VXLAN" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Implementing%20tunneling%20techniques%20in%20P4%20based%20on%20the%20example%20of%20VXLAN%20https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/&amp;title=Implementing%20tunneling%20techniques%20in%20P4%20based%20on%20the%20example%20of%20VXLAN" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Recently, I started to implement the support for packet tunneling in our <a href="https://github.com/P4-Research/p4c/tree/master/backends/ubpf" target="_blank">P4C-to-uBPF</a> compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.</p>
+
+<p>This blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on <a href="https://github.com/P4-Research/p4-demos/tree/master/vxlan" target="_blank">Github</a>.</p>
+
+<h2 id="short-introduction-to-vxlan">Short introduction to VXLAN</h2>
+
+<p>The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in <a href="https://tools.ietf.org/html/rfc7348" target="_blank">RFC 7348</a> and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center. It isolates logically networks by using Virtual Network Identifier (VNI). The VNI uniquely identifies a Network Segment or, interchangeably, VXLAN Overlay Network. For more information on how VXLAN works visit these references:</p>
+
+<p><a href="https://sites.google.com/site/amitsciscozone/home/data-center/vxlan" target="_blank">https://sites.google.com/site/amitsciscozone/home/data-center/vxlan</a></p>
+
+<p><a href="https://medium.com/@NTTICT/vxlan-explained-930cc825a51" target="_blank">https://medium.com/@NTTICT/vxlan-explained-930cc825a51</a></p>
+
+<p><a href="https://tools.ietf.org/html/rfc7348" target="_blank">RFC 7348</a></p>
+
+<h2 id="design-and-implementation-of-vxlan-in-p4">Design and implementation of VXLAN in P4</h2>
+
+<p>In this section I describe more interesting parts of the P4 program. The P4 source code is divided into <a href="https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/header.p4" target="_blank">header.p4</a>, <a href="https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/parser.p4" target="_blank">parser.p4</a> and <a href="https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/vxlan.p4" target="_blank">vxlan.p4</a>.</p>
+
+<h3 id="headers">Headers</h3>
+
+<p>This P4 program will use four types of headers: Ethernet, IP, UDP and VXLAN. The VXLAN header is defined as follows:</p>
+
+<pre><code>header vxlan_t {
+    bit&lt;8&gt;  flags;
+    bit&lt;24&gt; reserved;
+    bit&lt;24&gt; vni;
+    bit&lt;8&gt;  reserved_2;
+}
+</code></pre>
+
+<p>In fact, in this example only VNI will be used, the rest of fields will be set to zero.</p>
+
+<h3 id="parser">Parser</h3>
+
+<p>When implementing VXLAN tunneling we need to have more complex parsing logic in order to parse properly packets that arrive encapsulated into VXLAN header. For such packets the parser need to handle outer Ethernet, IP, UDP and VXLAN headers and the inner Ethernet and IP headers. Therefore, the implementation looks as follows:</p>
+
+<pre><code>#define UDP_PORT_VXLAN 4789
+#define UDP_PROTO 17
+#define IPV4_ETHTYPE 0x800
+
+parser ParserImpl(packet_in packet, out headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
+    state start {
+        transition parse_ethernet;
+    }
+    state parse_ethernet {
+        packet.extract(hdr.ethernet);
+        transition select(hdr.ethernet.etherType) {
+            IPV4_ETHTYPE: parse_ipv4;
+            default: accept;
+        }
+    }
+    state parse_ipv4 {
+        packet.extract(hdr.ipv4);
+        transition select(hdr.ipv4.protocol) {
+            UDP_PROTO: parse_udp;
+            default: accept;
+        }
+    }
+    state parse_udp {
+        packet.extract(hdr.udp);
+        transition select(hdr.udp.dstPort) {
+            UDP_PORT_VXLAN: parse_vxlan;
+            default: accept;
+         }
+    }
+    state parse_vxlan {
+        packet.extract(hdr.vxlan);
+        transition parse_inner_ethernet;
+    }
+    state parse_inner_ethernet {
+        packet.extract(hdr.inner_ethernet);
+        transition select(hdr.ethernet.etherType) {
+            IPV4_ETHTYPE: parse_inner_ipv4;
+            default: accept;
+        }
+    }
+    state parse_inner_ipv4 {
+        packet.extract(hdr.inner_ipv4);
+        transition accept;
+    }
+}
+
+control DeparserImpl(packet_out packet, in headers hdr) {
+    apply {
+        packet.emit(hdr.ethernet);
+        packet.emit(hdr.ipv4);
+        packet.emit(hdr.udp);
+        packet.emit(hdr.vxlan);
+        packet.emit(hdr.inner_ethernet);
+        packet.emit(hdr.inner_ipv4);
+    }
+}
+
+control verifyChecksum(inout headers hdr, inout metadata meta) {
+    apply { }
+}
+
+control computeChecksum(inout headers hdr, inout metadata meta) {
+    apply {
+
+    }
+}
+
+</code></pre>
+
+<p>The parser distinguish if the packet is encapsulated in VXLAN based on the UDP destination port, which should be set to 4789, which is the standard port for VXLAN encapsulation. Then if the packet is encapsulated parser goes through following stages: parse_vxlan() -&gt; parse_inner_ethernet() -&gt; parse_inner_ipv4().</p>
+
+<p>In the same file I have implemented deparser, which defines the order, in which headers are written to packets at the egress.</p>
+
+<h3 id="control-blocks">Control blocks</h3>
+
+<p>It is a good practice to design P4 programs (especially those that perform tunneling) by dividing the P4 program into four functional blocks:</p>
+
+<ul>
+<li><strong><em>Upstream ingress</em></strong> - ingress control block for incoming <em><strong>encapsulated</strong></em> packets.</li>
+<li><em><strong>Upstream egress</strong></em> - egress control block for outgoing packets, that arrived as encapsulated.</li>
+<li><em><strong>Downstream ingress</strong></em> - control block for incoming raw (not encapsulated) packets.</li>
+<li><strong><em>Downstream egress</em></strong> - control block for outgoing packets, that arrived as not encapsulated.</li>
+</ul>
+
+<p>Upstream and downstreams terms refer to the direction of the traffic. The upstream traffic is the traffic that is encapsulated (traffic being sent between VXLAN endpoints) and should be decapsulated at the ingress. On the contrary, the downstream traffic is the traffic, which is not encapsulated yet (traffic from host to switch). It simplify thinking of the P4 program design.</p>
+
+<h4 id="upstream-ingress">Upstream ingress</h4>
+
+<p>The upstream ingress needs to validate the VXLAN header and strip it out. Moreover, it must perform L2 forwarding to send the decapsulated packet.</p>
+
+<pre><code>control vxlan_ingress_upstream(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
+
+    action vxlan_decap() {
+        // as simple as set outer headers as invalid
+        hdr.ethernet.setInvalid();
+        hdr.ipv4.setInvalid();
+        hdr.udp.setInvalid();
+        hdr.vxlan.setInvalid();
+    }
+
+    table t_vxlan_term {
+        key = {
+            // Inner Ethernet desintation MAC address of target VM
+            hdr.inner_ethernet.dstAddr : exact;
+        }
+
+        actions = {
+            @defaultonly NoAction;
+            vxlan_decap();
+        }
+
+    }
+
+    action forward(bit&lt;9&gt; port) {
+        standard_metadata.egress_spec = port;
+    }
+
+    table t_forward_l2 {
+        key = {
+            hdr.inner_ethernet.dstAddr : exact;
+        }
+
+        actions = {
+            forward;
+        }
+    }
+
+    apply {
+        if (hdr.ipv4.isValid()) {
+            if (t_vxlan_term.apply().hit) {
+                t_forward_l2.apply();
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>It is implemented in the vxlan_ingress_upstream control block using two tables: t_vxlan_term and t_forward_l2. The former decapsulates packets that matches the key. The destination MAC address of the inner Ethernet header should point to the host that is directly connected to VXLAN endpoint (the switch) via Layer 2 network. Encapsulation action sets outer headers as invalid, so that the deparser knows not to put these headers in the output packet. If the t_vxlan_term is hit, the t_forward_l2 is responsible for forwarding packet based on the destination MAC address of the inner Ethernet header.</p>
+
+<h4 id="upstream-egress">Upstream egress</h4>
+
+<p>In the context of VXLAN processing the upstream egress block does not need to do anything.</p>
+
+<h4 id="downstream-ingress">Downstream ingress</h4>
+
+<p>The downstream ingress is responsible for determining the value of the VNI identifier that will be used to encapsulate L2 packet by the downstream egress. Moreover, it determines source IP address and next hop IP address for the encapsulated packets. It also performs routing for encapsulates packets.</p>
+
+<pre><code>control vxlan_ingress_downstream(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
+
+    action set_vni(bit&lt;24&gt; vni) {
+        meta.vxlan_vni = vni;
+    }
+
+    action set_ipv4_nexthop(bit&lt;32&gt; nexthop) {
+        meta.nexthop = nexthop;
+    }
+
+    table t_vxlan_segment {
+
+        key = {
+            hdr.ipv4.dstAddr : lpm;
+        }
+
+        actions = {
+            @defaultonly NoAction;
+            set_vni;
+        }
+
+    }
+
+    table t_vxlan_nexthop {
+
+        key = {
+            hdr.ethernet.dstAddr : exact;
+        }
+
+        actions = {
+            set_ipv4_nexthop;
+        }
+    }
+
+    action set_vtep_ip(bit&lt;32&gt; vtep_ip) {
+        meta.vtepIP = vtep_ip;
+    }
+
+    table t_vtep {
+        key = {
+            hdr.ethernet.srcAddr : exact;
+        }
+
+        actions = {
+            set_vtep_ip;
+        }
+
+    }
+
+    action route(bit&lt;9&gt; port) {
+        standard_metadata.egress_spec = port;
+    }
+
+    table t_vxlan_routing {
+
+        key = {
+            meta.nexthop : exact;
+        }
+
+        actions = {
+            route;
+        }
+    }
+
+    apply {
+        if (hdr.ipv4.isValid()) {
+            t_vtep.apply();
+            if(t_vxlan_segment.apply().hit) {
+                if(t_vxlan_nexthop.apply().hit) {
+                    t_vxlan_routing.apply();
+                }
+            }
+        }
+    }
+
+}
+</code></pre>
+
+<p>The apply method firsty invokes t_vtep table, which determines source IP address for encapsulated packets based on source MAC address. The source MAC address is the address of the host that is directly connected to the VXLAN endpoint (switch). Then, the control block determines VXLAN Segment ID (the value of VNI) based on the IP subnet mask. Each IP subnet gets unique VNI. If the VXLAN Segment ID is found the next hop IP address is determined. It would be the IP address of the peer VXLAN endpoint. Finally, the P4 enforce to determine output port for packet at the ingress pipeline. Thus, t_vxlan_routing table determines output port based on the next hop IP address. At this moment, everything is prepared to encapsulate packet and send it out in the downstream egress block.</p>
+
+<h4 id="downstream-egress">Downstream egress</h4>
+
+<p>If the VNI has been determined in the ingress downstream block the downstream egress block just encapsulates the packet and sends the L2 frame.</p>
+
+<pre><code>control vxlan_egress_downstream(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
+
+    action rewrite_macs(bit&lt;48&gt; smac, bit&lt;48&gt; dmac) {
+        hdr.ethernet.srcAddr = smac;
+        hdr.ethernet.dstAddr = dmac;
+    }
+
+    table t_send_frame {
+
+            key = {
+                hdr.ipv4.dstAddr : exact;
+            }
+
+            actions = {
+                rewrite_macs;
+            }
+        }
+
+    action vxlan_encap() {
+
+        hdr.inner_ethernet = hdr.ethernet;
+        hdr.inner_ipv4 = hdr.ipv4;
+
+        hdr.ethernet.setValid();
+
+        hdr.ipv4.setValid();
+        hdr.ipv4.version = IP_VERSION_4;
+        hdr.ipv4.ihl = IPV4_MIN_IHL;
+        hdr.ipv4.diffserv = 0;
+        hdr.ipv4.totalLen = hdr.ipv4.totalLen
+                            + (ETH_HDR_SIZE + IPV4_HDR_SIZE + UDP_HDR_SIZE + VXLAN_HDR_SIZE);
+        hdr.ipv4.identification = 0x1513; /* From NGIC */
+        hdr.ipv4.flags = 0;
+        hdr.ipv4.fragOffset = 0;
+        hdr.ipv4.ttl = 64;
+        hdr.ipv4.protocol = UDP_PROTO;
+        hdr.ipv4.dstAddr = meta.nexthop;
+        hdr.ipv4.srcAddr = meta.vtepIP;
+        hdr.ipv4.hdrChecksum = 0;
+
+        hdr.udp.setValid();
+        // The VTEP calculates the source port by performing the hash of the inner Ethernet frame's header.
+        hash(hdr.udp.srcPort, HashAlgorithm.crc16, (bit&lt;13&gt;)0, { hdr.inner_ethernet }, (bit&lt;32&gt;)65536);
+        hdr.udp.dstPort = UDP_PORT_VXLAN;
+        hdr.udp.length = hdr.ipv4.totalLen + (UDP_HDR_SIZE + VXLAN_HDR_SIZE);
+        hdr.udp.checksum = 0;
+
+        hdr.vxlan.setValid();
+        hdr.vxlan.reserved = 0;
+        hdr.vxlan.reserved_2 = 0;
+        hdr.vxlan.flags = 0;
+        hdr.vxlan.vni = meta.vxlan_vni;
+
+    }
+
+    apply {
+        if (meta.vxlan_vni != 0) {
+            vxlan_encap();
+            if (hdr.vxlan.isValid()) {
+                t_send_frame.apply();
+            }
+        }
+    }
+
+}
+</code></pre>
+
+<p>However, the vxlan_encap() action is quite complex. Firsty, it copies the contenct of Ethernet and IP headers to the inner Ethernet and IP headers so it will act as a packet payload now. Then, outer headers (Ethernet, IP, UDP and VXLAN) are set valid and their header&rsquo;s fields are filled. For the outer IP header the destination IP address is taken from nexthop value, which is stored in metadata. Similarily, the source IP address is set to the IP address of the VXLAN endpoint. Furthermore, the UDP header is pushed. Note that the source UDP port is caluclated as a hash value of Ethernet header (according to specification).</p>
+
+<p>Once the packet is encapsulated the MAC addresses of outer Ethernet header are set accordingly to the configuration of the switch interfaces.</p>
+
+<h2 id="running-example">Running example</h2>
+
+<p>In order to run example I have used <a href="https://github.com/p4lang/p4app/" target="_blank">p4app</a>, which is really nice and simple tool (based on Docker and Mininet) to test P4 programs. I have heard about p4app during the last <a href="https://netsoft2019.ieee-netsoft.org/" target="_blank">IEEE NetSoft conference</a>, good to be there!</p>
+
+<p>We will use simple Mininet topology with two switches and two hosts. The test environment is described in <a href="https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/p4app.json" target="_blank">the p4app manifest file</a>. I had to write simple controller module to avoid setting up L3 configuration for hosts. I have also configured Mininet with staticArp(), so that I didn&rsquo;t have to implement <a href="https://blogs.vmware.com/vsphere/2013/05/vxlan-series-how-vtep-learns-and-creates-forwarding-table-part-5.html" target="_blank">ARP handling mechanism for VXLAN endpoints</a>. It requires more complex P4 logic and for the sake of simplicity I have omitted this part of VTEP&rsquo;s functionality in the P4 program.</p>
+
+<p>Run the demo:</p>
+
+<p><code>sudo p4app run vxlan.p4app</code></p>
+
+<p>It will start Mininet, install the VXLAN P4 program on the switches and configure flow rules for them.</p>
+
+<p>You can test VXLAN encapsulation by sending some traffic (e.g. ping). By running <em>tcpdump</em> on the switch interfaces gives you insight on how packets are handled:</p>
+
+<p>s1-eth1</p>
+
+<pre><code class="language-bash">11:14:54.689967 00:04:00:00:01:01 (oui Unknown) &gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &gt; 10.0.0.2: ICMP echo request, id 113, seq 23, length 64
+
+11:14:54.692320 00:04:00:00:02:01 (oui Unknown) &gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &gt; 10.0.0.1: ICMP echo reply, id 113, seq 23, length 64
+</code></pre>
+
+<p>s1-eth2</p>
+
+<pre><code class="language-bash">11:15:14.719712 00:aa:00:01:00:02 (oui Unknown) &gt; 00:aa:00:02:00:03 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.1.58032 &gt; 192.168.11.254.4789: VXLAN, flags [.] (0x00), vni 22
+00:04:00:00:01:01 (oui Unknown) &gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &gt; 10.0.0.2: ICMP echo request, id 113, seq 43, length 64
+
+11:15:14.720664 00:aa:00:02:00:03 (oui Unknown) &gt; 00:aa:00:01:00:02 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.254.43328 &gt; 192.168.11.1.4789: VXLAN, flags [.] (0x00), vni 22
+00:04:00:00:02:01 (oui Unknown) &gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &gt; 10.0.0.1: ICMP echo reply, id 113, seq 43, length 64
+</code></pre>
+
+<p>s2-eth2</p>
+
+<pre><code>11:15:14.719712 00:aa:00:01:00:02 (oui Unknown) &gt; 00:aa:00:02:00:03 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.1.58032 &gt; 192.168.11.254.4789: VXLAN, flags [.] (0x00), vni 22
+00:04:00:00:01:01 (oui Unknown) &gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &gt; 10.0.0.2: ICMP echo request, id 113, seq 82, length 64
+
+11:15:14.720664 00:aa:00:02:00:03 (oui Unknown) &gt; 00:aa:00:01:00:02 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.254.43328 &gt; 192.168.11.1.4789: VXLAN, flags [.] (0x00), vni 22
+00:04:00:00:02:01 (oui Unknown) &gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &gt; 10.0.0.1: ICMP echo reply, id 113, seq 82, length 64
+</code></pre>
+
+<p>s2-eth1</p>
+
+<pre><code>11:15:14.719712 00:04:00:00:01:01 (oui Unknown) &gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &gt; 10.0.0.2: ICMP echo request, id 113, seq 133, length 64
+
+11:15:14.720664 00:04:00:00:02:01 (oui Unknown) &gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &gt; 10.0.0.1: ICMP echo reply, id 113, seq 133, length 64
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>The P4 implementation of the more advanced tunneling techniques (like VXLAN) requires a bit more effort than more standard networking. The purpose of this tutorial was to show how to implement them properly in the P4 language. I really recommend to split control block into four parts implementing upstream ingress and egress and downstream ingress and egress, seperately. It is <em>the good practice</em> that should ease the programming of the complex P4 programs. Following the VXLAN example one can implement similar tunneling techniques such as GPRS Tunneling Protocol (GTP) or Network Virtualization using Generic Routing Encapsulation (NVGRE).</p>
+
+    </div>
+
+    
+
+
+
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/sdn/">SDN</a>
+  
+  <a class="badge badge-light" href="/tags/vxlan/">VXLAN</a>
+  
+  <a class="badge badge-light" href="/tags/p4/">P4</a>
+  
+  <a class="badge badge-light" href="/tags/data-plane-programmability/">Data plane programmability</a>
+  
+  <a class="badge badge-light" href="/tags/tunneling/">tunneling</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://osinstom.github.io/">Tomasz Osiński</a></h5>
+      <h6 class="card-subtitle">R&amp;D Software Engineer</h6>
+      <p class="card-text">R&amp;D Software Engineer, Open-Source enthusiast | Telecommunications, Computer networks, Network programming | I write about network softwarization in general i.a. SDN, NFV, Telco Cloud, 5G.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/tomek_osinski" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/osinstom" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/tomek-osinski/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+      
+      
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/2019-10-22-ip-router-in-p4/">IP Router in P4</a></li>
+          
+          <li><a href="/post/2019-10-22-your-filename/">The MPLS network based on P4</a></li>
+          
+          <li><a href="/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/">Network prototyping made easy with P4 and Python!</a></li>
+          
+        </ul>
+      </div>
+      
+    
+
+    
+
+    
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "osinstom-github-io" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://osinstom-github-io.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.d6bd04fdad2ad213aa8111c5a3b72fc5.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    2019 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

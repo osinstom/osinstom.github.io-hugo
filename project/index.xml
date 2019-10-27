@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/project/</link>
+      <atom:link href="https://osinstom.github.io/project/index.xml" rel="self" type="application/rss+xml" />
+    <description>Projects</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sat, 14 Feb 2015 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Projects</title>
+      <link>https://osinstom.github.io/project/</link>
+    </image>
+    
+    <item>
+      <title>Implementation of multipath routing for Floodlight (SDN controller)</title>
+      <link>https://osinstom.github.io/project/floodlight/</link>
+      <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/project/floodlight/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

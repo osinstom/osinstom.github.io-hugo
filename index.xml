@@ -1212,6 +1212,14 @@ with a common AN – CN interface which integrates different Access Types e.g. 3
     </item>
     
     <item>
+      <title>Contribution to 5G!Pagoda - the EU-Japan H2020 project</title>
+      <link>https://osinstom.github.io/project/floodlight/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/project/floodlight/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Explanation of IPSec basics</title>
       <link>https://osinstom.github.io/post/ipsec-explanation/</link>
       <pubDate>Tue, 21 Nov 2017 00:00:00 +0000</pubDate>
@@ -1222,14 +1230,6 @@ with a common AN – CN interface which integrates different Access Types e.g. 3
 
 &lt;p&gt;&lt;strong&gt;Note!&lt;/strong&gt; This post is taken from my old blog site, which I moved to the GitHub pages.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Implementation of multipath routing for Floodlight (SDN controller)</title>
-      <link>https://osinstom.github.io/project/floodlight/</link>
-      <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
-      <guid>https://osinstom.github.io/project/floodlight/</guid>
-      <description></description>
     </item>
     
   </channel>

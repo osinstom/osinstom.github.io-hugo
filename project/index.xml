@@ -29,11 +29,12 @@
     </item>
     
     <item>
-      <title>Contribution to 5G!Pagoda - the EU-Japan H2020 project</title>
+      <title>5G!Pagoda</title>
       <link>https://osinstom.github.io/project/pagoda/</link>
       <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/project/pagoda/</guid>
-      <description></description>
+      <description>&lt;p&gt;I have contributed to the 5G!Pagoda EU-Japan project realized under H2020 programme. 5G!Pagoda is a research project related to network slicing technology for 5G networks. I was involved in designing a network slicing architecture and multi-domain orchestration. Moreover, I had been developing prototypes (PoCs) of designed solutions based on OpenStack, Docker, Kubernetes, OpenBaton, Ansible and Juju.&lt;/p&gt;
+</description>
     </item>
     
     <item>

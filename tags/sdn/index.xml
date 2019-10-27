@@ -633,6 +633,14 @@ action swap_mpls(label) {
     </item>
     
     <item>
+      <title>Contribution to ONAP</title>
+      <link>https://osinstom.github.io/project/onap/</link>
+      <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/project/onap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Network prototyping made easy with P4 and Python!</title>
       <link>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</link>
       <pubDate>Mon, 24 Dec 2018 00:00:00 +0000</pubDate>

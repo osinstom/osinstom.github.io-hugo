@@ -158,6 +158,11 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/project/onap/</loc>
+    <lastmod>2019-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</loc>
     <lastmod>2018-12-24T00:00:00+00:00</lastmod>
   </url>

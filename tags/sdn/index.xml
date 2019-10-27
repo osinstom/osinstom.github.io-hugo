@@ -771,7 +771,8 @@ action swap_mpls(label) {
       <link>https://osinstom.github.io/project/floodlight/</link>
       <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/project/floodlight/</guid>
-      <description></description>
+      <description>&lt;p&gt;I have implemented a multiputh routing based on Depth-First Search algorithm for Floodlight - an open-source SDN Controller.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

@@ -17,7 +17,8 @@
       <link>https://osinstom.github.io/project/p4-vnf-phd/</link>
       <pubDate>Sat, 14 Sep 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/project/p4-vnf-phd/</guid>
-      <description></description>
+      <description>&lt;p&gt;Currently, as my PhD topic, I do a research on P4 language and related technologies (e.g. eBPF/XDP, VPP, OVS, SmartNiC, Tofino) in order to explore a way to implement a VNF offloading framework for OpenStack.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -633,11 +634,12 @@ action swap_mpls(label) {
     </item>
     
     <item>
-      <title>Contribution to ONAP</title>
+      <title>ONAP</title>
       <link>https://osinstom.github.io/project/onap/</link>
       <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/project/onap/</guid>
-      <description></description>
+      <description>&lt;p&gt;I have contributed to the Open Network Automation Platform (ONAP). I am involved in the Change Management project. The objective is to provide lifecycle management APIs to support seamless software upgrade of Virtual Network Functions. For Casablanca release I implemented a northbound APIs for Application Controller (APP-C) to support distribute traffic mechanism.&lt;/p&gt;
+</description>
     </item>
     
     <item>

@@ -5,12 +5,28 @@
     <link>https://osinstom.github.io/authors/</link>
       <atom:link href="https://osinstom.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Authors</title>
       <link>https://osinstom.github.io/authors/</link>
     </image>
+    
+    <item>
+      <title>Abdulhalim Dandoush</title>
+      <link>https://osinstom.github.io/authors/abdulhalim-dandoush/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/abdulhalim-dandoush/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tomasz Osinski</title>
+      <link>https://osinstom.github.io/authors/tomasz-osinski/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/tomasz-osinski/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title></title>

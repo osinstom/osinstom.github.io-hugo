@@ -5,12 +5,20 @@
     <link>https://osinstom.github.io/talk/</link>
       <atom:link href="https://osinstom.github.io/talk/index.xml" rel="self" type="application/rss+xml" />
     <description>Recent &amp; Upcoming Talks</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Recent &amp; Upcoming Talks</title>
       <link>https://osinstom.github.io/talk/</link>
     </image>
+    
+    <item>
+      <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>
+      <link>https://osinstom.github.io/talk/onos-xmpp/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/talk/onos-xmpp/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

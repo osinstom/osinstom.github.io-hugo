@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomasz Osinski | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/authors/tomasz-osinski/</link>
+      <atom:link href="https://osinstom.github.io/authors/tomasz-osinski/index.xml" rel="self" type="application/rss+xml" />
+    <description>Tomasz Osinski</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Tomasz Osinski</title>
+      <link>https://osinstom.github.io/authors/tomasz-osinski/</link>
+    </image>
+    
+    <item>
+      <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>
+      <link>https://osinstom.github.io/talk/onos-xmpp/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/talk/onos-xmpp/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -15,6 +15,16 @@
   <url>
     <loc>https://osinstom.github.io/tags/sdn/</loc>
     <lastmod>2019-09-14T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/tags/sdn/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/tags/sdn/"
+                />
   </url>
   
   <url>
@@ -208,6 +218,51 @@
   </url>
   
   <url>
+    <loc>https://osinstom.github.io/authors/abdulhalim-dandoush/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/authors/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/authors/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/authors/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/talk/onos-xmpp/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/talk/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/talk/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/talk/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/authors/tomasz-osinski/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/project/pagoda/</loc>
     <lastmod>2017-12-30T00:00:00+00:00</lastmod>
   </url>
@@ -233,20 +288,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://osinstom.github.io/authors/admin/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/authors/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/authors/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/authors/"
                 />
   </url>
   
@@ -280,30 +321,6 @@
   
   <url>
     <loc>https://osinstom.github.io/publication/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/publication/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/publication/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/talk/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/talk/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/talk/"
-                />
   </url>
   
 </urlset>

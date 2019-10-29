@@ -1003,7 +1003,7 @@ action swap_mpls(label) {
     </item>
     
     <item>
-      <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>
+      <title>ONAP Change Management Dublin Extensions</title>
       <link>https://osinstom.github.io/talk/onap-nozay/</link>
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/talk/onap-nozay/</guid>

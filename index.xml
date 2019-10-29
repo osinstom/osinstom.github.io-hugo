@@ -1003,6 +1003,14 @@ action swap_mpls(label) {
     </item>
     
     <item>
+      <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>
+      <link>https://osinstom.github.io/talk/onap-nozay/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/talk/onap-nozay/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Network prototyping made easy with P4 and Python!</title>
       <link>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</link>
       <pubDate>Mon, 24 Dec 2018 00:00:00 +0000</pubDate>

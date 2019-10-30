@@ -3,13 +3,14 @@
   <channel>
     <title>Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/authors/admin/</link>
-    <description>Recent content on Tomasz Osiński - blog &amp; personal site</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>{year}</copyright>
-    
-	<atom:link href="https://osinstom.github.io/authors/admin/index.xml" rel="self" type="application/rss+xml" />
-    
+      <atom:link href="https://osinstom.github.io/authors/admin/index.xml" rel="self" type="application/rss+xml" />
+    <description>Tomasz Osiński - blog &amp; personal site</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Tomasz Osiński - blog &amp; personal site</title>
+      <link>https://osinstom.github.io/authors/admin/</link>
+    </image>
     
   </channel>
 </rss>

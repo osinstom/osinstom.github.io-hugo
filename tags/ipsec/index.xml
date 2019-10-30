@@ -1,24 +1,124 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>IPSec on Tomasz Osiński - blog &amp; personal site</title>
+    <title>IPSec | Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/tags/ipsec/</link>
-    <description>Recent content in IPSec on Tomasz Osiński - blog &amp; personal site</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>{year}</copyright>
-    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://osinstom.github.io/tags/ipsec/index.xml" rel="self" type="application/rss+xml" />
-    
+      <atom:link href="https://osinstom.github.io/tags/ipsec/index.xml" rel="self" type="application/rss+xml" />
+    <description>IPSec</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>IPSec</title>
+      <link>https://osinstom.github.io/tags/ipsec/</link>
+    </image>
     
     <item>
       <title>Initial view on VoWiFi in the 5G network</title>
       <link>https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://osinstom.github.io/post/initial-view-on-vowifi-in-the-5g-network/</guid>
-      <description>In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. I’m not 3GPP expert and don’t have any insider information from standardization groups, so this text will be based only on official 3GPP specifications and drafts. I hope this blog will be valuable for those engineers, who are currently working on EPC-based VoWiFi deployments and wants to prepare for upcoming evolutions in the area of VoWiFi.</description>
+      <description>
+
+&lt;p&gt;In this post I would like to make a quick review of how the VoWiFi (Voice over WiFi) architecture may change in future 5G deployments. I’m not 3GPP expert and don’t have any insider information from standardization groups, so this text will be based only on official 3GPP specifications and drafts. I hope this blog will be valuable for those engineers, who are currently working on EPC-based VoWiFi deployments and wants to prepare for upcoming evolutions in the area of VoWiFi.&lt;/p&gt;
+
+&lt;p&gt;VoWiFi (or simply WiFi Calling) has gained a momentum as the novel Telco service for end users.
+They can now make a phone calls via their own home WiFi Access Point.
+This service is especially important for users being abroad as they can use WiFi Calling instead of making an expensive roaming calls.
+Along with VoLTE, the IMS-based voice services may replace the old 2G/3G technology.&lt;/p&gt;
+
+&lt;p&gt;An implementation of VoWiFi has become possible with the emergence of IP Multimedia Subsystem (IMS) and extensions to 3GPP LTE EPC architecture – evolved Packet Gateway (ePDG) and the AAA server.
+ePDG provides a secure gateway to operator’s network for users connected to untrusted WiFi access points.
+It leverages IPSec with the EAP-AKA authentication method on SWu interface as the security protocol.
+The AAA server provides security services for non-3GPP access. The ePDG is integrated with the rest of LTE.
+It is connected to P-GW over S2b interface using GTP tunneling, while the AAA server is integrated with HSS over SWx and to PGW over S6b interface.
+P-GW provides access for VoWiFi users to the IMS subsystem.&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&#34;https://osinstom.github.io/static/img/evolved_packet_core-svg.png&#34;&gt;
+    &lt;figcaption&gt;Source: Wikipedia&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Although the 3GPP 5GSystem (5GS) specification is still in progress (&lt;a href=&#34;https://www.sdxcentral.com/articles/news/3gpp-delays-second-wave-of-5g-specs/2018/12/&#34; target=&#34;_blank&#34;&gt;the “Second Wave” of 5G specs has been delayed&lt;/a&gt;), a functional architecture of 5G RAN and Core has been already defined and should not be changed significantly (&lt;a href=&#34;https://www.riverpublishers.com/journal/journal_articles/RP_Journal_2245-800X_615.pdf&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; you can find an introduction to the 5G system architecture). It’s already agreed that the VoWiFi architecture will need some changes to fulfill the requirements of 5G network. One of design pricinples that has been defined for 5G networks (TS 23.501), directly impacts the VoWiFi architecture:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;“Minimize dependencies between the Access Network (AN) and the Core Network (CN). The architecture is defined with a converged core network
+with a common AN – CN interface which integrates different Access Types e.g. 3GPP access and non-3GPP access“&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As 5G System is expected to be access-agnostic the interface between RAN and Core should be common for access technologies. Moreover, UEs should be allowed to communicate with core network over the NAS (Non-Access Stratum) interface, regardless current point of attachment. The NAS interface is a well-known in 3GPP systems, but in the current EPC-based VoWiFi architecture UE does not perform any signalling over the NAS interface. The principle of converged core network with a common AN-CN interface causes the change in architectural design.&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&#34;https://osinstom.github.io/static/img/5g.png&#34;&gt;
+    &lt;figcaption&gt;5G Core Network with non-3GPP access. Source: TS 23.501&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The 5G Core Network functions involved in the VoWiFi service are AMF, SMF, AUSF (control plane) and UPF (user plane). The Mobility Management Functions (MME) from 4G, which implements mobility, access and session management has been decomposed into AMF and SMF. AMF, which stands for Access and Mobility Function realizes access and mobility management functions, while SMF (Session Management Function) manages session connectivity. The decomposition is needed due to the emergence of new services (such as Internet of Things) requiring a differentiated session management. For instance, static IoT likely will not require session management and packets can be forwarded in the Best-Effort manner. Moreover, a control and user plane has been decoupled. Control plane functions has been moved from S-/P-GW to AMF and SMF. User plane functions (such as packet routing, forwarding, and encapsulation) are realized by UPF (User Plane Function).&lt;/p&gt;
+
+&lt;p&gt;In the 5G System specification the successor of eDPG is called &lt;strong&gt;N3IWF (non-3GPP InterWorking Function)&lt;/strong&gt;. The functionality of N3IWF at high-level is almost the same as ePDG – it provides a secure gateway to operator’s network for non-3GPP access technology. The interface between UE and N3IWF remains similar and is based on IPSec/IKE to establish a secure tunnel. As UE is expected to communicate with AMF over the NAS interface, there is a new N2 interface connecting N3IWF with AMF. Note that the N2 interface is considered to realized by a NG Application Protocol (NGAP) defined in TS 38.413.  N3IWF is responsible for setting up the IPSec connection to be used by control plane traffic directed to AMF. As a consequence &lt;strong&gt;UE and N3IWF need to establish two IPSec Security Associations (SAs)&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Signalling (control plane) IPSec SA&lt;/strong&gt; – it transports NAS messages destined to AMF,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;User plane IPSec SA&lt;/strong&gt; – it transports  packets destined to IMS&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;signalling-control-plane-ipsec-sa&#34;&gt;Signalling (control plane) IPSec SA&lt;/h2&gt;
+
+&lt;p&gt;In the first step, UE and N3IWF must establish a signalling IPSec SA, which is used to securely exchange NAS messages between UE and AMF. The NAS interface is further leveraged to register UE in the 5G system. The below figure presents a control plane protocol’s stack used to establish signalling IPSec SA. Similarly to ePDG, IKEv2 protocol is used to setup security associations. However, the new authentication method – EAP-5G (or 5G AKA) – is introduced. The EAP method is used to encapsulate NAS messages between UE and N3IWF. Note that specification says that EAP-5G is “vendor-specific“.&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&#34;https://osinstom.github.io/static/img/VoWiFI5G_controlplane_before.jpg&#34;&gt;
+    &lt;figcaption&gt;Signalling protocol’s stack before signalling IPSec SA is established&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;When the signalling IPSec SA is established, the IPSec tunnel is configured to encapsulate NAS messages between UE and N3IWF. At this stage, UE can communicate with AMF to perform NAS signalling. It is presented in the figure below.&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&#34;https://osinstom.github.io/static/img/VoWiFI5G_controlplane_after.jpg&#34;&gt;
+    &lt;figcaption&gt;Signalling protocol’s stack when signalling IPSec SA is established&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;user-plane-ipsec-sa&#34;&gt;User plane IPSec SA&lt;/h2&gt;
+
+&lt;p&gt;When UE is registered in the 5G system (via NAS interface) it can establish a new child IPSec SA (called user plane IPSec SA) to communicate with the IMS system. The procedure for establishing user plane IPSec SA is also supported by AMF.&lt;/p&gt;
+
+&lt;figure&gt;
+    &lt;img src=&#34;https://osinstom.github.io/static/img/VoWiFI5G_controlplane_userplane_establishment.jpg&#34;&gt;
+    &lt;figcaption&gt;User plane protocol’s stack to establish user plane IPSec SA&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;If IKEv2 procedure is finished, UE can communicate with P-CSCF (IMS gateway). A user plane protocol’s stack is depicted in the figure below. There are two main differences in comparison to the ePDG-based architecture:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The GRE (Generic Routing Encapsulation) protocol has been introduced to carry user data packets between UE and N3IWF. GRE allows to implement a flow-based QoS model as specified in TS 23.501. The GRE header carries QFI (QoS Flow Identifier) associated with user data packets. Optionally, N3IWF can indicate Reflective QoS Identifier (RQI). More on QoS in 5G networks &lt;a href=&#34;https://www.linkedin.com/pulse/learn-qos-5g-networks-paul-shepherd/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The new N3 interface between N3IWF and UPF. This interface is considered to be implemented based on GTPv2.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+    &lt;img src=&#34;https://osinstom.github.io/static/img/VoWiFI5G_userplane.jpg&#34;&gt;
+    &lt;figcaption&gt;User plane protocol’s stack to transport user data packets&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In this post I have made a quick review of the current status of work on non-3GPP access part of the 5G network. I have presented a general architecture and protocols used to implement VoWiFi in the 5G system.&lt;/p&gt;
+
+&lt;p&gt;Although the 5G specification is not completed yet, some design choices have been already made. The major changes to the VoWiFi architecture are applied on the 3GPP network side. The Non-3GPP InterWorking Function (N3IWF) has been introduced as a successor of ePDG. Generally,  enhancements to the VoWiFi architecture can be summarized as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Common NAS&lt;/strong&gt; – the VoWiFi architecture has been extended with a support for NAS signalling between UE and AMF (the successor of MME). It means that UE and N3IWF establishes two IPSec SAs. Signalling IPSec SA transports NAS messages, while user plane IPSec SA carries packets (e.g. SIP signalling) destined to IMS.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Modified authentication method&lt;/strong&gt; – the procedure establishing the IPSec tunnel is based on new authentication method – 5G AKA.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Protocol enhancements&lt;/strong&gt; – the EAP-5G protocol is used to encapsulate NAS messages between UE and N3IWF. Additionally, the GRE protocol is used to encapsulate user-plane traffic.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
+
+&lt;p&gt;[1] 3GPP TS 23.501&lt;/p&gt;
+
+&lt;p&gt;[2] 3GPP TS 24.502&lt;/p&gt;
+
+&lt;p&gt;[3] &lt;a href=&#34;https://docbox.etsi.org/workshop/2018/201806_ETSISECURITYWEEK/5G/S01_INPUT_TO_5G/5G_ENHANCEMENTS_NON3GPP_ACCSEC_LENOVO_KUNZ.pdf&#34; target=&#34;_blank&#34;&gt;5G Enhancements to Non – 3GPP Access Security&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

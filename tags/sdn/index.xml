@@ -1,781 +1,91 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SDN | Tomasz Osiński - blog &amp; personal site</title>
+    <title>SDN on Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/tags/sdn/</link>
-      <atom:link href="https://osinstom.github.io/tags/sdn/index.xml" rel="self" type="application/rss+xml" />
-    <description>SDN</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sat, 14 Sep 2019 00:00:00 +0000</lastBuildDate>
-    <image>
-      <url>https://osinstom.github.io/img/icon-192.png</url>
-      <title>SDN</title>
-      <link>https://osinstom.github.io/tags/sdn/</link>
-    </image>
+    <description>Recent content in SDN on Tomasz Osiński - blog &amp; personal site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>{year}</copyright>
+    <lastBuildDate>Sat, 14 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://osinstom.github.io/tags/sdn/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Research on the VNF offloading using P4 technology</title>
       <link>https://osinstom.github.io/project/p4-vnf-phd/</link>
       <pubDate>Sat, 14 Sep 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/project/p4-vnf-phd/</guid>
-      <description>&lt;p&gt;Currently, as my PhD topic, I do a research on P4 language and related technologies (e.g. eBPF/XDP, VPP, OVS, SmartNiC, Tofino) in order to explore a way to implement a VNF offloading framework for OpenStack.&lt;/p&gt;
-</description>
+      <description>Currently, as my PhD topic, I do a research on P4 language and related technologies (e.g. eBPF/XDP, VPP, OVS, SmartNiC, Tofino) in order to explore a way to implement a VNF offloading framework for OpenStack.</description>
     </item>
     
     <item>
       <title>Implementing tunneling techniques in P4 based on the example of VXLAN</title>
       <link>https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/post/2019-10-26-implementing-tunneling-techniques-in-p4-based-on-the-example-of-vxlan/</guid>
-      <description>
-
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;Recently, I started to implement the support for packet tunneling in our &lt;a href=&#34;https://github.com/P4-Research/p4c/tree/master/backends/ubpf&#34; target=&#34;_blank&#34;&gt;P4C-to-uBPF&lt;/a&gt; compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.&lt;/p&gt;
-
-&lt;p&gt;This blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/vxlan&#34; target=&#34;_blank&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;short-introduction-to-vxlan&#34;&gt;Short introduction to VXLAN&lt;/h2&gt;
-
-&lt;p&gt;The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in &lt;a href=&#34;https://tools.ietf.org/html/rfc7348&#34; target=&#34;_blank&#34;&gt;RFC 7348&lt;/a&gt; and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center. It isolates logically networks by using Virtual Network Identifier (VNI). The VNI uniquely identifies a Network Segment or, interchangeably, VXLAN Overlay Network. For more information on how VXLAN works visit these references:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://sites.google.com/site/amitsciscozone/home/data-center/vxlan&#34; target=&#34;_blank&#34;&gt;https://sites.google.com/site/amitsciscozone/home/data-center/vxlan&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://medium.com/@NTTICT/vxlan-explained-930cc825a51&#34; target=&#34;_blank&#34;&gt;https://medium.com/@NTTICT/vxlan-explained-930cc825a51&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://tools.ietf.org/html/rfc7348&#34; target=&#34;_blank&#34;&gt;RFC 7348&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;design-and-implementation-of-vxlan-in-p4&#34;&gt;Design and implementation of VXLAN in P4&lt;/h2&gt;
-
-&lt;p&gt;In this section I describe more interesting parts of the P4 program. The P4 source code is divided into &lt;a href=&#34;https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/header.p4&#34; target=&#34;_blank&#34;&gt;header.p4&lt;/a&gt;, &lt;a href=&#34;https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/parser.p4&#34; target=&#34;_blank&#34;&gt;parser.p4&lt;/a&gt; and &lt;a href=&#34;https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/vxlan.p4&#34; target=&#34;_blank&#34;&gt;vxlan.p4&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;headers&#34;&gt;Headers&lt;/h3&gt;
-
-&lt;p&gt;This P4 program will use four types of headers: Ethernet, IP, UDP and VXLAN. The VXLAN header is defined as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;header vxlan_t {
-    bit&amp;lt;8&amp;gt;  flags;
-    bit&amp;lt;24&amp;gt; reserved;
-    bit&amp;lt;24&amp;gt; vni;
-    bit&amp;lt;8&amp;gt;  reserved_2;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In fact, in this example only VNI will be used, the rest of fields will be set to zero.&lt;/p&gt;
-
-&lt;h3 id=&#34;parser&#34;&gt;Parser&lt;/h3&gt;
-
-&lt;p&gt;When implementing VXLAN tunneling we need to have more complex parsing logic in order to parse properly packets that arrive encapsulated into VXLAN header. For such packets the parser need to handle outer Ethernet, IP, UDP and VXLAN headers and the inner Ethernet and IP headers. Therefore, the implementation looks as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#define UDP_PORT_VXLAN 4789
-#define UDP_PROTO 17
-#define IPV4_ETHTYPE 0x800
-
-parser ParserImpl(packet_in packet, out headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
-    state start {
-        transition parse_ethernet;
-    }
-    state parse_ethernet {
-        packet.extract(hdr.ethernet);
-        transition select(hdr.ethernet.etherType) {
-            IPV4_ETHTYPE: parse_ipv4;
-            default: accept;
-        }
-    }
-    state parse_ipv4 {
-        packet.extract(hdr.ipv4);
-        transition select(hdr.ipv4.protocol) {
-            UDP_PROTO: parse_udp;
-            default: accept;
-        }
-    }
-    state parse_udp {
-        packet.extract(hdr.udp);
-        transition select(hdr.udp.dstPort) {
-            UDP_PORT_VXLAN: parse_vxlan;
-            default: accept;
-         }
-    }
-    state parse_vxlan {
-        packet.extract(hdr.vxlan);
-        transition parse_inner_ethernet;
-    }
-    state parse_inner_ethernet {
-        packet.extract(hdr.inner_ethernet);
-        transition select(hdr.ethernet.etherType) {
-            IPV4_ETHTYPE: parse_inner_ipv4;
-            default: accept;
-        }
-    }
-    state parse_inner_ipv4 {
-        packet.extract(hdr.inner_ipv4);
-        transition accept;
-    }
-}
-
-control DeparserImpl(packet_out packet, in headers hdr) {
-    apply {
-        packet.emit(hdr.ethernet);
-        packet.emit(hdr.ipv4);
-        packet.emit(hdr.udp);
-        packet.emit(hdr.vxlan);
-        packet.emit(hdr.inner_ethernet);
-        packet.emit(hdr.inner_ipv4);
-    }
-}
-
-control verifyChecksum(inout headers hdr, inout metadata meta) {
-    apply { }
-}
-
-control computeChecksum(inout headers hdr, inout metadata meta) {
-    apply {
-
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The parser distinguish if the packet is encapsulated in VXLAN based on the UDP destination port, which should be set to 4789, which is the standard port for VXLAN encapsulation. Then if the packet is encapsulated parser goes through following stages: parse_vxlan() -&amp;gt; parse_inner_ethernet() -&amp;gt; parse_inner_ipv4().&lt;/p&gt;
-
-&lt;p&gt;In the same file I have implemented deparser, which defines the order, in which headers are written to packets at the egress.&lt;/p&gt;
-
-&lt;h3 id=&#34;control-blocks&#34;&gt;Control blocks&lt;/h3&gt;
-
-&lt;p&gt;It is a good practice to design P4 programs (especially those that perform tunneling) by dividing the P4 program into four functional blocks:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;&lt;em&gt;Upstream ingress&lt;/em&gt;&lt;/strong&gt; - ingress control block for incoming &lt;em&gt;&lt;strong&gt;encapsulated&lt;/strong&gt;&lt;/em&gt; packets.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;Upstream egress&lt;/strong&gt;&lt;/em&gt; - egress control block for outgoing packets, that arrived as encapsulated.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;Downstream ingress&lt;/strong&gt;&lt;/em&gt; - control block for incoming raw (not encapsulated) packets.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;em&gt;Downstream egress&lt;/em&gt;&lt;/strong&gt; - control block for outgoing packets, that arrived as not encapsulated.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Upstream and downstreams terms refer to the direction of the traffic. The upstream traffic is the traffic that is encapsulated (traffic being sent between VXLAN endpoints) and should be decapsulated at the ingress. On the contrary, the downstream traffic is the traffic, which is not encapsulated yet (traffic from host to switch). It simplify thinking of the P4 program design.&lt;/p&gt;
-
-&lt;h4 id=&#34;upstream-ingress&#34;&gt;Upstream ingress&lt;/h4&gt;
-
-&lt;p&gt;The upstream ingress needs to validate the VXLAN header and strip it out. Moreover, it must perform L2 forwarding to send the decapsulated packet.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;control vxlan_ingress_upstream(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
-
-    action vxlan_decap() {
-        // as simple as set outer headers as invalid
-        hdr.ethernet.setInvalid();
-        hdr.ipv4.setInvalid();
-        hdr.udp.setInvalid();
-        hdr.vxlan.setInvalid();
-    }
-
-    table t_vxlan_term {
-        key = {
-            // Inner Ethernet desintation MAC address of target VM
-            hdr.inner_ethernet.dstAddr : exact;
-        }
-
-        actions = {
-            @defaultonly NoAction;
-            vxlan_decap();
-        }
-
-    }
-
-    action forward(bit&amp;lt;9&amp;gt; port) {
-        standard_metadata.egress_spec = port;
-    }
-
-    table t_forward_l2 {
-        key = {
-            hdr.inner_ethernet.dstAddr : exact;
-        }
-
-        actions = {
-            forward;
-        }
-    }
-
-    apply {
-        if (hdr.ipv4.isValid()) {
-            if (t_vxlan_term.apply().hit) {
-                t_forward_l2.apply();
-            }
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It is implemented in the vxlan_ingress_upstream control block using two tables: t_vxlan_term and t_forward_l2. The former decapsulates packets that matches the key. The destination MAC address of the inner Ethernet header should point to the host that is directly connected to VXLAN endpoint (the switch) via Layer 2 network. Encapsulation action sets outer headers as invalid, so that the deparser knows not to put these headers in the output packet. If the t_vxlan_term is hit, the t_forward_l2 is responsible for forwarding packet based on the destination MAC address of the inner Ethernet header.&lt;/p&gt;
-
-&lt;h4 id=&#34;upstream-egress&#34;&gt;Upstream egress&lt;/h4&gt;
-
-&lt;p&gt;In the context of VXLAN processing the upstream egress block does not need to do anything.&lt;/p&gt;
-
-&lt;h4 id=&#34;downstream-ingress&#34;&gt;Downstream ingress&lt;/h4&gt;
-
-&lt;p&gt;The downstream ingress is responsible for determining the value of the VNI identifier that will be used to encapsulate L2 packet by the downstream egress. Moreover, it determines source IP address and next hop IP address for the encapsulated packets. It also performs routing for encapsulates packets.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;control vxlan_ingress_downstream(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
-
-    action set_vni(bit&amp;lt;24&amp;gt; vni) {
-        meta.vxlan_vni = vni;
-    }
-
-    action set_ipv4_nexthop(bit&amp;lt;32&amp;gt; nexthop) {
-        meta.nexthop = nexthop;
-    }
-
-    table t_vxlan_segment {
-
-        key = {
-            hdr.ipv4.dstAddr : lpm;
-        }
-
-        actions = {
-            @defaultonly NoAction;
-            set_vni;
-        }
-
-    }
-
-    table t_vxlan_nexthop {
-
-        key = {
-            hdr.ethernet.dstAddr : exact;
-        }
-
-        actions = {
-            set_ipv4_nexthop;
-        }
-    }
-
-    action set_vtep_ip(bit&amp;lt;32&amp;gt; vtep_ip) {
-        meta.vtepIP = vtep_ip;
-    }
-
-    table t_vtep {
-        key = {
-            hdr.ethernet.srcAddr : exact;
-        }
-
-        actions = {
-            set_vtep_ip;
-        }
-
-    }
-
-    action route(bit&amp;lt;9&amp;gt; port) {
-        standard_metadata.egress_spec = port;
-    }
-
-    table t_vxlan_routing {
-
-        key = {
-            meta.nexthop : exact;
-        }
-
-        actions = {
-            route;
-        }
-    }
-
-    apply {
-        if (hdr.ipv4.isValid()) {
-            t_vtep.apply();
-            if(t_vxlan_segment.apply().hit) {
-                if(t_vxlan_nexthop.apply().hit) {
-                    t_vxlan_routing.apply();
-                }
-            }
-        }
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The apply method firsty invokes t_vtep table, which determines source IP address for encapsulated packets based on source MAC address. The source MAC address is the address of the host that is directly connected to the VXLAN endpoint (switch). Then, the control block determines VXLAN Segment ID (the value of VNI) based on the IP subnet mask. Each IP subnet gets unique VNI. If the VXLAN Segment ID is found the next hop IP address is determined. It would be the IP address of the peer VXLAN endpoint. Finally, the P4 enforce to determine output port for packet at the ingress pipeline. Thus, t_vxlan_routing table determines output port based on the next hop IP address. At this moment, everything is prepared to encapsulate packet and send it out in the downstream egress block.&lt;/p&gt;
-
-&lt;h4 id=&#34;downstream-egress&#34;&gt;Downstream egress&lt;/h4&gt;
-
-&lt;p&gt;If the VNI has been determined in the ingress downstream block the downstream egress block just encapsulates the packet and sends the L2 frame.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;control vxlan_egress_downstream(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
-
-    action rewrite_macs(bit&amp;lt;48&amp;gt; smac, bit&amp;lt;48&amp;gt; dmac) {
-        hdr.ethernet.srcAddr = smac;
-        hdr.ethernet.dstAddr = dmac;
-    }
-
-    table t_send_frame {
-
-            key = {
-                hdr.ipv4.dstAddr : exact;
-            }
-
-            actions = {
-                rewrite_macs;
-            }
-        }
-
-    action vxlan_encap() {
-
-        hdr.inner_ethernet = hdr.ethernet;
-        hdr.inner_ipv4 = hdr.ipv4;
-
-        hdr.ethernet.setValid();
-
-        hdr.ipv4.setValid();
-        hdr.ipv4.version = IP_VERSION_4;
-        hdr.ipv4.ihl = IPV4_MIN_IHL;
-        hdr.ipv4.diffserv = 0;
-        hdr.ipv4.totalLen = hdr.ipv4.totalLen
-                            + (ETH_HDR_SIZE + IPV4_HDR_SIZE + UDP_HDR_SIZE + VXLAN_HDR_SIZE);
-        hdr.ipv4.identification = 0x1513; /* From NGIC */
-        hdr.ipv4.flags = 0;
-        hdr.ipv4.fragOffset = 0;
-        hdr.ipv4.ttl = 64;
-        hdr.ipv4.protocol = UDP_PROTO;
-        hdr.ipv4.dstAddr = meta.nexthop;
-        hdr.ipv4.srcAddr = meta.vtepIP;
-        hdr.ipv4.hdrChecksum = 0;
-
-        hdr.udp.setValid();
-        // The VTEP calculates the source port by performing the hash of the inner Ethernet frame&#39;s header.
-        hash(hdr.udp.srcPort, HashAlgorithm.crc16, (bit&amp;lt;13&amp;gt;)0, { hdr.inner_ethernet }, (bit&amp;lt;32&amp;gt;)65536);
-        hdr.udp.dstPort = UDP_PORT_VXLAN;
-        hdr.udp.length = hdr.ipv4.totalLen + (UDP_HDR_SIZE + VXLAN_HDR_SIZE);
-        hdr.udp.checksum = 0;
-
-        hdr.vxlan.setValid();
-        hdr.vxlan.reserved = 0;
-        hdr.vxlan.reserved_2 = 0;
-        hdr.vxlan.flags = 0;
-        hdr.vxlan.vni = meta.vxlan_vni;
-
-    }
-
-    apply {
-        if (meta.vxlan_vni != 0) {
-            vxlan_encap();
-            if (hdr.vxlan.isValid()) {
-                t_send_frame.apply();
-            }
-        }
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;However, the vxlan_encap() action is quite complex. Firsty, it copies the contenct of Ethernet and IP headers to the inner Ethernet and IP headers so it will act as a packet payload now. Then, outer headers (Ethernet, IP, UDP and VXLAN) are set valid and their header&amp;rsquo;s fields are filled. For the outer IP header the destination IP address is taken from nexthop value, which is stored in metadata. Similarily, the source IP address is set to the IP address of the VXLAN endpoint. Furthermore, the UDP header is pushed. Note that the source UDP port is caluclated as a hash value of Ethernet header (according to specification).&lt;/p&gt;
-
-&lt;p&gt;Once the packet is encapsulated the MAC addresses of outer Ethernet header are set accordingly to the configuration of the switch interfaces.&lt;/p&gt;
-
-&lt;h2 id=&#34;running-example&#34;&gt;Running example&lt;/h2&gt;
-
-&lt;p&gt;In order to run example I have used &lt;a href=&#34;https://github.com/p4lang/p4app/&#34; target=&#34;_blank&#34;&gt;p4app&lt;/a&gt;, which is really nice and simple tool (based on Docker and Mininet) to test P4 programs. I have heard about p4app during the last &lt;a href=&#34;https://netsoft2019.ieee-netsoft.org/&#34; target=&#34;_blank&#34;&gt;IEEE NetSoft conference&lt;/a&gt;, good to be there!&lt;/p&gt;
-
-&lt;p&gt;We will use simple Mininet topology with two switches and two hosts. The test environment is described in &lt;a href=&#34;https://github.com/P4-Research/p4-demos/blob/master/vxlan/vxlan.p4app/p4app.json&#34; target=&#34;_blank&#34;&gt;the p4app manifest file&lt;/a&gt;. I had to write simple controller module to avoid setting up L3 configuration for hosts. I have also configured Mininet with staticArp(), so that I didn&amp;rsquo;t have to implement &lt;a href=&#34;https://blogs.vmware.com/vsphere/2013/05/vxlan-series-how-vtep-learns-and-creates-forwarding-table-part-5.html&#34; target=&#34;_blank&#34;&gt;ARP handling mechanism for VXLAN endpoints&lt;/a&gt;. It requires more complex P4 logic and for the sake of simplicity I have omitted this part of VTEP&amp;rsquo;s functionality in the P4 program.&lt;/p&gt;
-
-&lt;p&gt;Run the demo:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;sudo p4app run vxlan.p4app&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;It will start Mininet, install the VXLAN P4 program on the switches and configure flow rules for them.&lt;/p&gt;
-
-&lt;p&gt;You can test VXLAN encapsulation by sending some traffic (e.g. ping). By running &lt;em&gt;tcpdump&lt;/em&gt; on the switch interfaces gives you insight on how packets are handled:&lt;/p&gt;
-
-&lt;p&gt;s1-eth1&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;11:14:54.689967 00:04:00:00:01:01 (oui Unknown) &amp;gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &amp;gt; 10.0.0.2: ICMP echo request, id 113, seq 23, length 64
-
-11:14:54.692320 00:04:00:00:02:01 (oui Unknown) &amp;gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &amp;gt; 10.0.0.1: ICMP echo reply, id 113, seq 23, length 64
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;s1-eth2&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;11:15:14.719712 00:aa:00:01:00:02 (oui Unknown) &amp;gt; 00:aa:00:02:00:03 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.1.58032 &amp;gt; 192.168.11.254.4789: VXLAN, flags [.] (0x00), vni 22
-00:04:00:00:01:01 (oui Unknown) &amp;gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &amp;gt; 10.0.0.2: ICMP echo request, id 113, seq 43, length 64
-
-11:15:14.720664 00:aa:00:02:00:03 (oui Unknown) &amp;gt; 00:aa:00:01:00:02 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.254.43328 &amp;gt; 192.168.11.1.4789: VXLAN, flags [.] (0x00), vni 22
-00:04:00:00:02:01 (oui Unknown) &amp;gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &amp;gt; 10.0.0.1: ICMP echo reply, id 113, seq 43, length 64
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;s2-eth2&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;11:15:14.719712 00:aa:00:01:00:02 (oui Unknown) &amp;gt; 00:aa:00:02:00:03 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.1.58032 &amp;gt; 192.168.11.254.4789: VXLAN, flags [.] (0x00), vni 22
-00:04:00:00:01:01 (oui Unknown) &amp;gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &amp;gt; 10.0.0.2: ICMP echo request, id 113, seq 82, length 64
-
-11:15:14.720664 00:aa:00:02:00:03 (oui Unknown) &amp;gt; 00:aa:00:01:00:02 (oui Unknown), ethertype IPv4 (0x0800), length 148: 192.168.11.254.43328 &amp;gt; 192.168.11.1.4789: VXLAN, flags [.] (0x00), vni 22
-00:04:00:00:02:01 (oui Unknown) &amp;gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &amp;gt; 10.0.0.1: ICMP echo reply, id 113, seq 82, length 64
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;s2-eth1&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;11:15:14.719712 00:04:00:00:01:01 (oui Unknown) &amp;gt; 00:04:00:00:02:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.1 &amp;gt; 10.0.0.2: ICMP echo request, id 113, seq 133, length 64
-
-11:15:14.720664 00:04:00:00:02:01 (oui Unknown) &amp;gt; 00:04:00:00:01:01 (oui Unknown), ethertype IPv4 (0x0800), length 98: 10.0.0.2 &amp;gt; 10.0.0.1: ICMP echo reply, id 113, seq 133, length 64
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;The P4 implementation of the more advanced tunneling techniques (like VXLAN) requires a bit more effort than more standard networking. The purpose of this tutorial was to show how to implement them properly in the P4 language. I really recommend to split control block into four parts implementing upstream ingress and egress and downstream ingress and egress, seperately. It is &lt;em&gt;the good practice&lt;/em&gt; that should ease the programming of the complex P4 programs. Following the VXLAN example one can implement similar tunneling techniques such as GPRS Tunneling Protocol (GTP) or Network Virtualization using Generic Routing Encapsulation (NVGRE).&lt;/p&gt;
-</description>
+      <description>Introduction Recently, I started to implement the support for packet tunneling in our P4C-to-uBPF compiler. However, in order to deeply understand P4 constructs describing tunneling I have created the reference implementation of the VXLAN tunneling for BMv2 switch.
+This blog post describes how to design and implement more complex tunneling technique (like VXLAN) in the P4 language. The source code is available on Github.
+Short introduction to VXLAN The VXLAN (Virtual eXtensible Local Area Network) protocol has been standardized in RFC 7348 and is usually used to provide overlay communications between virtual machines in the multi-tenant virtualized data center.</description>
     </item>
     
     <item>
       <title>The MPLS network based on P4</title>
       <link>https://osinstom.github.io/post/2019-10-22-mpls-network-p4/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/post/2019-10-22-mpls-network-p4/</guid>
-      <description>
-
-&lt;h2 id=&#34;the-mpls-network-based-on-p4&#34;&gt;The MPLS network based on P4&lt;/h2&gt;
-
-&lt;p&gt;In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/mpls&#34; target=&#34;_blank&#34;&gt;on my GitHub&lt;/a&gt;. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network.&lt;/p&gt;
-
-&lt;h3 id=&#34;introduction-to-mpls&#34;&gt;Introduction to MPLS&lt;/h3&gt;
-
-&lt;p&gt;MPLS is widely used in the Wide Area Networks (WANs) to provide reliable connections. An explanation of the MPLS protocol is out of the scope of this post. However, I was basing on &lt;a href=&#34;http://www.csc.kth.se/utbildning/kth/kurser/DD2490/ipro1-11/lectures/MPLS.pdf&#34; target=&#34;_blank&#34;&gt;this presentation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&#34;the-demo-scenario&#34;&gt;The demo scenario&lt;/h3&gt;
-
-&lt;p&gt;You can find the user guide and the source code of this demo &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/mpls&#34; target=&#34;_blank&#34;&gt;on my GitHub&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The test network (presented below) is composed of three routers and two end hosts - each associated to the different network. Hosts are attached to the devices (R1 and R3), which play the role of the edge MPLS router. The R2 router is the core MPLS router - it forwards packets based on the MPLS label. Packets from hosts are encapsulated to MPLS (and decapsulated from MPLS) by the edge routers.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/img/mpls-network.png&#34; alt=&#34;The MPLS network setup&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;the-design-of-the-mpls-router-in-p4&#34;&gt;The design of the MPLS router in P4&lt;/h3&gt;
-
-&lt;p&gt;MPLS is a standard to simplify IP forwarding. Devices implementing MPLS are  called Label Switching Router (LSR). LSRs use label to set up MPLS tunnel. The basic set of LSR&amp;rsquo;s functionalities consists of:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;FEC (Forwarding Equivalence Class) classifier&lt;/strong&gt;, which classifies packets into different classes and binds a label to particular class of packets.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Label operations&lt;/strong&gt;:
-
-&lt;ul&gt;
-&lt;li&gt;Push a label - add the MPLS header to a packet&lt;/li&gt;
-&lt;li&gt;Swap a label - change a value of MPLS label&lt;/li&gt;
-&lt;li&gt;Pop a label - remove the MPLS header from a packet&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Label-based forwarding&lt;/strong&gt; - LSR determines the output port for a packet based on the input port and MPLS label.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Besides, LSR must implement also IP lookup to forward non-MPLS packets (or when the MPLS header is stripped out) and MAC-level switching.&lt;/p&gt;
-
-&lt;p&gt;The P4 program implementing MPLS is composed of 5 Match-Action tables:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;fec_table&lt;/strong&gt; - it implements a functionality of FEC classifier. We assume classification based on destination IP address (LPM), but the classification could be more granular. If a packet is classified, the push_mpls() method is invoked to add the MPLS header.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;mpls_table&lt;/strong&gt; - this table is used by transit or egress LSR. It determines to swap or pop the MPLS label based on the input port and MPLS label.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;mplslookup_table&lt;/strong&gt; - it forwards a packet to an output port based on the MPLS label (if exists).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;iplookup_table&lt;/strong&gt; - if the MPLS label doesn&amp;rsquo;t exists (it&amp;rsquo;s pure IP packet or MPLS label has been stripped out in the mpls_table) it performs IP lookup to determine the output port.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;switching_table&lt;/strong&gt; - it rewrites source and destination MAC addresses (per-hop behaviour).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Such design of the MPLS program aggregates all MPLS functionalities in the single P4 program. It means that the one subset of functionalities will be used by the core MPLS router and the different subset will be used by the edge MPLS router. The set of functionalities used by the MPLS router is configured by installing table entries.&lt;/p&gt;
-
-&lt;h3 id=&#34;the-p4-code&#34;&gt;The P4 code&lt;/h3&gt;
-
-&lt;p&gt;In this section I will go through the P4 code implementing MPLS.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s start from a definition of the MPLS header:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;header_type mpls_t {
-    fields {
-        label : 20;
-        tc : 3; // traffic class field
-        bos : 1; // indicates if it&#39;s bottom of MPLS label&#39;s stack
-        ttl: 8;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It is composed of four fields. The most important is the label field, which is dedicated to store the tunnel identifier.&lt;/p&gt;
-
-&lt;p&gt;The MPLS header is extracted based on etherType by the P4 parser:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#define ETHERTYPE_MPLS 0x8847
-(...)
-parser parse_ethernet {
-    extract(ethernet);
-    return select(latest.etherType) {
-        ETHERTYPE_IPV4 : parse_ipv4;
-        ETHERTYPE_MPLS : parse_mpls;
-        default: ingress;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When extracted, packets are passed to the &lt;em&gt;ingress&lt;/em&gt; pipeline. The pipeline defines the order of Match-Action tables that will handle packets.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;control ingress {
-    apply(fec_table);
-    apply(mpls_table);
-    apply(mplslookup_table);
-    if (standard_metadata.egress_spec == 0) {
-        apply(iplookup_table);
-    }
-    apply(switching_table);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Match-Action tables make use of the pre-defined MPLS actions: _push&lt;em&gt;mpls()&lt;/em&gt;, _pop&lt;em&gt;mpls()&lt;/em&gt; and _swap&lt;em&gt;mpls()&lt;/em&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;action push_mpls(label) {
-    add_header(mpls);
-    modify_field(mpls.label, label);
-    modify_field(mpls.tc, 7);
-    modify_field(mpls.bos, 0x1);
-    modify_field(mpls.ttl, 32);
-    modify_field(ethernet.etherType, ETHERTYPE_MPLS);
-}
-
-action pop_mpls() {
-    remove_header(mpls);
-    modify_field(ethernet.etherType, ETHERTYPE_IPV4);
-}
-
-action swap_mpls(label) {
-   modify_field(mpls.label, label);
-   subtract_from_field(mpls.ttl, 1);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The _push&lt;em&gt;mpls()&lt;/em&gt; action adds the MPLS header to a packet and sets  a value of MPLS fields. Moreover, it modifies etherType to indicate the MPLS protocol. The _pop&lt;em&gt;mpls()&lt;/em&gt; action removes the MPLS header and reverts a value of etherType to indicate the IPv4 protocol. The _swap&lt;em&gt;mpls()&lt;/em&gt; action just changes a value of the MPLS label and decrements a value of TTL.&lt;/p&gt;
-
-&lt;p&gt;The first table that handles incoming packets is the _fec&lt;em&gt;table&lt;/em&gt;. It classifies packets (based on the destination IP address) to the MPLS class (tunnel). If classified, a packet may be encapsulated by using the _push&lt;em&gt;mpls()&lt;/em&gt; action.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;table fec_table {
-
-    reads {
-        ipv4.dstAddr : lpm;
-    }
-
-    actions {
-        push_mpls;
-        _drop;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The _mpls&lt;em&gt;table&lt;/em&gt; is used to handle MPLS packets. It reads an input port and the MPLS label and decides to pop or swap the MPLS label.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;table mpls_table {
-
-    reads {
-        standard_metadata.ingress_port: exact;
-        mpls.label : exact;
-    }
-
-    actions {
-        pop_mpls;
-        swap_mpls;
-        _drop;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When a label is set packets enter _mplslookup&lt;em&gt;table&lt;/em&gt;, which determines an output port based on the MPLS label.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;table mplslookup_table {
-
-    reads {
-        mpls.label : exact;
-    }
-
-    actions {
-        forward;
-        _drop;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The last two tables - _iplookup&lt;em&gt;table&lt;/em&gt; and _switching&lt;em&gt;table&lt;/em&gt; - implement IP routing and MAC rewriting, respectively. The former is used to determine an output port for IP packets (e.g. when packets are decapsulated from MPLS). The latter rewrites MAC addresses hop-by-hop.&lt;/p&gt;
-
-&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
-
-&lt;p&gt;In this post I described how to implement MPLS in the P4 language. The MPLS implementation is fairly straightforward and is much easier than writing the code in C, what&amp;rsquo;s a big advantage of the P4 language! In order to reproduce an experiment follow the steps listed in &lt;a href=&#34;https://github.com/P4-Research/p4-demos/tree/master/mpls&#34; target=&#34;_blank&#34;&gt;the user guide&lt;/a&gt;.## A New Post&lt;/p&gt;
-
-&lt;p&gt;Enter text in &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; target=&#34;_blank&#34;&gt;Markdown&lt;/a&gt;. Use the toolbar above, or click the &lt;strong&gt;?&lt;/strong&gt; button for formatting help.&lt;/p&gt;
-</description>
+      <description>The MPLS network based on P4 In the previous post I described the implementation of the IP router in the P4 language. Now, I would like to move to a little bit more advanced technology - MPLS (Multi Protocol Label Switching). This post describes the demo of MPLS implemented in P4. The demo is avaiable on my GitHub. Note that the demo is just a Proof of Concept and the scenario may differ from the way how MPLS works in a real-world network.</description>
     </item>
     
     <item>
       <title>IP Router in P4</title>
       <link>https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/</link>
       <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/post/2019-10-22-ip-router-in-p4/</guid>
-      <description>&lt;p&gt;In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.&lt;/p&gt;
-
-&lt;p&gt;I prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at &lt;a href=&#34;https://github.com/osinstom/p4-demos/tree/master/ip-routing&#34; target=&#34;_blank&#34;&gt;https://github.com/osinstom/p4-demos/tree/master/ip-routing&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The README file contains a description of a P4 program&amp;rsquo;s design as well as a topology of a test network. Below I summarize a design choices that I made:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;I have used &lt;strong&gt;P4_16&lt;/strong&gt; as it is the newest version of P4.&lt;/li&gt;
-&lt;li&gt;As the P4 target I use &lt;strong&gt;BMv2&lt;/strong&gt; (&lt;a href=&#34;https://github.com/p4lang/behavioral-model&#34; target=&#34;_blank&#34;&gt;https://github.com/p4lang/behavioral-model&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;The &lt;strong&gt;P4_16&lt;/strong&gt; introduces the concept of architecture model for target device. I have used &lt;strong&gt;V1Model&lt;/strong&gt; (&lt;a href=&#34;https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4&#34; target=&#34;_blank&#34;&gt;https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4&lt;/a&gt;), which is a defualt one for BMv2&lt;/li&gt;
-&lt;li&gt;The V1Model forces us to implement the &lt;strong&gt;Ingress&lt;/strong&gt; and &lt;strong&gt;Egress&lt;/strong&gt; control blocks, &lt;strong&gt;Parser&lt;/strong&gt;, &lt;strong&gt;Deparser&lt;/strong&gt; and methods to handle checksum (verifyChecksum and computeChecksum). For the sake of demo I don&amp;rsquo;t focus on checksum operations.&lt;/li&gt;
-&lt;li&gt;Design choices for the &lt;strong&gt;router.p4&lt;/strong&gt; program:
-
-&lt;ul&gt;
-&lt;li&gt;I defined Ethernet and IPv4 headers (only)&lt;/li&gt;
-&lt;li&gt;I defined additional metadata struct called &lt;strong&gt;routing_metadata&lt;/strong&gt;. It is used to pass a routing decision made in the Ingress block to the Egress block. In the Egress block it will be used to determine the MAC address of the next-hop.&lt;/li&gt;
-&lt;li&gt;The Parser Logic handles only Ethernet and IPv4 headers (e.g. ARP, IPv6 or VLAN is not parsed)&lt;/li&gt;
-&lt;li&gt;For the &lt;strong&gt;Ingress&lt;/strong&gt; control we defined the &lt;strong&gt;routing_table&lt;/strong&gt;. This table has three actions: drop(), NoAction() and ipv4_forward(). The last action performs three operations:&lt;/li&gt;
-&lt;li&gt;it selects output port based on the IPv4 destination LPM&lt;/li&gt;
-&lt;li&gt;it sets a next-hop IP address in routing_metadata.&lt;/li&gt;
-&lt;li&gt;it decrements TTL&lt;/li&gt;
-&lt;li&gt;For the &lt;strong&gt;Egress&lt;/strong&gt; control block we defined &lt;strong&gt;switching_table&lt;/strong&gt; and &lt;strong&gt;mac_rewriting_table&lt;/strong&gt;. The switching_table sets a destination MAC for packet based on next-hop IP from routing_metadata. The mac_rewriting_table changes the source MAC address for packet according to port, that has been selected as the output port.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If you want to know basics of how P4 works I encourage you to follow a user guide and test how IP routing written in P4 works. In the subsequent posts I will show another example - MPLS network written in P4.&lt;/p&gt;
-</description>
+      <description>In the previous post I introduced P4 and tools to implement network prototypes. Now, I would like to show a basic example how to use this tools in practice to run an experiment.
+I prepared a demo of IP routing to show how simply someone can prototype a commonly used technology. The demo is based on P4 and Mininet. The source code and user guide is available at https://github.com/osinstom/p4-demos/tree/master/ip-routing.
+The README file contains a description of a P4 program&amp;rsquo;s design as well as a topology of a test network.</description>
     </item>
     
     <item>
       <title>ONAP</title>
       <link>https://osinstom.github.io/project/onap/</link>
       <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/project/onap/</guid>
-      <description>&lt;p&gt;I have contributed to the Open Network Automation Platform (ONAP). I am involved in the Change Management project. The objective is to provide lifecycle management APIs to support seamless software upgrade of Virtual Network Functions. For Casablanca release I implemented a northbound APIs for Application Controller (APP-C) to support distribute traffic mechanism.&lt;/p&gt;
-</description>
+      <description>Contribution to Change Management project</description>
     </item>
     
     <item>
       <title>Network prototyping made easy with P4 and Python!</title>
       <link>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</link>
       <pubDate>Mon, 24 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/post/2019-10-22-network-prototyping-made-easy-with-p4-and-python/</guid>
-      <description>
-
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice! On the other hand, I think the best way to understand network paradigms quickly and deeply is to implement network mechanisms on your own. If as a student you get the deep knowledge about networking basics, it will be easier to understand novel technologies in the future. So far, it was required to use some low-level programming languages (C/C++) with thousands lines of code to build network’s prototype. And here comes the P4 technology and Python as a solution to prototype networks in the easy and fast way! Combining P4 with tools provided by Python such as the scapy library or Mininet gives unlimitied possibilities to implement, build and test complex network systems. Moreover, you can prototype network protocols, which don’t even exist yet!&lt;/p&gt;
-
-&lt;h2 id=&#34;p4-python-scapy-and-mininet-the-toolset-of-network-researcher&#34;&gt;P4, Python (Scapy) and Mininet – the toolset of network researcher&lt;/h2&gt;
-
-&lt;p&gt;I assume you know already what the Python language is, but what is P4? P4 stands for Programming Protocol-Independent Packet Processors. It has been developed as a next step in the evolution of Software-Defined Networking (SDN). As you may know, the classical telecommunications architecture can be divided into data plane, control plane and management plane. Data plane is the layer, where data packets are being processed and forwarded, while the control plane decides how these packets should be handled. &lt;strong&gt;P4 has been designed to enable data plane programming.&lt;/strong&gt; Thus, using the P4 language you can specify what packet’s headers can be processed and what actions can be performed on packets. The data plane programming was the missing link in the software-based network systems, where control plane and management plane are programmable already. Currently, the structure of network system can be defined completely using software and its behaviour can be changed dynamically by updating the software version. It brings a lot of flexibility to the networking world!&lt;/p&gt;
-
-&lt;p&gt;The main component of the P4 ecosystem is the P4 language. It is a high-level Domain-Specific Language (DSL) dedicated for programming of network devices. It allows to specify the format of packets (protocol’s headers) to be recognized by network devices and actions to be performed on incoming packets (forwarding, headers modification, adding protocol header, etc). Nevertheless, the P4 language is not consumed directly by the network device, but it must be compiled to the source code for particular platform. These platforms are hardware-based (e.g. Barefoot Tofino, &lt;a href=&#34;https://p4.org/p4/p4-netfpga-a-low-cost-solution-for-testing-p4-programs-in-hardware.html&#34; target=&#34;_blank&#34;&gt;FPGA&lt;/a&gt;) or software-based (e.g. &lt;a href=&#34;https://github.com/p4lang/behavioral-model&#34; target=&#34;_blank&#34;&gt;BMv2&lt;/a&gt;, &lt;a href=&#34;https://github.com/vmware/p4c-xdp&#34; target=&#34;_blank&#34;&gt;eBPF/XDP&lt;/a&gt; or &lt;a href=&#34;http://pisces.cs.princeton.edu/&#34; target=&#34;_blank&#34;&gt;PISCES&lt;/a&gt;). The goal of P4 is to become the same what CUDA language became for graphics cards programming. The concept of the P4 language has been presented below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;{{site.baseurl}}/static/img/p4-program-structure.jpg&#34; alt=&#34;P4 program structure&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The P4 program is composed of three main sections: Protocols defintion (data declaration), Parser Logic (Parser &amp;amp; Deparser) and a number of control blocks containing Match-Action tables. The first section defines the protocols headers that the network device will be able to recognize. For instance, defining IPv4 header is as simple as:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;header ipv4_t {
-    bit&amp;lt;4&amp;gt;    version;
-    bit&amp;lt;4&amp;gt;    ihl;
-    bit&amp;lt;8&amp;gt;    diffserv;
-    bit&amp;lt;16&amp;gt;   totalLen;
-    bit&amp;lt;16&amp;gt;   identification;
-    bit&amp;lt;3&amp;gt;    flags;
-    bit&amp;lt;13&amp;gt;   fragOffset;
-    bit&amp;lt;8&amp;gt;    ttl;
-    bit&amp;lt;8&amp;gt;    protocol;
-    bit&amp;lt;16&amp;gt;   hdrChecksum;
-    bit&amp;lt;32&amp;gt; srcAddr;
-    bit&amp;lt;32&amp;gt; dstAddr;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The programmer just needs to declare header fields and their length. That’s all. Now, these headers are used to parse incoming data and recognize type of packets. The Parser Logic is a state machine defining the steps to process to read and parse incoming packets. Graphically, the Parser Logic for simple IPv4 router looks like:&lt;/p&gt;
-
-&lt;p&gt;While the P4 code implementing this logic is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;parser RouterParser(packet_in packet,
-                    out headers hdr,
-                    inout metadata meta,
-                    inout standard_metadata_t standard_metadata) {
-     state start {
-         transition parse_ethernet;
-     }
-     state parse_ethernet {
-         packet.extract(hdr.ethernet);
-         transition select(hdr.ethernet.etherType) {
-             TYPE_IPV4: parse_ipv4;
-             default: accept;
-          }
-     }
-     state parse_ipv4 {
-         packet.extract(hdr.ipv4);
-         transition accept;
-     }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Finally, in the P4 program programmer must define a number of control blocks, which contians Match-Action tables. The definition of simple IPv4 forwarding table can be implemented as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;table routing_table {
-    key = {
-        hdr.ipv4.dstAddr: lpm;
-    }
-    actions = {
-       ipv4_forward;
-       drop;
-       NoAction;
-    }
-    default_action = NoAction();
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The above routing_table reads the IPv4 destination IP address and matches it based on the Longest Prefix Match algorithm. Then, on packets matching the rule there can be three actions performed: ipv4_forward, drop or NoAction. If you would like to view the complete example of IP router written in P4 visit &lt;a href=&#34;https://github.com/osinstom/p4-demos/blob/master/ip-routing/p4include/router.p4&#34; target=&#34;_blank&#34;&gt;my GitHub repository&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;So, as I pointed out, the P4 language can be used to implement any type of data plane protocols. Although, &lt;a href=&#34;https://blogs.vmware.com/research/2017/04/07/programming-networks-p4/&#34; target=&#34;_blank&#34;&gt;it has some limitations&lt;/a&gt; it is a powerful technology that can be used by network researchers to prototype and test novel network protocols. Creativity is the limit! To learn more on P4, let’s visit:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://www.networkworld.com/article/3163496/cloud-computing/what-p4-programming-is-and-why-it-s-such-a-big-deal-for-software-defined-networking.html&#34; target=&#34;_blank&#34;&gt;What P4 programming is and why it’s such a big deal for Software-Defined Networking?&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://p4.org/assets/P4_tutorial_01_basics.gslide.pdf&#34; target=&#34;_blank&#34;&gt;P4 tutorial – presentation&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://cs344-stanford.github.io/deliverables/p4-mininet/&#34; target=&#34;_blank&#34;&gt;P4 tutorial from Stanford&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/p4lang/tutorials&#34; target=&#34;_blank&#34;&gt;P4 tutorials – GitHub repo&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://www.sigcomm.org/sites/default/files/ccr/papers/2014/July/0000000-0000004.pdf&#34; target=&#34;_blank&#34;&gt;P4: Programming Protocol-independent Packet Processors&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Ok, P4 gives the tool to program the data plane, but what about a control plane? In fact, you can use any language to listen to the packets being sent from data plane. However, I believe the most simple to use is Python. It comes with the library named scapy. Scapy allows you to parse network packets received on sockets as well as construct  new packets as simply as in the below example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; p = IP()/TCP()/&amp;quot;AAAA&amp;quot;
-&amp;gt;&amp;gt;&amp;gt; p
-&amp;gt;&amp;gt;
-&amp;gt;&amp;gt;&amp;gt; p.summary()
-&#39;IP / TCP 127.0.0.1:ftp-data &amp;gt; 127.0.0.1:www S / Raw&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;From my expierence Scapy is a user-friendly library that can be used to implement a control plane applications or generate custom packets from host devices. More on Scapy library you can read &lt;a href=&#34;https://scapy.readthedocs.io/en/latest/introduction.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The P4 language allows us to program data plane and Python is the recommended language to implement control plane of the prototyped network. Voila! Now, the question is how to emulate the real network at scale? The BMv2 switch, which is the reference P4 software switch, is well-integrated with &lt;a href=&#34;http://mininet.org/&#34; target=&#34;_blank&#34;&gt;Mininet&lt;/a&gt;. Thus, you can create a virtual network of any size on your local computer! I have used Mininet for almost four years to experiment with SDN and OpenFlow – it is a very powerful tool that make life of network researcher easier!&lt;/p&gt;
-
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;In this blog post I introduced useful tools for network researchers – P4, Python (Scapy) and Mininet. These technologies make network prototyping easier than ever before! P4 allows to program data plane in tens or hundreds (instead of thousands) of lines of code. Python comes with Scapy library that simplifies programming operations on network packets. Finally, Mininet provides the tool to emulate a real network on your local computer by writing a simple Python script.&lt;/p&gt;
-
-&lt;p&gt;In the subsequent blog posts I will describe how I have used these tools to learn network protocols/architectures and to prototype solutions. Stay tuned!&lt;/p&gt;
-
-&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
-
-&lt;p&gt;[1] W. L. Costa Cordeıro, J. A. Marques, and L. P. Gaspary, “Data Plane Programmability Beyond OpenFlow: Opportunities and Challenges for Network and Service Operations and Management,” J. Netw. Syst. Manage., vol. 25, no. 4, pp. 784–818, Oct. 2017.&lt;/p&gt;
-
-&lt;p&gt;[2] &lt;a href=&#34;http://www.p4.org&#34; target=&#34;_blank&#34;&gt;http://www.p4.org&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>Introduction Have you ever tried to understand deeply mechanisms of network protocols? I mean network protocols used by computer networks like, for example, Internet Protocol (IP), Transmission Control Protocol (TCP) or Spanning Tree Protocol (STP). Students are taught at unversity how network systems works. Nextly, they become network administrators, developers or architects. They know how to configure network devices, design complex systems or develop network algorithms. However, it is likely that they got their knowledge from books and/or administration courses, not from development practice!</description>
     </item>
     
     <item>
       <title>5G!Pagoda</title>
       <link>https://osinstom.github.io/project/pagoda/</link>
       <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/project/pagoda/</guid>
-      <description>&lt;p&gt;I have contributed to the 5G!Pagoda EU-Japan project realized under H2020 programme. 5G!Pagoda is a research project related to network slicing technology for 5G networks. I was involved in designing a network slicing architecture and multi-domain orchestration. Moreover, I had been developing prototypes (PoCs) of designed solutions based on OpenStack, Docker, Kubernetes, OpenBaton, Ansible and Juju.&lt;/p&gt;
-</description>
+      <description>Contribution to the EU-Japan H2020 project</description>
     </item>
     
     <item>
       <title>Floodlight</title>
       <link>https://osinstom.github.io/project/floodlight/</link>
       <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/project/floodlight/</guid>
-      <description>&lt;p&gt;I have implemented a multiputh routing based on Depth-First Search algorithm for Floodlight - an open-source SDN Controller.&lt;/p&gt;
-</description>
+      <description>Implementation of multipath routing based on Depth-First Search algorithm.</description>
     </item>
     
   </channel>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Materiały | Tomasz Osiński - blog techniczny</title>
+    <title>Materiały on Tomasz Osiński - blog techniczny</title>
     <link>https://osinstom.github.io/pl/materialy/</link>
-      <atom:link href="https://osinstom.github.io/pl/materialy/index.xml" rel="self" type="application/rss+xml" />
-    <description>Materiały</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright>
-    <image>
-      <url>https://osinstom.github.io/img/icon-192.png</url>
-      <title>Materiały</title>
-      <link>https://osinstom.github.io/pl/materialy/</link>
-    </image>
+    <description>Recent content in Materiały on Tomasz Osiński - blog techniczny</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl</language>
+    <copyright>{year}</copyright>
+    
+	<atom:link href="https://osinstom.github.io/pl/materialy/index.xml" rel="self" type="application/rss+xml" />
+    
     
   </channel>
 </rss>

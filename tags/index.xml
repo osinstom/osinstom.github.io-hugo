@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags | Tomasz Osiński - blog &amp; personal site</title>
+    <title>Tags on Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/tags/</link>
-      <atom:link href="https://osinstom.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Sat, 14 Sep 2019 00:00:00 +0000</lastBuildDate>
-    <image>
-      <url>https://osinstom.github.io/img/icon-192.png</url>
-      <title>Tags</title>
-      <link>https://osinstom.github.io/tags/</link>
-    </image>
+    <description>Recent content in Tags on Tomasz Osiński - blog &amp; personal site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>{year}</copyright>
+    <lastBuildDate>Sat, 14 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://osinstom.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>SDN</title>
       <link>https://osinstom.github.io/tags/sdn/</link>
       <pubDate>Sat, 14 Sep 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/sdn/</guid>
       <description></description>
     </item>
@@ -24,6 +25,7 @@
       <title>Data plane programmability</title>
       <link>https://osinstom.github.io/tags/data-plane-programmability/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/data-plane-programmability/</guid>
       <description></description>
     </item>
@@ -32,6 +34,7 @@
       <title>P4</title>
       <link>https://osinstom.github.io/tags/p4/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/p4/</guid>
       <description></description>
     </item>
@@ -40,6 +43,7 @@
       <title>tunneling</title>
       <link>https://osinstom.github.io/tags/tunneling/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/tunneling/</guid>
       <description></description>
     </item>
@@ -48,6 +52,7 @@
       <title>VXLAN</title>
       <link>https://osinstom.github.io/tags/vxlan/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/vxlan/</guid>
       <description></description>
     </item>
@@ -56,6 +61,7 @@
       <title>Data plane</title>
       <link>https://osinstom.github.io/tags/data-plane/</link>
       <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/data-plane/</guid>
       <description></description>
     </item>
@@ -64,6 +70,7 @@
       <title>DPDK</title>
       <link>https://osinstom.github.io/tags/dpdk/</link>
       <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/dpdk/</guid>
       <description></description>
     </item>
@@ -72,6 +79,7 @@
       <title>Linux</title>
       <link>https://osinstom.github.io/tags/linux/</link>
       <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/linux/</guid>
       <description></description>
     </item>
@@ -80,6 +88,7 @@
       <title>NFV</title>
       <link>https://osinstom.github.io/tags/nfv/</link>
       <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/nfv/</guid>
       <description></description>
     </item>
@@ -88,6 +97,7 @@
       <title>OVS-DPDK</title>
       <link>https://osinstom.github.io/tags/ovs-dpdk/</link>
       <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/ovs-dpdk/</guid>
       <description></description>
     </item>
@@ -96,6 +106,7 @@
       <title>Performance</title>
       <link>https://osinstom.github.io/tags/performance/</link>
       <pubDate>Sat, 23 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/performance/</guid>
       <description></description>
     </item>
@@ -104,6 +115,7 @@
       <title>BMv2</title>
       <link>https://osinstom.github.io/tags/bmv2/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/bmv2/</guid>
       <description></description>
     </item>
@@ -112,6 +124,7 @@
       <title>Mininet</title>
       <link>https://osinstom.github.io/tags/mininet/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/mininet/</guid>
       <description></description>
     </item>
@@ -120,6 +133,7 @@
       <title>MPLS</title>
       <link>https://osinstom.github.io/tags/mpls/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/mpls/</guid>
       <description></description>
     </item>
@@ -128,6 +142,7 @@
       <title>Python</title>
       <link>https://osinstom.github.io/tags/python/</link>
       <pubDate>Sun, 03 Mar 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/python/</guid>
       <description></description>
     </item>
@@ -136,6 +151,7 @@
       <title>IPv4</title>
       <link>https://osinstom.github.io/tags/ipv4/</link>
       <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/ipv4/</guid>
       <description></description>
     </item>
@@ -144,6 +160,7 @@
       <title>scapy</title>
       <link>https://osinstom.github.io/tags/scapy/</link>
       <pubDate>Mon, 24 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/scapy/</guid>
       <description></description>
     </item>
@@ -152,6 +169,7 @@
       <title>3GPP</title>
       <link>https://osinstom.github.io/tags/3gpp/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/3gpp/</guid>
       <description></description>
     </item>
@@ -160,6 +178,7 @@
       <title>ePDG</title>
       <link>https://osinstom.github.io/tags/epdg/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/epdg/</guid>
       <description></description>
     </item>
@@ -168,6 +187,7 @@
       <title>IKE</title>
       <link>https://osinstom.github.io/tags/ike/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/ike/</guid>
       <description></description>
     </item>
@@ -176,6 +196,7 @@
       <title>IPSec</title>
       <link>https://osinstom.github.io/tags/ipsec/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/ipsec/</guid>
       <description></description>
     </item>
@@ -184,6 +205,7 @@
       <title>N3IWF</title>
       <link>https://osinstom.github.io/tags/n3iwf/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/n3iwf/</guid>
       <description></description>
     </item>
@@ -192,6 +214,7 @@
       <title>SIP</title>
       <link>https://osinstom.github.io/tags/sip/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/tags/sip/</guid>
       <description></description>
     </item>

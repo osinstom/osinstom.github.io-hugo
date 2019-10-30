@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Abdulhalim Dandoush | Tomasz Osiński - blog &amp; personal site</title>
+    <title>Abdulhalim Dandoush on Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/authors/abdulhalim-dandoush/</link>
-      <atom:link href="https://osinstom.github.io/authors/abdulhalim-dandoush/index.xml" rel="self" type="application/rss+xml" />
-    <description>Abdulhalim Dandoush</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
-    <image>
-      <url>https://osinstom.github.io/img/icon-192.png</url>
-      <title>Abdulhalim Dandoush</title>
-      <link>https://osinstom.github.io/authors/abdulhalim-dandoush/</link>
-    </image>
+    <description>Recent content in Abdulhalim Dandoush on Tomasz Osiński - blog &amp; personal site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>{year}</copyright>
+    <lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://osinstom.github.io/authors/abdulhalim-dandoush/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>
       <link>https://osinstom.github.io/talk/onos-xmpp/</link>
       <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      
       <guid>https://osinstom.github.io/talk/onos-xmpp/</guid>
       <description></description>
     </item>

@@ -3,6 +3,96 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://osinstom.github.io/pl/authors/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/authors/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/authors/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/authors/mateusz-kossakowski/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/authors/mateusz-kossakowski/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/authors/mateusz-kossakowski/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/talk/europ4-2019/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/talk/europ4-2019/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/talk/europ4-2019/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/authors/tomasz-osinski/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/authors/tomasz-osinski/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/authors/tomasz-osinski/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/talk/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/talk/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/talk/"
+                />
+  </url>
+  
+  <url>
     <loc>https://osinstom.github.io/pl/projekty/p4-vnf-phd/</loc>
     <lastmod>2019-09-14T00:00:00+00:00</lastmod>
   </url>
@@ -43,23 +133,68 @@
   </url>
   
   <url>
-    <loc>https://osinstom.github.io/pl/</loc>
-    <lastmod>2019-09-14T00:00:00+00:00</lastmod>
+    <loc>https://osinstom.github.io/pl/projekty/onap/</loc>
+    <lastmod>2019-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/talk/onap-nozay/</loc>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://osinstom.github.io/"
+                href="https://osinstom.github.io/talk/onap-nozay/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="https://osinstom.github.io/pl/"
+                href="https://osinstom.github.io/pl/talk/onap-nozay/"
                 />
   </url>
   
   <url>
-    <loc>https://osinstom.github.io/pl/projekty/onap/</loc>
-    <lastmod>2019-01-31T00:00:00+00:00</lastmod>
+    <loc>https://osinstom.github.io/pl/authors/%C5%82ukasz-rajewski/</loc>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/authors/%C5%82ukasz-rajewski/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/authors/%C5%82ukasz-rajewski/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/authors/abdulhalim-dandoush/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/authors/abdulhalim-dandoush/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/authors/abdulhalim-dandoush/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://osinstom.github.io/pl/talk/onos-xmpp/</loc>
+    <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://osinstom.github.io/talk/onos-xmpp/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://osinstom.github.io/pl/talk/onos-xmpp/"
+                />
   </url>
   
   <url>
@@ -88,20 +223,6 @@
                 rel="alternate"
                 hreflang="pl"
                 href="https://osinstom.github.io/pl/authors/admin/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/pl/authors/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/authors/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/authors/"
                 />
   </url>
   
@@ -153,20 +274,6 @@
   
   <url>
     <loc>https://osinstom.github.io/pl/publikacje/</loc>
-  </url>
-  
-  <url>
-    <loc>https://osinstom.github.io/pl/talk/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://osinstom.github.io/talk/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://osinstom.github.io/pl/talk/"
-                />
   </url>
   
 </urlset>

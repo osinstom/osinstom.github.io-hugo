@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mateusz Kossakowski on Tomasz Osiński - blog &amp; personal site</title>
+    <title>Mateusz Kossakowski | Tomasz Osiński - blog &amp; personal site</title>
     <link>https://osinstom.github.io/authors/mateusz-kossakowski/</link>
-    <description>Recent content in Mateusz Kossakowski on Tomasz Osiński - blog &amp; personal site</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>{year}</copyright>
-    <lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://osinstom.github.io/authors/mateusz-kossakowski/index.xml" rel="self" type="application/rss+xml" />
-    
+      <atom:link href="https://osinstom.github.io/authors/mateusz-kossakowski/index.xml" rel="self" type="application/rss+xml" />
+    <description>Mateusz Kossakowski</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Mateusz Kossakowski</title>
+      <link>https://osinstom.github.io/authors/mateusz-kossakowski/</link>
+    </image>
     
     <item>
       <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
-      <link>https://osinstom.github.io/talk/europ4-2019/</link>
+      <link>https://osinstom.github.io/publication/ancs2019/</link>
       <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/talk/europ4-2019/</guid>
+      <guid>https://osinstom.github.io/publication/ancs2019/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
+      <link>https://osinstom.github.io/talk/europ4/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/talk/europ4/</guid>
       <description></description>
     </item>
     

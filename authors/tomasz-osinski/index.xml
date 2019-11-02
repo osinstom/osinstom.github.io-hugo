@@ -5,7 +5,7 @@
     <link>https://osinstom.github.io/authors/tomasz-osinski/</link>
       <atom:link href="https://osinstom.github.io/authors/tomasz-osinski/index.xml" rel="self" type="application/rss+xml" />
     <description>Tomasz Osinski</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Tomasz Osinski</title>
@@ -13,11 +13,62 @@
     </image>
     
     <item>
+      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
+      <link>https://osinstom.github.io/publication/ancs2019/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/ancs2019/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
+      <link>https://osinstom.github.io/talk/europ4/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/talk/europ4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DPPx: A P4-based Data Plane Programmability and Exposure framework to enhance NFV services</title>
+      <link>https://osinstom.github.io/publication/netsoft2019/</link>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/netsoft2019/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>ONAP Change Management Dublin Extensions</title>
       <link>https://osinstom.github.io/talk/onap-nozay/</link>
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/talk/onap-nozay/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>XMPP as a scalable multi-tenants isolation solution for ONOS-based Software-Defined Cloud Networks</title>
+      <link>https://osinstom.github.io/publication/cnsm2018/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/cnsm2018/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A reference architecture for network slicing</title>
+      <link>https://osinstom.github.io/publication/netsoft2018/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/netsoft2018/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>

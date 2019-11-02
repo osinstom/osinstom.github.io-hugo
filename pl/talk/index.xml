@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Wystąpienia i prezentacje on Tomasz Osiński - blog techniczny</title>
+    <title>Wystąpienia i prezentacje | Tomasz Osiński - blog techniczny</title>
     <link>https://osinstom.github.io/pl/talk/</link>
-    <description>Recent content in Wystąpienia i prezentacje on Tomasz Osiński - blog techniczny</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>pl</language>
-    <copyright>{year}</copyright>
-    <lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://osinstom.github.io/pl/talk/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
-      <link>https://osinstom.github.io/pl/talk/europ4-2019/</link>
-      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/pl/talk/europ4-2019/</guid>
-      <description></description>
-    </item>
+      <atom:link href="https://osinstom.github.io/pl/talk/index.xml" rel="self" type="application/rss+xml" />
+    <description>Wystąpienia i prezentacje</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright><lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Wystąpienia i prezentacje</title>
+      <link>https://osinstom.github.io/pl/talk/</link>
+    </image>
     
     <item>
       <title>ONAP Change Management Dublin Extensions</title>
       <link>https://osinstom.github.io/pl/talk/onap-nozay/</link>
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://osinstom.github.io/pl/talk/onap-nozay/</guid>
       <description></description>
     </item>
@@ -34,7 +24,6 @@
       <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>
       <link>https://osinstom.github.io/pl/talk/onos-xmpp/</link>
       <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://osinstom.github.io/pl/talk/onos-xmpp/</guid>
       <description></description>
     </item>

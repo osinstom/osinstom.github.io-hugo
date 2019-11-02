@@ -5,7 +5,7 @@
     <link>https://osinstom.github.io/authors/</link>
       <atom:link href="https://osinstom.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Authors</title>
@@ -13,17 +13,49 @@
     </image>
     
     <item>
+      <title>Halina Tarasiuk</title>
+      <link>https://osinstom.github.io/authors/halina-tarasiuk/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/halina-tarasiuk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mateusz Kossakowski</title>
+      <link>https://osinstom.github.io/authors/mateusz-kossakowski/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/mateusz-kossakowski/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Roland Picard</title>
+      <link>https://osinstom.github.io/authors/roland-picard/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/roland-picard/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Tomasz Osinski</title>
       <link>https://osinstom.github.io/authors/tomasz-osinski/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/authors/tomasz-osinski/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Emil Kowalczyk</title>
+      <link>https://osinstom.github.io/authors/emil-kowalczyk/</link>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/emil-kowalczyk/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Łukasz Rajewski</title>
       <link>https://osinstom.github.io/authors/%C5%82ukasz-rajewski/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/authors/%C5%82ukasz-rajewski/</guid>
       <description></description>
     </item>
@@ -31,8 +63,56 @@
     <item>
       <title>Abdulhalim Dandoush</title>
       <link>https://osinstom.github.io/authors/abdulhalim-dandoush/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/authors/abdulhalim-dandoush/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Adlen Ksentini</title>
+      <link>https://osinstom.github.io/authors/adlen-ksentini/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/adlen-ksentini/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Eleonora Cau</title>
+      <link>https://osinstom.github.io/authors/eleonora-cau/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/eleonora-cau/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lechoslaw Tomaszewski</title>
+      <link>https://osinstom.github.io/authors/lechoslaw-tomaszewski/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/lechoslaw-tomaszewski/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Marius Corici</title>
+      <link>https://osinstom.github.io/authors/marius-corici/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/marius-corici/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pantelis A. Frangoudis</title>
+      <link>https://osinstom.github.io/authors/pantelis-a.-frangoudis/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/pantelis-a.-frangoudis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Slawomir Kuklinski</title>
+      <link>https://osinstom.github.io/authors/slawomir-kuklinski/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/authors/slawomir-kuklinski/</guid>
       <description></description>
     </item>
     

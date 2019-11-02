@@ -5,12 +5,20 @@
     <link>https://osinstom.github.io/authors/abdulhalim-dandoush/</link>
       <atom:link href="https://osinstom.github.io/authors/abdulhalim-dandoush/index.xml" rel="self" type="application/rss+xml" />
     <description>Abdulhalim Dandoush</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 05 Nov 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Abdulhalim Dandoush</title>
       <link>https://osinstom.github.io/authors/abdulhalim-dandoush/</link>
     </image>
+    
+    <item>
+      <title>XMPP as a scalable multi-tenants isolation solution for ONOS-based Software-Defined Cloud Networks</title>
+      <link>https://osinstom.github.io/publication/cnsm2018/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/cnsm2018/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Evaluation of XMPP as a Southbound Interface for ONOS</title>

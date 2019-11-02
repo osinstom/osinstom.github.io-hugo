@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Emil Kowalczyk | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/authors/emil-kowalczyk/</link>
+      <atom:link href="https://osinstom.github.io/authors/emil-kowalczyk/index.xml" rel="self" type="application/rss+xml" />
+    <description>Emil Kowalczyk</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Wed, 26 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Emil Kowalczyk</title>
+      <link>https://osinstom.github.io/authors/emil-kowalczyk/</link>
+    </image>
+    
+    <item>
+      <title>DPPx: A P4-based Data Plane Programmability and Exposure framework to enhance NFV services</title>
+      <link>https://osinstom.github.io/publication/netsoft2019/</link>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/netsoft2019/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

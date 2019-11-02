@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Roland Picard | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/authors/roland-picard/</link>
+      <atom:link href="https://osinstom.github.io/authors/roland-picard/index.xml" rel="self" type="application/rss+xml" />
+    <description>Roland Picard</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Roland Picard</title>
+      <link>https://osinstom.github.io/authors/roland-picard/</link>
+    </image>
+    
+    <item>
+      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
+      <link>https://osinstom.github.io/publication/ancs2019/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/ancs2019/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

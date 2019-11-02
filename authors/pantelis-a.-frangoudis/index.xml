@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pantelis A. Frangoudis | Tomasz Osiński - blog &amp; personal site</title>
+    <link>https://osinstom.github.io/authors/pantelis-a.-frangoudis/</link>
+      <atom:link href="https://osinstom.github.io/authors/pantelis-a.-frangoudis/index.xml" rel="self" type="application/rss+xml" />
+    <description>Pantelis A. Frangoudis</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>2019</copyright><lastBuildDate>Mon, 25 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Pantelis A. Frangoudis</title>
+      <link>https://osinstom.github.io/authors/pantelis-a.-frangoudis/</link>
+    </image>
+    
+    <item>
+      <title>A reference architecture for network slicing</title>
+      <link>https://osinstom.github.io/publication/netsoft2018/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/publication/netsoft2018/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

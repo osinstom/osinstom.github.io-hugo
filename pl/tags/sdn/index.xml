@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SDN on Tomasz Osiński - blog techniczny</title>
+    <title>SDN | Tomasz Osiński - blog techniczny</title>
     <link>https://osinstom.github.io/pl/tags/sdn/</link>
-    <description>Recent content in SDN on Tomasz Osiński - blog techniczny</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>pl</language>
-    <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 14 Sep 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://osinstom.github.io/pl/tags/sdn/index.xml" rel="self" type="application/rss+xml" />
-    
+      <atom:link href="https://osinstom.github.io/pl/tags/sdn/index.xml" rel="self" type="application/rss+xml" />
+    <description>SDN</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright><lastBuildDate>Sat, 14 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>SDN</title>
+      <link>https://osinstom.github.io/pl/tags/sdn/</link>
+    </image>
     
     <item>
       <title>Programowalna warstwa przekazu danych (P4) dla systemów NFV</title>
-      <link>https://osinstom.github.io/pl/projekty/p4-vnf-phd/</link>
+      <link>https://osinstom.github.io/pl/project/p4-vnf-phd/</link>
       <pubDate>Sat, 14 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/pl/projekty/p4-vnf-phd/</guid>
-      <description>W ramach mojego obecnego projektu, a także w ramach programu &amp;ldquo;Doktorat wdrożeniowy&amp;rdquo;, prowadzę badania nad wykorzystaniem programowalnej warstwy przekazu danych dla systemów NFV w celu zwiększenia wydajności funkcji sieciowych. W związku z tym testuję różne scenariusze działania techniki P4, a także powiązanych technologii (np. eBPF/XDP, VPP, Open vSwitch, SmartNIC, Barefoot Tofino). Jednocześnie pracuję nad architekturą oraz implementacją wydajnego, zintegrowanego z platformą OpenStack/Kubernetes środowiska uruchomieniowego dla funkcji sieciowych.</description>
+      <guid>https://osinstom.github.io/pl/project/p4-vnf-phd/</guid>
+      <description>&lt;p&gt;W ramach mojego obecnego projektu, a także w ramach programu &amp;ldquo;Doktorat wdrożeniowy&amp;rdquo;, prowadzę badania nad wykorzystaniem programowalnej warstwy przekazu danych dla systemów
+NFV w celu zwiększenia wydajności funkcji sieciowych. W związku z tym testuję różne scenariusze działania techniki P4, a także
+powiązanych technologii (np. eBPF/XDP, VPP, Open vSwitch, SmartNIC, Barefoot Tofino). Jednocześnie pracuję nad architekturą oraz
+implementacją wydajnego, zintegrowanego z platformą OpenStack/Kubernetes środowiska uruchomieniowego dla funkcji sieciowych.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>ONAP</title>
-      <link>https://osinstom.github.io/pl/projekty/onap/</link>
+      <link>https://osinstom.github.io/pl/project/onap/</link>
       <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/pl/projekty/onap/</guid>
-      <description>Kontrybucja (open-source) do projektu Change Management</description>
+      <guid>https://osinstom.github.io/pl/project/onap/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>ONOS (sterownik SDN)</title>
-      <link>https://osinstom.github.io/pl/projekty/onos-xmpp/</link>
+      <link>https://osinstom.github.io/pl/project/onos-xmpp/</link>
       <pubDate>Thu, 01 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/pl/projekty/onos-xmpp/</guid>
-      <description>Implementacja protokołu XMPP dla otwartego sterownika SDN.</description>
+      <guid>https://osinstom.github.io/pl/project/onos-xmpp/</guid>
+      <description>&lt;p&gt;Implementacja protokołu XMPP dla otwartego sterownika SDN.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>5G!Pagoda</title>
-      <link>https://osinstom.github.io/pl/projekty/pagoda/</link>
+      <link>https://osinstom.github.io/pl/project/pagoda/</link>
       <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/pl/projekty/pagoda/</guid>
-      <description>Kontrybucja do projektu Europa-Japonia w ramach programu Horyzont 2020</description>
+      <guid>https://osinstom.github.io/pl/project/pagoda/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Floodlight</title>
-      <link>https://osinstom.github.io/pl/projekty/floodlight/</link>
+      <link>https://osinstom.github.io/pl/project/floodlight/</link>
       <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://osinstom.github.io/pl/projekty/floodlight/</guid>
-      <description>Implementacja rutingu wielościeżkowego w otwartym sterowniku SDN.</description>
+      <guid>https://osinstom.github.io/pl/project/floodlight/</guid>
+      <description></description>
     </item>
     
   </channel>

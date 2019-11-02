@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Authors on Tomasz Osiński - blog techniczny</title>
+    <title>Authors | Tomasz Osiński - blog techniczny</title>
     <link>https://osinstom.github.io/pl/authors/</link>
-    <description>Recent content in Authors on Tomasz Osiński - blog techniczny</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>pl</language>
-    <copyright>{year}</copyright>
-    <lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
+      <atom:link href="https://osinstom.github.io/pl/authors/index.xml" rel="self" type="application/rss+xml" />
+    <description>Authors</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright><lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://osinstom.github.io/img/icon-192.png</url>
+      <title>Authors</title>
+      <link>https://osinstom.github.io/pl/authors/</link>
+    </image>
     
-	<atom:link href="https://osinstom.github.io/pl/authors/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Halina Tarasiuk</title>
+      <link>https://osinstom.github.io/pl/authors/halina-tarasiuk/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/halina-tarasiuk/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Mateusz Kossakowski</title>
       <link>https://osinstom.github.io/pl/authors/mateusz-kossakowski/</link>
       <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://osinstom.github.io/pl/authors/mateusz-kossakowski/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Roland Picard</title>
+      <link>https://osinstom.github.io/pl/authors/roland-picard/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/roland-picard/</guid>
       <description></description>
     </item>
     
@@ -25,16 +40,22 @@
       <title>Tomasz Osinski</title>
       <link>https://osinstom.github.io/pl/authors/tomasz-osinski/</link>
       <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://osinstom.github.io/pl/authors/tomasz-osinski/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Emil Kowalczyk</title>
+      <link>https://osinstom.github.io/pl/authors/emil-kowalczyk/</link>
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/emil-kowalczyk/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Łukasz Rajewski</title>
       <link>https://osinstom.github.io/pl/authors/%C5%82ukasz-rajewski/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
-      
+      <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/pl/authors/%C5%82ukasz-rajewski/</guid>
       <description></description>
     </item>
@@ -42,9 +63,56 @@
     <item>
       <title>Abdulhalim Dandoush</title>
       <link>https://osinstom.github.io/pl/authors/abdulhalim-dandoush/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
       <guid>https://osinstom.github.io/pl/authors/abdulhalim-dandoush/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Adlen Ksentini</title>
+      <link>https://osinstom.github.io/pl/authors/adlen-ksentini/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/adlen-ksentini/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Eleonora Cau</title>
+      <link>https://osinstom.github.io/pl/authors/eleonora-cau/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/eleonora-cau/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lechoslaw Tomaszewski</title>
+      <link>https://osinstom.github.io/pl/authors/lechoslaw-tomaszewski/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/lechoslaw-tomaszewski/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Marius Corici</title>
+      <link>https://osinstom.github.io/pl/authors/marius-corici/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/marius-corici/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pantelis A. Frangoudis</title>
+      <link>https://osinstom.github.io/pl/authors/pantelis-a.-frangoudis/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/pantelis-a.-frangoudis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Slawomir Kuklinski</title>
+      <link>https://osinstom.github.io/pl/authors/slawomir-kuklinski/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/authors/slawomir-kuklinski/</guid>
       <description></description>
     </item>
     
@@ -52,11 +120,15 @@
       <title></title>
       <link>https://osinstom.github.io/pl/authors/admin/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://osinstom.github.io/pl/authors/admin/</guid>
-      <description>Witam!
-Nazywam się Tomasz Osiński i jestem autorem tego bloga, na którym będę umieszczał wpisy powiązane z moją codzienną pracą, w której zajmuję się programowaniem urządzeń i systemów telekomunikacyjnych. Wszystkie posty znajdujące się na tej stronie są moim dziełem i nie reprezentują opinii mojego pracodawcy.
-Na co dzień jestem inżynierem oprogramowania R&amp;amp;D w obszarze sieci programowalnych SDN (ang. Software-Defined Networking) i wirtualnych funkcji sieciowych NFV (ang. Network Functions Virtualization). Jestem także wielkim entuzjastom ruchu otwartego oprogramowania, dlatego mój kod możecie znaleźć w kilku projektach open-source.</description>
+      <description>&lt;p&gt;Witam!&lt;/p&gt;
+
+&lt;p&gt;Nazywam się Tomasz Osiński i jestem autorem tego bloga, na którym będę umieszczał wpisy powiązane z moją codzienną pracą, w której zajmuję się programowaniem urządzeń i systemów telekomunikacyjnych. Wszystkie posty znajdujące się na tej stronie są moim dziełem i nie reprezentują opinii mojego pracodawcy.&lt;/p&gt;
+
+&lt;p&gt;Na co dzień jestem inżynierem oprogramowania R&amp;amp;D w obszarze sieci programowalnych SDN (ang. Software-Defined Networking) i wirtualnych funkcji sieciowych NFV (ang. Network Functions Virtualization). Jestem także wielkim entuzjastom ruchu otwartego oprogramowania, dlatego mój kod możecie znaleźć w kilku projektach open-source. Moje zawodowe aktywności dotyczą tzw. &amp;ldquo;softwaryzacji&amp;rdquo; sieci, a co za tym idzie zajmuję (bądź zajmowałem się w przeszłości) takimi tematami jak automatyzacja i orkiestracja sieci, infrastruktura zdefiniowana programowo (ang. Software-Defined Infrastructure), wirtualizacja funkcji sieciowych (NFV), Network Slicing, sieć 5G i inne sieci mobilne, czy też chmury telekomunikacyjne. Obecnie w ramach programu Doktorat wdrożeniowy w &lt;a href=&#34;https://orangefab.pl/en/orange-rd-center/&#34; target=&#34;_blank&#34;&gt;Orange Labs&lt;/a&gt; prowadzę pracę badawczo-rozwojowe w zakresie wykorzystania programowalnej warstwy przekazu danych i techniki &lt;a href=&#34;http://www.p4.org&#34; target=&#34;_blank&#34;&gt;P4&lt;/a&gt; w celu zwiększenia wydajności wirtualnych funkcji sieciowych uruchamianych w chmurze telekomunikacyjnej (&lt;a href=&#34;http://www.openstack.org&#34; target=&#34;_blank&#34;&gt;OpenStack&lt;/a&gt;/&lt;a href=&#34;https://kubernetes.io/&#34; target=&#34;_blank&#34;&gt;Kubernetes&lt;/a&gt;). W przeszłości kontrybuowałem do takich projektów open-source jak &lt;a href=&#34;http://www.projectfloodlight.org/floodlight/&#34; target=&#34;_blank&#34;&gt;Floodlight&lt;/a&gt;, &lt;a href=&#34;https://onosproject.org/&#34; target=&#34;_blank&#34;&gt;ONOS&lt;/a&gt; czy &lt;a href=&#34;http://www.onap.org&#34; target=&#34;_blank&#34;&gt;ONAP&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Zawodowo pracuję jako Ekspert R&amp;amp;D w &lt;a href=&#34;https://orangefab.pl/en/orange-rd-center/&#34; target=&#34;_blank&#34;&gt;Orange Labs&lt;/a&gt;. Jestem także doktorantem na wydziale Elektroniki i Technik Informacyjnych Politechniki Warszawskiej i członkiem zespołu &lt;a href=&#34;http://snvlab.tele.pw.edu.pl&#34; target=&#34;_blank&#34;&gt;SNVLab&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

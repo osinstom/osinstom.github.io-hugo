@@ -21,6 +21,14 @@
     </item>
     
     <item>
+      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
+      <link>https://osinstom.github.io/pl/talk/europ4/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/talk/europ4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Programowalna warstwa przekazu danych (P4) dla systemów NFV</title>
       <link>https://osinstom.github.io/pl/project/p4-vnf-phd/</link>
       <pubDate>Sat, 14 Sep 2019 00:00:00 +0000</pubDate>

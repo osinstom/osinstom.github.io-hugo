@@ -5,12 +5,20 @@
     <link>https://osinstom.github.io/pl/talk/</link>
       <atom:link href="https://osinstom.github.io/pl/talk/index.xml" rel="self" type="application/rss+xml" />
     <description>Wystąpienia i prezentacje</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright><lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pl</language><copyright>2019</copyright><lastBuildDate>Mon, 23 Sep 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://osinstom.github.io/img/icon-192.png</url>
       <title>Wystąpienia i prezentacje</title>
       <link>https://osinstom.github.io/pl/talk/</link>
     </image>
+    
+    <item>
+      <title>Offloading data plane functions to the multi-tenant cloud infrastructure using P4</title>
+      <link>https://osinstom.github.io/pl/talk/europ4/</link>
+      <pubDate>Mon, 23 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>https://osinstom.github.io/pl/talk/europ4/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ONAP Change Management Dublin Extensions</title>

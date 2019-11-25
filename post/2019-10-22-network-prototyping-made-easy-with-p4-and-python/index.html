@@ -638,9 +638,9 @@
 
 <p>I assume you know already what the Python language is, but what is P4? P4 stands for Programming Protocol-Independent Packet Processors. It has been developed as a next step in the evolution of Software-Defined Networking (SDN). As you may know, the classical telecommunications architecture can be divided into data plane, control plane and management plane. Data plane is the layer, where data packets are being processed and forwarded, while the control plane decides how these packets should be handled. <strong>P4 has been designed to enable data plane programming.</strong> Thus, using the P4 language you can specify what packet’s headers can be processed and what actions can be performed on packets. The data plane programming was the missing link in the software-based network systems, where control plane and management plane are programmable already. Currently, the structure of network system can be defined completely using software and its behaviour can be changed dynamically by updating the software version. It brings a lot of flexibility to the networking world!</p>
 
-<p>The main component of the P4 ecosystem is the P4 language. It is a high-level Domain-Specific Language (DSL) dedicated for programming of network devices. It allows to specify the format of packets (protocol’s headers) to be recognized by network devices and actions to be performed on incoming packets (forwarding, headers modification, adding protocol header, etc). Nevertheless, the P4 language is not consumed directly by the network device, but it must be compiled to the source code for particular platform. These platforms are hardware-based (e.g. Barefoot Tofino, <a href="https://p4.org/p4/p4-netfpga-a-low-cost-solution-for-testing-p4-programs-in-hardware.html" target="_blank">FPGA</a>) or software-based (e.g. <a href="https://github.com/p4lang/behavioral-model" target="_blank">BMv2</a>, <a href="https://github.com/vmware/p4c-xdp" target="_blank">eBPF/XDP</a> or <a href="http://pisces.cs.princeton.edu/" target="_blank">PISCES</a>). The goal of P4 is to become the same what CUDA language became for graphics cards programming. The concept of the P4 language has been presented below.</p>
+<p>The main component of the P4 ecosystem is the P4 language. It is a high-level Domain-Specific Language (DSL) dedicated for programming of network devices. It allows to specify the format of packets (protocol’s headers) to be recognized by network devices and actions to be performed on incoming packets (forwarding, headers modification, adding protocol header, etc). Nevertheless, the P4 language is not consumed directly by the network device, but it must be compiled to the source code for particular platform. These platforms are hardware-based (e.g. <a href="https://www.barefootnetworks.com/products/brief-tofino/" target="_blank">Barefoot Tofino ASIC</a>, <a href="https://p4.org/p4/p4-netfpga-a-low-cost-solution-for-testing-p4-programs-in-hardware.html" target="_blank">FPGA</a>) or software-based (e.g. <a href="https://github.com/p4lang/behavioral-model" target="_blank">BMv2</a>, <a href="https://github.com/vmware/p4c-xdp" target="_blank">eBPF/XDP</a> or <a href="http://pisces.cs.princeton.edu/" target="_blank">PISCES</a>). The goal of P4 is to become the same what CUDA language became for graphics cards programming. The concept of the P4 language has been presented below.</p>
 
-<p><img src="{{site.baseurl}}/static/img/p4-program-structure.jpg" alt="P4 program structure" /></p>
+<p><img src="https://osinstom.github.io/img/p4-program-structure.jpg" alt="P4 program structure" /></p>
 
 <p>The P4 program is composed of three main sections: Protocols defintion (data declaration), Parser Logic (Parser &amp; Deparser) and a number of control blocks containing Match-Action tables. The first section defines the protocols headers that the network device will be able to recognize. For instance, defining IPv4 header is as simple as:</p>
 
@@ -655,8 +655,8 @@
     bit&lt;8&gt;    ttl;
     bit&lt;8&gt;    protocol;
     bit&lt;16&gt;   hdrChecksum;
-    bit&lt;32&gt; srcAddr;
-    bit&lt;32&gt; dstAddr;
+    bit&lt;32&gt;   srcAddr;
+    bit&lt;32&gt;   dstAddr;
 }
 </code></pre>
 
@@ -725,7 +725,7 @@
 
 <p>From my expierence Scapy is a user-friendly library that can be used to implement a control plane applications or generate custom packets from host devices. More on Scapy library you can read <a href="https://scapy.readthedocs.io/en/latest/introduction.html" target="_blank">here</a>.</p>
 
-<p>The P4 language allows us to program data plane and Python is the recommended language to implement control plane of the prototyped network. Voila! Now, the question is how to emulate the real network at scale? The BMv2 switch, which is the reference P4 software switch, is well-integrated with <a href="http://mininet.org/" target="_blank">Mininet</a>. Thus, you can create a virtual network of any size on your local computer! I have used Mininet for almost four years to experiment with SDN and OpenFlow – it is a very powerful tool that make life of network researcher easier!</p>
+<p>The P4 language allows us to program data plane and Python is the recommended language to implement control plane of the prototyped network. Voila! Now, the question is how to emulate the real network at scale? The <a href="https://github.com/p4lang/behavioral-model" target="_blank">BMv2</a> switch, which is the reference P4 software switch, is well-integrated with <a href="http://mininet.org/" target="_blank">Mininet</a>. Thus, you can create a virtual network of any size on your local computer! I have used Mininet for almost four years to experiment with SDN and OpenFlow – it is a very powerful tool that make life of network researcher easier!</p>
 
 <h2 id="summary">Summary</h2>
 
@@ -752,9 +752,9 @@
   
   <a class="badge badge-light" href="/tags/sdn/">SDN</a>
   
-  <a class="badge badge-light" href="/tags/bmv2/">BMv2</a>
-  
   <a class="badge badge-light" href="/tags/nfv/">NFV</a>
+  
+  <a class="badge badge-light" href="/tags/bmv2/">BMv2</a>
   
   <a class="badge badge-light" href="/tags/python/"> Python</a>
   

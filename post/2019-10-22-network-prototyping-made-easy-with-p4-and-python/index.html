@@ -640,7 +640,8 @@
 
 <p>The main component of the P4 ecosystem is the P4 language. It is a high-level Domain-Specific Language (DSL) dedicated for programming of network devices. It allows to specify the format of packets (protocol’s headers) to be recognized by network devices and actions to be performed on incoming packets (forwarding, headers modification, adding protocol header, etc). Nevertheless, the P4 language is not consumed directly by the network device, but it must be compiled to the source code for particular platform. These platforms are hardware-based (e.g. <a href="https://www.barefootnetworks.com/products/brief-tofino/" target="_blank">Barefoot Tofino ASIC</a>, <a href="https://p4.org/p4/p4-netfpga-a-low-cost-solution-for-testing-p4-programs-in-hardware.html" target="_blank">FPGA</a>) or software-based (e.g. <a href="https://github.com/p4lang/behavioral-model" target="_blank">BMv2</a>, <a href="https://github.com/vmware/p4c-xdp" target="_blank">eBPF/XDP</a> or <a href="http://pisces.cs.princeton.edu/" target="_blank">PISCES</a>). The goal of P4 is to become the same what CUDA language became for graphics cards programming. The concept of the P4 language has been presented below.</p>
 
-<p><img src="https://osinstom.github.io/img/p4-program-structure.jpg" alt="P4 program structure" /></p>
+<p><img src="https://osinstom.github.io/img/p4-program-structure.jpg" alt="P4 program structure" />
+<em>P4 program structure. Source: [1]</em></p>
 
 <p>The P4 program is composed of three main sections: Protocols defintion (data declaration), Parser Logic (Parser &amp; Deparser) and a number of control blocks containing Match-Action tables. The first section defines the protocols headers that the network device will be able to recognize. For instance, defining IPv4 header is as simple as:</p>
 
